@@ -1,0 +1,105 @@
+<section class="custom-navbar">
+  <!-- Barra superior con mensaje de envío -->
+  <div class="top-bar">
+    <p>ENVÍO GRATIS A ESPAÑA EN PEDIDOS +100€ | INTERNACIONAL +200€</p>
+  </div>
+
+  <!-- Contenedor del navbar -->
+  <div class="navbar-container">
+    <div class="navbar-left">
+      <a href="/collections">COLECCIONES</a>
+      <a href="/pages/about">SOBRE NOSOTROS</a>
+      <a href="/pages/contact">CONTACTO</a>
+    </div>
+
+    <div class="navbar-logo">
+      <a href="/">
+        <img src="{{ section.settings.logo | img_url: '200x' }}" alt="Logo">
+      </a>
+    </div>
+
+    <div class="navbar-right">
+      <a href="/search">🔍</a>
+      <a href="/account">👤</a>
+      <a href="/cart">🛒</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .custom-navbar {
+    font-family: Arial, sans-serif;
+  }
+
+  /* Barra superior */
+  .top-bar {
+    background-color: #3D2314; /* Color marrón oscuro */
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    padding: 5px 0;
+  }
+
+  /* Contenedor principal del navbar */
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+  }
+
+  /* Links a la izquierda */
+  .navbar-left a {
+    margin-right: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: black;
+  }
+
+  /* Logo centrado */
+  .navbar-logo img {
+    height: 40px;
+  }
+
+  /* Iconos y enlaces a la derecha */
+  .navbar-right a {
+    margin-left: 15px;
+    font-size: 18px;
+    text-decoration: none;
+    color: black;
+  }
+
+  /* Responsividad */
+  @media (max-width: 768px) {
+    .navbar-container {
+      flex-direction: column;
+    }
+
+    .navbar-left, .navbar-right {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .navbar-logo {
+      margin: 10px 0;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Custom Navbar Steamboat",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Subir Logo"
+    }
+  ]
+}
+{% endschema %}

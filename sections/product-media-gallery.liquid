@@ -1,0 +1,85 @@
+{% schema %}
+{
+  "name": "Galería de Producto",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Galería de Producto",
+      "category": "Productos"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+.custom-media-gallery {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columnas en desktop */
+  gap: 10px;
+}
+
+.media-item {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ajusta el contenido sin deformarlo */
+  border-radius: 8px;
+}
+
+.video-autoplay {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: 100% !important;
+  object-fit: cover !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .media-grid {
+    grid-template-columns: repeat(1, 1fr); /* 1 columna en móvil */
+  }
+}
+</style>
+
+<div class="custom-media-gallery">
+  {% if product.media.size > 0 %}
+    <div class="media-grid">
+      {% for media in product.media %}
+        {% if media.media_type == 'image' %}
+          <img 
+  class="media-item"
+  src="{{ media | image_url: width: 1000 }}" 
+  alt="{{ media.alt | escape }}" 
+  loading="lazy"
+  width="{{ media.preview_image.width }}"
+  height="{{ media.preview_image.height }}"
+>
+{% elsif media.media_type == 'video' %}
+  <video
+    class="media-item video-autoplay"
+    src="{{ media.sources[0].url }}"
+    autoplay
+    loop
+    muted
+    playsinline
+    preload="auto"
+    width="{{ media.preview_image.width }}"
+    height="{{ media.preview_image.height }}"
+  ></video>
+{% endif %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No hay imágenes ni videos para este producto.</p>
+  {% endif %}
+</div>

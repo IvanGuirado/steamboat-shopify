@@ -1,0 +1,485 @@
+<style>
+    .custom-footer {
+      background-color: #50CBCA;
+      border-top: 1px solid #2A8D8C;
+      padding: 40px 20px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      text-align: left;
+    }
+
+    .footer-column h3 {
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      color: #242833;
+    }
+
+    .footer-column.newsletter p{
+    font-weight:600;
+    white-space: nowrap;
+    }
+
+
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 5px;
+    }
+
+    .footer-column ul li a {
+      text-decoration: none;
+      font-size: 12px;
+      color: #242833;
+    }
+
+    .footer-column ul li a:hover {
+      text-decoration: underline;
+    }
+
+    /* Estilos para la caja de Newsletter */
+    .newsletter-box {
+      display: flex;
+      border: 1px solid #242833;
+      padding: 5px;
+    }
+
+    .newsletter-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 5px;
+      font-size: 12px;
+    }
+
+    .newsletter-box button {
+      background-color: #242833;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    /* Redes Sociales */
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-top: 20px;
+      width: 100%;
+      position: relative;
+    }
+
+    .footer-social a {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #242833;
+      color: white;
+      transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    }
+
+    .footer-social a svg {
+      width: 15px;
+      height: 15px;
+      fill: white;
+    }
+
+    /* Colores en hover */
+    .footer-social .facebook:hover {
+      background-color: #1877F2;
+    }
+
+    .footer-social .instagram:hover {
+      background-color: #E4405F;
+    }
+
+    .footer-social .tiktok:hover {
+      background-color: #FF0050;
+    }
+
+    .footer-social a:hover {
+      transform: scale(1.1);
+    }
+
+    /* Línea inferior de Copyright */
+    .footer-bottom {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #242833;
+      border-top: 1px solid #242833;
+      padding-top: 10px;
+    }
+
+    /* Responsive */
+  @media (max-width: 768px) {
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+  @media screen and (max-width: 749px) {
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 36px 24px;
+    }
+
+    .footer-column.newsletter {
+      grid-column: span 2;
+    }
+
+    .footer-column.newsletter p {
+      white-space: normal;
+      max-width: 100%;
+    }
+
+    .newsletter-box {
+      max-width: 360px;
+    }
+
+    .footer-social {
+      margin-top: 24px;
+    }
+  }
+  @media (max-width: 480px) {
+      .custom-footer{
+      padding:24px 16px;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap:18px;
+      }
+
+      .footer-column.newsletter{
+        grid-column:auto;
+      }
+
+      .footer-column{
+        text-align:left;
+      }
+
+      .footer-column.newsletter p{
+        white-space:normal;
+      }
+
+      .newsletter-box {
+        flex-direction: column;
+        align-items:stretch;
+        max-width:100%;
+      }
+
+      .newsletter-box input,
+      .newsletter-box button {
+        width:100%;
+      }
+
+      .newsletter-box button {
+        margin-top:8px;;
+      }
+
+      footer-social{
+      justify-content:center;
+      gap:18px;
+      }
+      .footer-copyright,
+      .custom-footer small,
+      .custom-footer .copyright{
+        font-size:12px;
+        line-height:1.3;
+      }
+    }
+    
+  @media (max-width: 362px) {
+  .custom-footer {
+    padding: 22px 14px;
+  }
+
+  .footer-grid {
+    gap: 14px;
+  }
+
+  .footer-column h3 {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .footer-column ul li a {
+    font-size: 11px;
+  }
+
+  .footer-column.newsletter p {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .newsletter-box input,
+  .newsletter-box button {
+    font-size: 11px;
+  }
+
+  .newsletter-box button {
+    padding: 8px 10px;
+  }
+
+  .footer-social {
+    gap: 14px;
+  }
+  .footer-copyright,
+  .custom-footer small,
+  .custom-footer .copyright{
+    font-size:11px;
+      }
+}
+
+</style>
+
+<section class="custom-footer">
+  <div class="footer-container">
+    <!-- Grid con 4 columnas -->
+    <div class="footer-grid">
+      <!-- Columna 1: Brand -->
+      <div class="footer-column">
+        <h3>{{ 'footer.brand_title' | t }}</h3>
+        <ul>
+          <li>
+            <a href="{{ pages['sobre-nosotros'].url }}">{{ 'footer.about_us' | t }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Columna 2: Legal -->
+      <div class="footer-column">
+        <h3>{{ 'footer.legal_title' | t }}</h3>
+        <ul>
+          <li>
+            <a href="{{ shop.legal_notice.url }}">{{ 'footer.legal_notice' | t }}</a>
+          </li>
+          <li>
+            <a href="{{ shop.privacy_policy.url }}">{{ 'footer.privacy_policy' | t }}</a>
+          </li>
+          <li>
+            <a href="{{ shop.shipping_policy.url }}">{{ 'footer.shipping_policy' | t }}</a>
+          </li>
+          <li>
+            <a href="{{ shop.terms_of_service.url }}">{{ 'footer.terms' | t }}</a>
+          </li>
+          <li>
+            <a href="{{ shop.refund_policy.url }}">{{ 'footer.refunds' | t }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Support -->
+      <div class="footer-column">
+        <h3>{{ 'footer.support_title' | t }}</h3>
+        <ul>
+          <li>
+            <a href="{{ shop.subscription_policy.url }}">{{ 'footer.preorder_cancel' | t }}</a>
+          </li>
+          <li>
+            <a href="{{ pages.faq.url }}">{{ 'footer.faq' | t }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Columna 4: Newsletter -->
+      <div class="footer-column newsletter">
+        <h3>{{ 'footer.newsletter_title' | t }}</h3>
+        <p>{{ 'footer.newsletter_text' | t }}</p>
+
+        {% form 'customer', id: 'NewsletterForm', class: 'newsletter-form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+
+          <div class="newsletter-box">
+            <input
+              type="email"
+              name="contact[email]"
+              id="NewsletterForm-email"
+              autocomplete="email"
+              required
+              placeholder="{{ section.settings.newsletter_placeholder }}"
+            >
+            <button type="submit" data-recaptcha="true">
+              {{ section.settings.newsletter_button }}
+            </button>
+          </div>
+
+          {% if form.posted_successfully? %}
+            <p class="form-status">¡Gracias por suscribirte!</p>
+          {% endif %}
+          {{ form.errors | default_errors }}
+        {% endform %}
+      </div>
+    </div>
+
+    <!-- Redes Sociales -->
+    <div class="footer-social">
+      {% if section.settings.facebook_link != blank %}
+        <a href="{{ section.settings.facebook_link }}" target="_blank" class="social-link facebook">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M22.5 0c.83 0 1.5.67 1.5 1.5v21c0 .83-.67 1.5-1.5 1.5h-6v-9h3l.75-3.75H16.5v-1.5c0-1.5.75-2.25 2.25-2.25h1.5V3.75h-3c-2.76 0-4.5 2.16-4.5 5.25v2.25h-3V15h3v9H1.5A1.5 1.5 0 0 1 0 22.5v-21C0 .67.67 0 1.5 0h21z"/>
+          </svg>
+        </a>
+      {% endif %}
+
+      {% if section.settings.instagram_link != blank %}
+        <a href="{{ section.settings.instagram_link }}" target="_blank" class="social-link instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M16.98 0a6.9 6.9 0 0 1 5.08 1.98A6.94 6.94 0 0 1 24 7.02v9.96c0 2.08-.68 3.87-1.98 5.13A7.14 7.14 0 0 1 16.94 24H7.06a7.06 7.06 0 0 1-5.03-1.89A6.96 6.96 0 0 1 0 16.94V7.02C0 2.8 2.8 0 7.02 0h9.96zm.05 2.23H7.06c-1.45 0-2.7.43-3.53 1.25a4.82 4.82 0 0 0-1.3 3.54v9.92c0 1.5.43 2.7 1.3 3.58a5 5 0 0 0 3.53 1.25h9.88a5 5 0 0 0 3.53-1.25 4.73 4.73 0 0 0 1.4-3.54V7.02a5 5 0 0 0-1.3-3.49 4.82 4.82 0 0 0-3.54-1.3zM12 5.76c3.39 0 6.2 2.8 6.2 6.2a6.2 6.2 0 0 1-12.4 0 6.2 6.2 0 0 1 6.2-6.2zm0 2.22a3.99 3.99 0 0 0-3.97 3.97A3.99 3.99 0 0 0 12 15.92a3.99 3.99 0 0 0 3.97-3.97A3.99 3.99 0 0 0 12 7.98zm6.44-3.77a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8z"/>
+          </svg>
+        </a>
+      {% endif %}
+
+      {% if section.settings.tiktok_link != blank %}
+        <a href="{{ section.settings.tiktok_link }}" target="_blank" class="social-link tiktok">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M22.5 9.84202C20.4357 9.84696 18.4221 9.20321 16.7435 8.00171V16.3813C16.7429 17.9333 16.2685 19.4482 15.3838 20.7233C14.499 21.9984 13.246 22.973 11.7923 23.5168C10.3387 24.0606 8.75362 24.1477 7.24914 23.7664C5.74466 23.3851 4.39245 22.5536 3.37333 21.383C2.3542 20.2125 1.71674 18.7587 1.54617 17.2161C1.3756 15.6735 1.68007 14.1156 2.41884 12.7507C3.15762 11.3858 4.2955 10.279 5.68034 9.57823C7.06517 8.87746 8.63095 8.61616 10.1683 8.82927V13.0439C9.4648 12.8227 8.70938 12.8293 8.0099 13.063C7.31041 13.2966 6.70265 13.7453 6.2734 14.345C5.84415 14.9446 5.61536 15.6646 5.6197 16.402C5.62404 17.1395 5.8613 17.8567 6.29759 18.4512C6.73387 19.0458 7.34688 19.4873 8.04906 19.7127C8.75125 19.9381 9.5067 19.9359 10.2075 19.7063C10.9084 19.4768 11.5188 19.0316 11.9515 18.4345C12.3843 17.8374 12.6173 17.1188 12.6173 16.3813V0H16.7435C16.7406 0.348435 16.7698 0.696395 16.8307 1.03948V1.03948C16.9741 1.80537 17.2722 2.53396 17.7068 3.18068C18.1415 3.8274 18.7035 4.37867 19.3585 4.80075C20.2903 5.41688 21.3829 5.74528 22.5 5.74505V9.84202Z"/>
+          </svg>
+        </a>
+      {% endif %}
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom">
+      <p>
+        {{ shop.name }} © {{ 'now' | date: '%Y' }} by
+        <a href="https://codecrafting.es" target="_blank" style="color: inherit; text-decoration: none;"
+          >Code Crafting</a
+        >
+      </p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "brand_title",
+      "label": "Título de la marca",
+      "default": "MARCA"
+    },
+    {
+      "type": "text",
+      "id": "about_us",
+      "label": "Texto Sobre Nosotros",
+      "default": "SOBRE NOSOTROS"
+    },
+    {
+      "type": "text",
+      "id": "legal_title",
+      "label": "Título de materia legal",
+      "default": "MATERIA ABURRIDA"
+    },
+    {
+      "type": "text",
+      "id": "legal_notice",
+      "label": "Texto Aviso Legal",
+      "default": "AVISO LEGAL"
+    },
+    {
+      "type": "text",
+      "id": "privacy_policy",
+      "label": "Texto Política de Privacidad",
+      "default": "POLÍTICA DE PRIVACIDAD"
+    },
+    {
+      "type": "text",
+      "id": "terms",
+      "label": "Texto Términos",
+      "default": "TÉRMINOS"
+    },
+    {
+      "type": "text",
+      "id": "support_title",
+      "label": "Título de Soporte",
+      "default": "SOPORTE"
+    },
+    {
+      "type": "text",
+      "id": "returns",
+      "label": "Texto Devoluciones",
+      "default": "DEVOLUCIONES"
+    },
+    {
+      "type": "text",
+      "id": "faq",
+      "label": "Texto FAQ",
+      "default": "FAQ's"
+    },
+    {
+      "type": "text",
+      "id": "contact",
+      "label": "Texto Contacto",
+      "default": "CONTACTO"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Título Newsletter",
+      "default": "ÚNETE AL CLUB"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_text",
+      "label": "Texto Newsletter",
+      "default": "SUSCRÍBETE A NUESTRA NEWSLETTER"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_placeholder",
+      "label": "Placeholder Newsletter",
+      "default": "Email address"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_button",
+      "label": "Texto del botón Newsletter",
+      "default": "JOIN"
+    },
+    {
+      "type": "url",
+      "id": "facebook_link",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "instagram_link",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_link",
+      "label": "TikTok URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Footer",
+      "category": "Footer"
+    }
+  ]
+}
+{% endschema %}

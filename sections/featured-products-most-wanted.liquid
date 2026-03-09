@@ -1,0 +1,288 @@
+<style>
+  .section-header-featured {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+    margin-bottom: 10px;
+    margin-top: 15px;
+  }
+
+  .collection-title {
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .view-all a {
+    text-decoration: underline;
+    font-size: 13px;
+    font-weight: bold;
+    color: black;
+    text-transform: uppercase;
+  }
+
+  .featured-products {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+    position: relative;
+    width: 100%;
+  }
+
+  .product-image-container {
+    width: 100%;
+    aspect-ratio: 1/1.4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    background-color: #e0e0e0;
+  }
+
+  /*Fondo semi-transparente para productos agotados*/
+  .product-image-container.sold-out::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(247, 247, 247, 0.63); /* Fondo translúcido */
+    z-index: 1;
+  }
+
+  .product-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .product-image-container .hover-image {
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+
+  .product-card:hover .hover-image {
+    opacity: 1;
+  }
+
+  /*Etiqueta "AGOTADO" en el centro*/
+  .out-of-stock-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 8px 15px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    z-index: 2;
+  }
+
+  .product-info {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0;
+  }
+
+  .product-title {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 0px;
+    transition: opacity 0.3s ease-in-out;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90%;
+    letter-spacing: 0rem;
+  }
+
+  .product-price {
+    font-size: 14px;
+    color: #333;
+    margin: 0px;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  /* Ocultar título, precio y swatches al hacer hover */
+  .product-card:hover .product-title,
+  .product-card:hover .product-price,
+  .product-card:hover .color-options {
+    opacity: 0;
+  }
+
+  .color-options {
+    display: flex;
+    gap: 5px;
+    margin-top: 0px;
+    margin-bottom: 15px;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .color-circle {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    display: inline-block;
+    background-size: cover;
+    cursor: pointer;
+  }
+
+  .color-circle.selected {
+    border: 1px solid black;
+    cursor: default;
+  }
+
+  .sizes {
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    opacity: 0;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .product-card:hover .sizes {
+    opacity: 1;
+    bottom: 40px;
+  }
+
+  .sizes span.out-of-stock {
+    text-decoration: line-through;
+    color: gray;
+  }
+
+  @media (max-width: 1024px) {
+    .featured-products {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+</style>
+
+<div class="section-header-featured">
+  <div class="collection-title">
+    {{ section.settings.collection.title }}
+  </div>
+  <div class="view-all">
+   <a href="{{ section.settings.collection.url }}">{{ 'sections.featured_collection.view_all' | t }}</a>
+  </div>
+</div>
+
+<div class="featured-products">
+  {% for product in section.settings.collection.products limit: 8 %}
+    {% assign total_stock = 0 %}
+    {% for variant in product.variants %}
+      {% assign total_stock = total_stock | plus: variant.inventory_quantity %}
+    {% endfor %}
+
+    <div class="product-card">
+      <a href="{{ product.url }}">
+        <div class="product-image-container {% if total_stock == 0 %}sold-out{% endif %}">
+          {% if total_stock == 0 %}
+            <div class="out-of-stock-label">{{ 'products.product.sold_out' | t }}</div>
+          {% endif %}
+          <img class="main-image" src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.title }}">
+          {% if product.images[1] %}
+            <img class="hover-image" src="{{ product.images[1] | img_url: '800x' }}" alt="Hover Image">
+          {% endif %}
+        </div>
+      </a>
+      <div class="product-info">
+        <p class="product-title">{{ product.title }}</p>
+        <p class="product-price">{{ product.price | money }}</p>
+
+        <!-- Swatches de colores -->
+        <div class="color-options">
+          {% assign product_color_group = product.metafields.custom.color_group %}
+  
+          {% if product_color_group %}
+            {% for related_product in collections.all.products %}
+              {% if related_product.metafields.custom.color_group == product_color_group %}
+                {% assign swatch_color = related_product.metafields.custom.color %}
+    
+                {% if related_product.id == product.id %}
+                  <span class="color-circle selected" 
+                        style="background-color: {{ swatch_color }};"
+                        title="{{ related_product.title }}">
+                  </span>
+                {% else %}
+                  <a class="color-circle" 
+                     href="{{ related_product.url }}"
+                     style="background-color: {{ swatch_color }};"
+                     title="{{ related_product.title }}">
+                  </a>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <!-- Tallas en hover -->
+        <div class="sizes">
+          {% for variant in product.variants %}
+            {% if variant.inventory_quantity > 0 %}
+              <span>{{ variant.option1 }}</span>
+            {% else %}
+              <span class="out-of-stock">{{ variant.option1 }}</span>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+
+{% schema %}
+{
+  "name": "FP Most Wanted",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Selecciona la colección"
+    }
+  ],
+  "presets": [
+    {
+      "name": "FP Most Wanted",
+      "category": "Productos",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

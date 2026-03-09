@@ -1,0 +1,196 @@
+{% comment %}
+  Sección "Sobre Nosotros" para Shopify - SteamboatBrand
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Sobre Nosotros Steamboat",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text_1",
+      "label": "Texto Bloque 1",
+      "default": "Todo comenzó con un brillo en plena oscuridad, una luz, una idea..."
+    },
+    {
+      "type": "text",
+      "id": "text_2",
+      "label": "Texto Bloque 2",
+      "default": "Cada prenda de Steamboat es como una obra de arte en movimiento..."
+    },
+    {
+      "type": "text",
+      "id": "text_3",
+      "label": "Texto Bloque 3",
+      "default": "¿Qué se divisa desde la quilla, grumetes? Pues el futuro..."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Imagen 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Imagen 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Imagen 3"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texto del botón",
+      "default": "Descubre más"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Enlace del botón"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sobre Nosotros Steamboat"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+    .about-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 50px 20px;
+    }
+    .about-block {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .about-text {
+      width: 50%;
+      padding: 20px;
+    }
+    .about-image {
+      width: 50%;
+      display: flex;
+      justify-content: center;
+    }
+    .about-image img {
+      width: 80%;
+      max-width: 600px;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      border-radius: 15px;
+    }
+    .about-button {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    .about-button a {
+    background-color: #242833;
+    color: white;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.3s ease-in-out;
+  }
+
+  .about-button a:hover {
+    background-color: #1f232c;
+    color: white;
+    transform: scale(1.1);
+  }
+    @media (max-width: 768px) {
+      .about-block {
+        flex-direction: column !important;
+        text-align: center;
+      }
+      .about-text,
+      .about-image {
+        width: 100%;
+      }
+    }
+    .about-block {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .about-block.appear {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .about-button a {
+      transition: transform 0.3s ease-in-out;
+    }
+    .about-button a:hover {
+      transform: scale(1.1);
+    }
+</style>
+
+<section class="about-container">
+  <!-- Bloque 1 -->
+  <div class="about-block" data-aos="fade-up">
+    <div class="about-text">
+      <p>{{ section.settings.text_1 }}</p>
+    </div>
+    <div class="about-image">
+      <img src="{{ section.settings.image_1 | image_url }}" width="600" height="600" alt="Steamboat Inspiración">
+    </div>
+  </div>
+
+  <!-- Bloque 2 -->
+  <div class="about-block" data-aos="fade-up" style="flex-direction: row-reverse;">
+    <div class="about-text">
+      <p>{{ section.settings.text_2 }}</p>
+    </div>
+    <div class="about-image">
+      <img src="{{ section.settings.image_2 | image_url }}" width="600" height="600" alt="Diseño SteamBoat">
+    </div>
+  </div>
+
+  <!-- Bloque 3 -->
+  <div class="about-block" data-aos="fade-up">
+    <div class="about-text">
+      <p>{{ section.settings.text_3 }}</p>
+    </div>
+    <div class="about-image">
+      <img src="{{ section.settings.image_3 | image_url }}" width="600" height="600" alt="SteamBoat">
+    </div>
+  </div>
+
+  <!-- Botón final -->
+  <div class="about-button">
+    <a href="{{ section.settings.button_link }}">{{ section.settings.button_text }}</a>
+  </div>
+</section>
+
+<!-- Cargar AOS.js para animaciones con defer para evitar bloqueo -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" defer></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const blocks = document.querySelectorAll('.about-block');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('appear');
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    blocks.forEach((block) => observer.observe(block));
+    AOS.init();
+  });
+</script>
+
+<!-- Agregar el CSS de AOS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">

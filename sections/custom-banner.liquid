@@ -1,0 +1,144 @@
+<style>
+  .image-banner-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Ajuste dinámico de altura */
+    overflow: hidden;
+  }
+
+  .image-banner-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* La imagen se ajusta sin distorsionarse */
+    object-position: top;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Contenedor del texto */
+  .image-banner-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+  }
+
+  .image-banner-content h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: white;
+  }
+
+  .image-banner-content a {
+    display: inline-block;
+    font-size: 1rem;
+    color: white;
+    text-decoration: none;
+    font-weight: normal;
+    border-bottom: 1px solid white; /* Línea debajo del texto */
+    padding-bottom: 2px;
+  }
+
+  /* Ajustes responsivos */
+  @media (max-width: 767px) {
+    .image-banner-content h1 {
+      font-size: 2rem;
+    }
+  }
+
+  .hidden-mobile {
+    display: none;
+  }
+
+  .hidden-desktop {
+    display: block;
+  }
+
+  @media (min-width: 767px) {
+    .hidden-mobile {
+      display: block;
+    }
+
+    .hidden-desktop {
+      display: none;
+    }
+  }
+</style>
+
+{% if section.settings.desktop_image != blank and section.settings.mobile_image != blank %}
+  <div class="image-banner-container">
+    <!-- Contenedor del texto -->
+    <div class="image-banner-content">
+       <h1>{{ 'homepage.best_sellers' | t }}</h1>
+      <a href="{{ section.settings.url_banner }}">{{ 'homepage.shop_now' | t }}</a>
+    </div>
+
+    <a href="{{ section.settings.url_banner }}">
+      <img class="hidden-mobile" src="{{ section.settings.desktop_image | img_url: '1920x1080' }}" alt="Desktop Banner">
+    </a>
+    <a href="{{ section.settings.url_banner }}">
+      <img class="hidden-desktop" src="{{ section.settings.mobile_image | img_url: '1080x1080' }}" alt="Mobile Banner">
+    </a>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Image Banner",
+  "class": "desktop-mobile-banner",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image Banner"
+    },
+    {
+      "type": "text",
+      "id": "banner_title",
+      "label": "Título del banner",
+      "default": "New Arrivals"
+    },
+    {
+      "type": "text",
+      "id": "banner_link_text",
+      "label": "Texto del enlace",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "url_banner",
+      "label": "URL del enlace",
+      "default": "/collections/all"
+    },
+    {
+      "type": "image_picker",
+      "label": "Imagen de escritorio",
+      "id": "desktop_image"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Banner"
+    },
+    {
+      "type": "image_picker",
+      "label": "Imagen para móvil",
+      "id": "mobile_image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Banner",
+      "category": "Imagen",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}
