@@ -3855,14 +3855,13 @@ details-disclosure>details {
     flex-wrap: nowrap;
     gap: 1rem;
   }
-
+  
   .section-header-featured .title,
   .section-header-featured .title-wrapper,
   .section-header-featured h2,
   .section-header-featured h3 {
     margin: 0;
   }
-
  
   .filter-container {
     display: flex;
@@ -3872,6 +3871,30 @@ details-disclosure>details {
     gap: 0.6rem;
     flex-wrap: nowrap;
     margin: 0;
+  }
+
+  .filter-select {
+    min-width: 0;
+    width: auto;
+  }
+
+  .filter-select>span {
+    padding: 8px 12px;
+    font-size: 12px;
+    height: 3.2rem;
+  }
+
+  .filter-dropdown {
+    right: 0;
+    left: auto;
+    min-width: 100%;
+    max-width: 16rem;
+  }
+
+  .filter-dropdown a {
+    padding: 8px 12px;
+    font-size: 12px;
+    line-height: 1.25;
   }
   
 
@@ -3901,6 +3924,92 @@ details-disclosure>details {
     letter-spacing: auto;
   }
 
+  
+/*Productos relacionados*/
+  .product-grid {
+    row-gap: 1.2rem;
+    column-gap: 1rem;
+  }
+
+  .product-grid .grid__item {
+    width: calc(50% - 0.5rem) !important;
+    max-width: calc(50% - 0.5rem) !important;
+    flex: 0 0 calc(50% - 0.5rem) !important;
+  }
+
+  .card__information {
+    padding-top: 0.7rem;
+  }
+
+  .card__heading,
+  .card__heading.h5 {
+    font-size: 1.2rem;
+    line-height: 1.25;
+    /* letter-spacing: 0.02rem; */
+    margin-bottom: 0.35rem;
+  }
+
+  .card__heading a {
+    display: block;
+    overflow: hidden;
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: unset;
+  }
+
+  .card-information .price,
+  .card-information .price-item,
+  .card-information .caption-large {
+    font-size: 1.1rem;
+    line-height: 1.25;
+  }
+
+  /*Ficha producto*/
+  .product__info-container {
+    max-width: 100%;
+  }
+  .product__title,
+  .product-title h1{
+    font-size: 1.9rem;
+    line-height: 1.15;
+    margin-bottom: 0.6rem;
+  }
+  .product__info-container .price {
+  margin-bottom: 0.6rem;
+  }
+  .product__info-container >* + * {
+    margin-top: 0.8rem;
+  }
+  .product-form__input{
+    margin-bottom: 0.8rem;
+  }
+  .quantity {
+    min-height: 4.2rem;
+  }
+  .product-form__submit,
+  .shopify-payment-button__button {
+    min-height: 4.2rem;
+  }
+  .product__description,
+  .product__description p,
+  .product__description li{
+    font-size: 1.35rem;
+    line-height: 1.55;
+  }
+  .product__description ul{
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+  }
+  .share-button,
+  .product__share-button{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .size-guide-button,
+  .mostra-guia-tallas,
+  .show-size-guide{
+    margin-top: 0.6rem;
+    margin-bottom: 1rem;
+  }
 }
 
 @media screen and (min-width: 391px) and (max-width: 480px) {
