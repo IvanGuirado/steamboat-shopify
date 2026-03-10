@@ -132,36 +132,54 @@
     }
 
     /* Responsive */
-  @media (max-width: 768px) {
+    @media (max-width: 768px) {
       .footer-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
-  @media screen and (max-width: 749px) {
-    .footer-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 36px 24px;
-    }
+    @media (min-width: 600px) and (max-width: 749px) {
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap:36px 28px;
+        align-items:start;
+      }
 
-    .footer-column.newsletter {
-      grid-column: span 2;
-    }
+      .footer-column.newsletter{
+        grid-column:span 2;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+      }
 
-    .footer-column.newsletter p {
-      white-space: normal;
-      max-width: 100%;
-    }
+      .footer-column.newsletter p{
+        margin-bottom: 1rem;
+        text-align:center;
+      }
+      .newsletter-box {
+        max-width:32rem;
+        margin:0 auto 1.2rem;
+      }
+      .newsletter-box input{
+        width:100%;
+      }
+      .footer-column.newsletter input[type="email"]{
+        width:40rem;
+        max-width:100%;
+      }
+      footer-social{
+      margin-top:0;
+      justify-content:center;
+      }
 
-    .newsletter-box {
-      max-width: 360px;
+      .footer-copyright,
+      .custom-footer small,
+      .custom-footer .copyright{
+        font-size:12px;
+        line-height:1.3;
+      }
     }
-
-    .footer-social {
-      margin-top: 24px;
-    }
-  }
-
    @media (min-width: 430px) and (max-width: 599px) {
       .footer-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -177,8 +195,8 @@
         max-width:100%;
       }
 
-      footer-social{
-      margin-top:24px;
+      .footer-social{
+        margin-top:24px;
       }
 
       .footer-copyright,
@@ -189,9 +207,9 @@
       }
     }
 
-  @media (max-width: 429px) {
+    @media (max-width: 429px) {
       .custom-footer{
-      padding:24px 16px;
+        padding:24px 16px;
       }
       .footer-grid {
         grid-template-columns: 1fr;
@@ -225,10 +243,11 @@
         margin-top:8px;;
       }
 
-      footer-social{
-      justify-content:center;
-      gap:18px;
+      .footer-social{
+        justify-content:center;
+        gap:18px;
       }
+
       .footer-copyright,
       .custom-footer small,
       .custom-footer .copyright{
