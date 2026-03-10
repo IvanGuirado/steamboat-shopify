@@ -4987,10 +4987,10 @@ details-disclosure>details {
 
   /*Ordenar*/
 
-  .filter-container {
+  /* .filter-container {
     align-items: center !important;
     gap: 0 !important;
-  }
+  } */
 
   /* Página productos - colección personalizada */
   .featured-products {
@@ -5004,18 +5004,18 @@ details-disclosure>details {
     box-sizing: border-box !important;
   }
 
-  .featured-products .product-card {
+  /* .featured-products .product-card {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
     margin: 0 !important;
-  }
+  } */
 
-  .featured-products .product-image-container,
+  /* .featured-products .product-image-container,
   .featured-products .product-image-container img {
     width: 100% !important;
-    max-width: 100% !important;
-  }
+    max-width: 100% !important; 
+  }*/
 
 
   .featured-products .product-info h3,
