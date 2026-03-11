@@ -47,6 +47,26 @@
   }
 
   /* Ajustes responsivos */
+
+   @media screen and (min-width: 1200px) {
+    .banner-container {
+      height: 80vh !important;
+    }
+  }
+
+  @media screen and (min-width: 990px) and (max-width: 1199px) {
+    .banner-container {
+      height: 60vh !important;
+    }
+    .banner-content h1 {
+      font-size: 3.4rem;
+    }
+    .banner-content a {
+      font-size: 1.4rem;
+      letter-spacing: 0.08rem;
+    }
+  }
+
   @media (max-width: 767px) {
     .banner-content h1 {
       font-size: 2rem;
@@ -70,6 +90,8 @@
       display: none;
     }
   }
+
+  
 </style>
 
 {% if section.settings.desktop_video != blank and section.settings.mobile_video != blank %}
