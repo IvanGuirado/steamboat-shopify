@@ -62,12 +62,25 @@ details[open].menu-opening > .menu-drawer__submenu {
   visibility: hidden; /* hide menus from screen readers when hidden by submenu */
 }
 
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 599px) {
   .menu-drawer {
     width: 40rem;
     border-width: 0 var(--drawer-border-width) 0 0;
     border-style: solid;
     border-color: rgba(var(--color-foreground), var(--drawer-border-opacity));
+  }
+}
+
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .menu-drawer__utility-links {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  div.menu-drawer__localization.header-localization {
+    margin-top: 1.3rem !important;
+    padding-left: 3rem !important;
+    padding-bottom: 1.8rem !important;
   }
 }
 
