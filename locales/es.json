@@ -285,7 +285,7 @@
       "announcement": "Anuncio",
       "menu": "Menú",
 
-      "free_shipping": "¡Envío GRATIS en pedidos superiores a 49 €!",
+      "free_shipping": "¡Envío gratis en pedidos superiores a 49 €!",
       
       "cart_count": {
         "one": "{{ count }} artículo",
