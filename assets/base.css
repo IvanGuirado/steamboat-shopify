@@ -3732,9 +3732,8 @@ details-disclosure>details {
   background: #f6f6f6;
 }
 
+
 /*BARRA ANUNCIO*/
-
-
 
 @media screen and (min-width: 1200px) {
 
@@ -4108,11 +4107,9 @@ details-disclosure>details {
 
 
   /*BARRA DE ANUNCIO*/
-  .announcement-bar-section,
-  .utility-bar,
-  .announcement-bar {
-    margin-bottom: -2px !important;
-  }
+.header__icon:not(.header__icon--summary), .header__icon span {
+    margin-bottom: 1px;
+}
 
   .desktop-mobile-banner,
   .banner-container {
@@ -4150,7 +4147,7 @@ details-disclosure>details {
   .header__localization,
   .header-localization {
     transform: none;
-    top: -1px;
+    
   }
 
   .header__heading {
@@ -4167,7 +4164,7 @@ details-disclosure>details {
     align-items: center !important;
     gap: 0.8rem;
     transform: none !important;
-    top: -1px;
+    margin-bottom: 1.1px;
   }
 
   .header__icon {
@@ -4175,7 +4172,6 @@ details-disclosure>details {
     align-items: center !important;
     justify-content: center !important;
   }
-
   /* ===== CAPAS ===== */
   .announcement-bar-section,
   .utility-bar,

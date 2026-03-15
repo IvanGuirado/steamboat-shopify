@@ -292,7 +292,7 @@
       "announcement": "Announcement",
       "menu": "Menu",
 
-      "free_shipping": "Free shipping on orders over €49!",
+      "free_shipping": "FREE shipping on orders over €49!",
       
       "cart_count": {
         "one": "{{ count }} item",

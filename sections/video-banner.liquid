@@ -31,14 +31,14 @@
   }
 
   .banner-content h1 {
-    font-size: 3rem;
+    font-size: 3.2rem;
     margin-bottom: 10px;
     color: white;
   }
 
   .banner-content a {
     display: inline-block;
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: white;
     text-decoration: none;
     font-weight: normal;
@@ -103,7 +103,6 @@
     }
   }
 
-  
 </style>
 
 {% if section.settings.desktop_video != blank and section.settings.mobile_video != blank %}
@@ -112,9 +111,9 @@
     <div class="banner-content">
       <h1>{{ 'homepage.new_arrivals' | t }}</h1>
       <a href="{{ section.settings.url_banner }}">{{ 'homepage.shop_now' | t }}</a>
-    </div>
+  </div>
 
-    <a href="{{ section.settings.url_banner }}">
+    <a href="{{ section.settings.url_banner }}" >
       <video class="hidden-mobile" autoplay muted loop>
         <source src="{{ section.settings.desktop_video }}" type="video/mp4">
         Tu navegador no admite el elemento de video.
