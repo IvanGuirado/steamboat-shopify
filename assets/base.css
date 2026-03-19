@@ -4107,9 +4107,11 @@ details-disclosure>details {
 
 
   /*BARRA DE ANUNCIO*/
-.header__icon:not(.header__icon--summary), .header__icon span {
-    margin-bottom: 1px;
-}
+  .announcement-bar-section,
+  .utility-bar,
+  .announcement-bar {
+    margin-bottom: -2px !important;
+  }
 
   .desktop-mobile-banner,
   .banner-container {
@@ -4147,7 +4149,7 @@ details-disclosure>details {
   .header__localization,
   .header-localization {
     transform: none;
-    
+    top: -1px;
   }
 
   .header__heading {
@@ -4164,7 +4166,7 @@ details-disclosure>details {
     align-items: center !important;
     gap: 0.8rem;
     transform: none !important;
-    margin-bottom: 1.1px;
+    top: -1px;
   }
 
   .header__icon {
@@ -4172,6 +4174,7 @@ details-disclosure>details {
     align-items: center !important;
     justify-content: center !important;
   }
+
   /* ===== CAPAS ===== */
   .announcement-bar-section,
   .utility-bar,
