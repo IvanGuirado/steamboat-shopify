@@ -60,6 +60,128 @@
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
         {%- endif -%}
 
+        <div class="custom-product-options" style="margin: 1.5rem 0;">
+          <div class="product-form__input" style="margin-bottom: 1.25rem;">
+            <label for="custom-design" style="display:block; margin-bottom:0.5rem; font-weight:600;">Diseño</label>
+            <select id="custom-design" name="properties[Diseño]" required style="width:100%; padding:0.8rem;">
+              <option value="">Selecciona un diseño</option>
+              <option value="Pa amb Sobrassada">Pa amb Sobrassada</option>
+              <option value="Yokai">Yokai</option>
+              <option value="Zoltar">Zoltar</option>
+              <option value="Manzana Maldita">Manzana Maldita</option>
+              <option value="El vigilante">El vigilante</option>
+              <option value="Niña Calabaza">Niña Calabaza</option>
+            </select>
+
+            <div id="design-preview-wrapper" style="margin-top: 1rem;">
+              <div
+                id="design-preview-image"
+                style="display:none; width:180px; height:180px; margin:1rem auto 0; background-size:contain; background-repeat:no-repeat; background-position:center center; background-color:#fff;"
+              ></div>
+            </div>
+          </div>
+
+          <style>
+            .custom-location-option input[type='radio'] {
+              appearance: auto !important;
+              -webkit-appearance: radio !important;
+              opacity: 1 !important;
+              position: static !important;
+              pointer-events: auto !important;
+              width: 16px !important;
+              height: 16px !important;
+              margin: 0 !important;
+              clip: auto !important;
+              overflow: visible !important;
+            }
+          </style>
+
+          <div class="product-form__input" style="margin-bottom: 1.25rem;">
+            <span style="display:block; margin-bottom:0.5rem; font-weight:600;">Ubicación del diseño</span>
+
+            <label
+              class="custom-location-option"
+              style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.6rem; cursor:pointer;"
+            >
+              <input
+                type="radio"
+                name="properties[Ubicación del diseño]"
+                value="Diseño delante"
+                required
+              >
+              <span>Diseño delante</span>
+            </label>
+
+            <label class="custom-location-option" style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+              <input
+                type="radio"
+                name="properties[Ubicación del diseño]"
+                value="Diseño detrás"
+                required
+              >
+              <span>Diseño detrás</span>
+            </label>
+          </div>
+        </div>
+
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            const params = new URLSearchParams(window.location.search);
+            const designFromUrl = params.get('diseno');
+
+            const designSelect = document.getElementById('custom-design');
+            const previewImage = document.getElementById('design-preview-image');
+
+            if (!designSelect || !previewImage) return;
+
+            const designImages = {
+              'Pa amb Sobrassada':
+                'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Pa_amb_sobrassada.png?v=1773930526',
+              Yokai: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Yokai.png?v=1773931299',
+              Zoltar: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Zoltar.png?v=1773930797',
+              'Manzana Maldita':
+                'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Manzana_Maldita.png?v=1773930849',
+              'El vigilante': 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/El_vigilante.png?v=1773930605',
+              'Niña Calabaza': 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Ni_a_Calabaza.png?v=1773930825',
+            };
+
+            function updatePreview(selectedDesign) {
+              const imageUrl = designImages[selectedDesign];
+
+              if (imageUrl) {
+                previewImage.style.display = 'block';
+                previewImage.style.backgroundImage = 'url("' + imageUrl + '")';
+              } else {
+                previewImage.style.display = 'none';
+                previewImage.style.backgroundImage = 'none';
+              }
+            }
+
+            if (designFromUrl) {
+              const normalizedUrlValue = designFromUrl.toLowerCase().trim();
+
+              for (const option of designSelect.options) {
+                const normalizedOption = option.value.toLowerCase().trim();
+
+                if (normalizedOption === normalizedUrlValue) {
+                  designSelect.value = option.value;
+                  break;
+                }
+              }
+            }
+
+            updatePreview(designSelect.value);
+
+            designSelect.addEventListener('change', function () {
+              updatePreview(this.value);
+
+              const url = new URL(window.location.href);
+              url.searchParams.set('diseno', this.value);
+              window.history.replaceState({}, '', url);
+            });
+          });
+        </script>
+
         <div class="product-form__buttons">
           {%- liquid
             assign check_against_inventory = true
