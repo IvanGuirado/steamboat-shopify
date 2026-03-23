@@ -291,9 +291,7 @@
     "header": {
       "announcement": "Announcement",
       "menu": "Menu",
-
       "free_shipping": "FREE shipping on orders over €49!",
-      
       "cart_count": {
         "one": "{{ count }} item",
         "other": "{{ count }} items",
@@ -1053,16 +1051,41 @@
     "preorder_cancel": "PURCHASE OPTION CANCELLATION",
     "faq": "FAQ",
     "newsletter_title": "JOIN THE CLUB",
-    "newsletter_text": "SUBSCRIBE TO OUR NEWSLETTER"
+    "newsletter_text": "SUBSCRIBE TO OUR NEWSLETTER",
+    "contact": "CONTACT"
   },
   "collections": {
-  "sorting": {
-    "label": "Sort:",
-    "featured": "Featured",
-    "best_selling": "Best selling",
-    "newest": "Newest",
-    "price_ascending": "Price: low to high",
-    "price_descending": "Price: high to low"
+    "sorting": {
+      "label": "Sort:",
+      "featured": "Featured",
+      "best_selling": "Best selling",
+      "newest": "Newest",
+      "price_ascending": "Price: low to high",
+      "price_descending": "Price: high to low"
     }
+  },
+  "configura_prenda": {
+    "hero_title": "Steamboat Edit",
+    "hero_text": "Customize your garment with Steamboat designs.",
+    "step_1_title": "Choose your base",
+    "step_1_text": "Select the base garment available for customization.",
+    "step_2_title": "Choose color and size",
+    "step_2_text": "Pick the combination that suits you best.",
+    "step_3_title": "Choose design and print placement",
+    "step_3_text": "Select your favorite design and one of the available options.",
+    "cta_configure": "Customize now",
+    "predefined_title": "Predefined customization",
+    "predefined_text": "Choose from our available design and print combinations to keep a polished and consistent finish on each garment.",
+    "cta_view_options": "View available options",
+    "available_designs": "Available designs",
+    "cta_view_more": "View more designs",
+    "placement": "Design placement",
+    "front": "Front design",
+    "back": "Back design",
+    "design": "Design",
+    "select_design": "Select a design",
+    "helper": "Choose color, size, design, and personalization type from our available options.",
+    "color_white": "White",
+    "color_black": "Black"
   }
 }

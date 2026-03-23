@@ -284,9 +284,7 @@
     "header": {
       "announcement": "Anuncio",
       "menu": "Menú",
-
       "free_shipping": "¡Envío GRATIS en pedidos superiores a 49 €!",
-      
       "cart_count": {
         "one": "{{ count }} artículo",
         "other": "{{ count }} artículos",
@@ -618,16 +616,41 @@
     "preorder_cancel": "CANCELACIÓN DE OPCIONES DE COMPRA",
     "faq": "PREGUNTAS FRECUENTES",
     "newsletter_title": "ÚNETE AL CLUB",
-    "newsletter_text": "SUSCRÍBETE A NUESTRA NEWSLETTER"
+    "newsletter_text": "SUSCRÍBETE A NUESTRA NEWSLETTER",
+    "contact": "CONTACTO"
   },
   "collections": {
-  "sorting": {
-    "label": "Ordenar:",
-    "featured": "Destacados",
-    "best_selling": "Más vendidos",
-    "newest": "Más recientes",
-    "price_ascending": "Precio: menor a mayor",
-    "price_descending": "Precio: mayor a menor"
+    "sorting": {
+      "label": "Ordenar:",
+      "featured": "Destacados",
+      "best_selling": "Más vendidos",
+      "newest": "Más recientes",
+      "price_ascending": "Precio: menor a mayor",
+      "price_descending": "Precio: mayor a menor"
     }
+  },
+  "configura_prenda": {
+    "hero_title": "Steamboat Edit",
+    "hero_text": "Configura tu prenda con diseños Steamboat.",
+    "step_1_title": "Elige tu base",
+    "step_1_text": "Selecciona la prenda base disponible para edición.",
+    "step_2_title": "Escoge color y talla",
+    "step_2_text": "Elige la combinación que mejor encaje contigo.",
+    "step_3_title": "Elige diseño y estampación",
+    "step_3_text": "Selecciona tu diseño favorito y una de las opciones disponibles.",
+    "cta_configure": "Configurar ahora",
+    "predefined_title": "Personalización predefinida",
+    "predefined_text": "Elige entre nuestras combinaciones disponibles de diseño y estampación para mantener un acabado cuidado y coherente en cada prenda.",
+    "cta_view_options": "Ver opciones disponibles",
+    "available_designs": "Diseños disponibles",
+    "cta_view_more": "Ver más diseños",
+    "placement": "Ubicación del diseño",
+    "front": "Diseño delante",
+    "back": "Diseño detrás",
+    "design": "Diseño",
+    "select_design": "Selecciona un diseño",
+    "helper": "Elige una opción de diseño para personalizar tu prenda.",
+    "color_white": "Blanco",
+    "color_black": "Negro"
   }
 }
