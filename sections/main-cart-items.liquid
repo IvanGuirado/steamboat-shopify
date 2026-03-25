@@ -80,90 +80,181 @@
               <tbody>
                 {%- for item in cart.items -%}
                   <tr class="cart-item" id="CartItem-{{ item.index | plus: 1 }}">
+                    {%- assign cart_item_url = item.product.url | append: '?variant=' | append: item.variant.id -%}
+                    {%- assign cart_item_talla = '' -%}
+                    {%- assign cart_item_ubicacion = '' -%}
+                    {%- assign cart_item_diseno = '' -%}
+
+                    {%- for option in item.options_with_values -%}
+                      {%- if option.name == 'Talla' or option.name == 'Size' -%}
+                        {%- assign cart_item_talla = option.value | strip -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+
+                    {%- for property in item.properties -%}
+                      {%- assign property_first_char = property.first | slice: 0 -%}
+                      {%- if property.last != blank and property_first_char != '_' -%}
+                        {%- if property.first == 'Ubicación del diseño' or property.first == 'Design placement' -%}
+                          {%- case property.last -%}
+                            {%- when 'Diseño delante' -%}
+                              {%- assign cart_item_ubicacion = 'front' -%}
+                            {%- when 'Front design' -%}
+                              {%- assign cart_item_ubicacion = 'front' -%}
+                            {%- when 'Diseño detrás' -%}
+                              {%- assign cart_item_ubicacion = 'back' -%}
+                            {%- when 'Back design' -%}
+                              {%- assign cart_item_ubicacion = 'back' -%}
+                          {%- endcase -%}
+                        {%- endif -%}
+
+                        {%- if property.first == 'Diseño' or property.first == 'Design' -%}
+                          {%- case property.last -%}
+                            {%- when 'Pa amb Sobrassada' -%}
+                              {%- assign cart_item_diseno = 'pa_amb_sobrassada' -%}
+                            {%- when 'Yokai' -%}
+                              {%- assign cart_item_diseno = 'yokai' -%}
+                            {%- when 'Zoltar' -%}
+                              {%- assign cart_item_diseno = 'zoltar' -%}
+                            {%- when 'Manzana Maldita' -%}
+                              {%- assign cart_item_diseno = 'manzana_maldita' -%}
+                            {%- when 'El vigilante' -%}
+                              {%- assign cart_item_diseno = 'el_vigilante' -%}
+                            {%- when 'Niña Calabaza' -%}
+                              {%- assign cart_item_diseno = 'nina_calabaza' -%}
+                            {%- when 'dead_tide' -%}
+                              {%- assign property_value = 'Dead Tide' -%}
+                            {%- when 'steamboat' -%}
+                              {%- assign property_value = 'Steamboat' -%}
+                            {%- when 'sunset_octopus' -%}
+                              {%- assign property_value = 'Sunset Octopus' -%}
+                            {%- when 'beach_break' -%}
+                              {%- assign property_value = 'Beach Break' -%}
+                            {%- when 'ice_scream' -%}
+                              {%- assign property_value = 'Ice-Scream' -%}
+                            {%- when 'honey_bones' -%}
+                              {%- assign property_value = 'Honey Bones' -%}
+                            {%- when 'moon_surfers' -%}
+                              {%- assign property_value = 'Moon Surfers' -%}
+                            {%- when 'skull_mermaid' -%}
+                              {%- assign property_value = 'Skull Mermaid' -%}
+                            {%- when 'night_blooms' -%}
+                              {%- assign property_value = 'Night Blooms' -%}
+                            {%- when 'steam_dragon' -%}
+                              {%- assign property_value = 'Steam Dragon' -%}
+                            {%- when 'eolo' -%}
+                              {%- assign property_value = 'Eolo' -%}
+                              {% comment %} {%- when 'aixo_es_mel' -%}
+                                {%- assign property_value = 'Això és mel' -%} {% endcomment %}
+                          {%- endcase -%}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+
+                    {%- assign has_query = false -%}
+                    {%- capture custom_query -%}
+    {%- if cart_item_talla != blank -%}
+      {%- assign has_query = true -%}talla={{ cart_item_talla | url_encode }}
+    {%- endif -%}
+    {%- if cart_item_ubicacion != blank -%}
+      {%- if has_query -%}&{%- endif -%}ubicacion={{ cart_item_ubicacion | url_encode }}
+      {%- assign has_query = true -%}
+    {%- endif -%}
+    {%- if cart_item_diseno != blank -%}
+      {%- if has_query -%}&{%- endif -%}diseno={{ cart_item_diseno | url_encode }}
+    {%- endif -%}
+  {%- endcapture -%}
+
+                    {%- if custom_query != blank -%}
+                      {%- assign cart_item_url = cart_item_url | append: '&' | append: custom_query -%}
+                    {%- endif -%}
+
                     <td class="cart-item__media">
-                      {% if item.image %}
-                        {% comment %} Leave empty space due to a:empty CSS display: none rule {% endcomment %}
-                        <a href="{{ cart_item_url }}" class="cart-item__link" aria-hidden="true" tabindex="-1"> </a>
-                        <div class="cart-item__image-container gradient global-media-settings">
-                          <img
-                            src="{{ item.image | image_url: width: 300 }}"
-                            class="cart-item__image"
-                            alt="{{ item.image.alt | escape }}"
-                            loading="lazy"
-                            width="150"
-                            height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
-                          >
-                        </div>
+                      {%- assign cart_image = item.image -%}
+                      {%- assign custom_design_image_url = '' -%}
+
+                      {%- for property in item.properties -%}
+                        {%- assign property_first_char = property.first | slice: 0 -%}
+                        {%- if property.last != blank and property_first_char != '_' -%}
+                          {%- if property.first == 'Diseño' or property.first == 'Design' -%}
+                            {%- case property.last -%}
+                              {%- when 'Pa amb Sobrassada' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Pa_amb_sobrassada.png?v=1773930526' -%}
+                              {%- when 'Yokai' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Yokai.png?v=1773931299' -%}
+                              {%- when 'Zoltar' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Zoltar.png?v=1773930797' -%}
+                              {%- when 'Manzana Maldita' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Manzana_Maldita.png?v=1773930849' -%}
+                              {%- when 'El vigilante' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/El_vigilante.png?v=1773930605' -%}
+                              {%- when 'Niña Calabaza' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Ni_a_Calabaza.png?v=1773930825' -%}
+                              {%- when 'Dead Tide' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Dead_Tide.png?v=1774285550' -%}
+                              {%- when 'Steamboat' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Steamboat.png?v=1773930493' -%}
+                              {%- when 'Sunset Octopus' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Octosurf.png?v=1773930969' -%}
+                              {%- when 'Beach Break' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Melting-ice.png?v=1773931002' -%}
+                              {%- when 'Ice-Scream' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/ice-scream.png?v=1773930659' -%}
+                              {%- when 'Honey Bones' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Spring_bees.png?v=1773930580' -%}
+                              {%- when 'Moon Surfers' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Moon_surfers.png?v=1773930711' -%}
+                              {%- when 'Skull Mermaid' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Skull_mermaid.png?v=1773931024' -%}
+                              {%- when 'Night Blooms' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/night_bloom.png?v=1773930752' -%}
+                              {%- when 'Steam Dragon' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/white-dragon.png?v=1773930778' -%}
+                              {%- when 'Eolo' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/eolo.png?v=1773930926' -%}
+                              {% comment %} {%- when 'Això és mel' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/aixo_es_mel.png?v=1774285600' -%} {% endcomment %}
+                            {%- endcase -%}
+                          {%- endif -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+
+                      {% if item.product.handle == 'steamboat-edit-blanca'
+                        or item.product.handle == 'steamboat-edit-negra'
+                        or item.product.handle == 'steamboat-edit-white'
+                        or item.product.handle == 'steamboat-edit-black'
+                      %}
+                        {% if custom_design_image_url != blank %}
+                          <a href="{{ cart_item_url }}" class="cart-item__link" aria-hidden="true" tabindex="-1"> </a>
+                          <div class="cart-item__image-container gradient global-media-settings">
+                            <img
+                              src="{{ custom_design_image_url }}"
+                              class="cart-item__image"
+                              alt="{{ item.product.title | escape }}"
+                              loading="lazy"
+                              width="150"
+                            >
+                          </div>
+                        {% endif %}
+                      {% else %}
+                        {% if cart_image %}
+                          <a href="{{ cart_item_url }}" class="cart-item__link" aria-hidden="true" tabindex="-1"> </a>
+                          <div class="cart-item__image-container gradient global-media-settings">
+                            <img
+                              src="{{ cart_image | image_url: width: 300 }}"
+                              class="cart-item__image"
+                              alt="{{ cart_image.alt | default: item.product.title | escape }}"
+                              loading="lazy"
+                              width="150"
+                              height="{{ 150 | divided_by: cart_image.aspect_ratio | ceil }}"
+                            >
+                          </div>
+                        {% endif %}
                       {% endif %}
                     </td>
 
                     <td class="cart-item__details">
                       {%- if settings.show_vendor -%}
                         <p class="caption-with-letter-spacing">{{ item.product.vendor }}</p>
-                      {%- endif -%}
-
-                      {%- assign cart_item_url = item.product.url | append: '?variant=' | append: item.variant.id -%}
-                      {%- assign cart_item_talla = '' -%}
-                      {%- assign cart_item_ubicacion = '' -%}
-                      {%- assign cart_item_diseno = '' -%}
-
-                      {%- for option in item.options_with_values -%}
-                        {%- if option.name == 'Talla' or option.name == 'Size' -%}
-                          {%- assign cart_item_talla = option.value | strip -%}
-                        {%- endif -%}
-                      {%- endfor -%}
-
-                      {%- for property in item.properties -%}
-                        {%- assign property_first_char = property.first | slice: 0 -%}
-                        {%- if property.last != blank and property_first_char != '_' -%}
-                          {%- if property.first == 'Ubicación del diseño' or property.first == 'Design placement' -%}
-                            {%- case property.last -%}
-                              {%- when 'Diseño delante' -%}
-                                {%- assign cart_item_ubicacion = 'front' -%}
-                              {%- when 'Front design' -%}
-                                {%- assign cart_item_ubicacion = 'front' -%}
-                              {%- when 'Diseño detrás' -%}
-                                {%- assign cart_item_ubicacion = 'back' -%}
-                              {%- when 'Back design' -%}
-                                {%- assign cart_item_ubicacion = 'back' -%}
-                            {%- endcase -%}
-                          {%- endif -%}
-
-                          {%- if property.first == 'Diseño' or property.first == 'Design' -%}
-                            {%- case property.last -%}
-                              {%- when 'Pa amb Sobrassada' -%}
-                                {%- assign cart_item_diseno = 'pa_amb_sobrassada' -%}
-                              {%- when 'Yokai' -%}
-                                {%- assign cart_item_diseno = 'yokai' -%}
-                              {%- when 'Zoltar' -%}
-                                {%- assign cart_item_diseno = 'zoltar' -%}
-                              {%- when 'Manzana Maldita' -%}
-                                {%- assign cart_item_diseno = 'manzana_maldita' -%}
-                              {%- when 'El vigilante' -%}
-                                {%- assign cart_item_diseno = 'el_vigilante' -%}
-                              {%- when 'Niña Calabaza' -%}
-                                {%- assign cart_item_diseno = 'nina_calabaza' -%}
-                            {%- endcase -%}
-                          {%- endif -%}
-                        {%- endif -%}
-                      {%- endfor -%}
-
-                      {%- assign has_query = false -%}
-                      {%- capture custom_query -%}
-  {%- if cart_item_talla != blank -%}
-    {%- assign has_query = true -%}talla={{ cart_item_talla | url_encode }}
-  {%- endif -%}
-  {%- if cart_item_ubicacion != blank -%}
-    {%- if has_query -%}&{%- endif -%}ubicacion={{ cart_item_ubicacion | url_encode }}
-    {%- assign has_query = true -%}
-  {%- endif -%}
-  {%- if cart_item_diseno != blank -%}
-    {%- if has_query -%}&{%- endif -%}diseno={{ cart_item_diseno | url_encode }}
-  {%- endif -%}
-{%- endcapture -%}
-
-                      {%- if custom_query != blank -%}
-                        {%- assign cart_item_url = item.url | append: '&' | append: custom_query -%}
                       {%- endif -%}
 
                       <a href="{{ cart_item_url }}" class="cart-item__name h4 break">
@@ -222,30 +313,68 @@
 
                               {%- case property.first -%}
                                 {%- when 'ubicacion_diseno' -%}
-                                  {%- assign property_label = 'Ubicación del diseño' -%}
-                                  {%- case property.last -%}
-                                    {%- when 'diseno_delante' -%}
-                                      {%- assign property_value = 'Diseño delante' -%}
-                                    {%- when 'diseno_detras' -%}
-                                      {%- assign property_value = 'Diseño detrás' -%}
-                                  {%- endcase -%}
-
+                                  {%- assign property_label = 'configura_prenda.placement' | t -%}
+                                {%- when 'Ubicación del diseño' -%}
+                                  {%- assign property_label = 'configura_prenda.placement' | t -%}
+                                {%- when 'Design placement' -%}
+                                  {%- assign property_label = 'configura_prenda.placement' | t -%}
                                 {%- when 'diseno' -%}
-                                  {%- assign property_label = 'Diseño' -%}
-                                  {%- case property.last -%}
-                                    {%- when 'pa_amb_sobrassada' -%}
-                                      {%- assign property_value = 'Pa amb Sobrassada' -%}
-                                    {%- when 'yokai' -%}
-                                      {%- assign property_value = 'Yokai' -%}
-                                    {%- when 'zoltar' -%}
-                                      {%- assign property_value = 'Zoltar' -%}
-                                    {%- when 'manzana_maldita' -%}
-                                      {%- assign property_value = 'Manzana Maldita' -%}
-                                    {%- when 'el_vigilante' -%}
-                                      {%- assign property_value = 'El vigilante' -%}
-                                    {%- when 'nina_calabaza' -%}
-                                      {%- assign property_value = 'Niña Calabaza' -%}
-                                  {%- endcase -%}
+                                  {%- assign property_label = 'configura_prenda.design' | t -%}
+                                {%- when 'Diseño' -%}
+                                  {%- assign property_label = 'configura_prenda.design' | t -%}
+                                {%- when 'Design' -%}
+                                  {%- assign property_label = 'configura_prenda.design' | t -%}
+                              {%- endcase -%}
+
+                              {%- case property.last -%}
+                                {%- when 'diseno_delante' -%}
+                                  {%- assign property_value = 'configura_prenda.front' | t -%}
+                                {%- when 'Diseño delante' -%}
+                                  {%- assign property_value = 'configura_prenda.front' | t -%}
+                                {%- when 'Front design' -%}
+                                  {%- assign property_value = 'configura_prenda.front' | t -%}
+                                {%- when 'diseno_detras' -%}
+                                  {%- assign property_value = 'configura_prenda.back' | t -%}
+                                {%- when 'Diseño detrás' -%}
+                                  {%- assign property_value = 'configura_prenda.back' | t -%}
+                                {%- when 'Back design' -%}
+                                  {%- assign property_value = 'configura_prenda.back' | t -%}
+                                {%- when 'pa_amb_sobrassada' -%}
+                                  {%- assign property_value = 'Pa amb Sobrassada' -%}
+                                {%- when 'yokai' -%}
+                                  {%- assign property_value = 'Yokai' -%}
+                                {%- when 'zoltar' -%}
+                                  {%- assign property_value = 'Zoltar' -%}
+                                {%- when 'manzana_maldita' -%}
+                                  {%- assign property_value = 'Manzana Maldita' -%}
+                                {%- when 'el_vigilante' -%}
+                                  {%- assign property_value = 'El vigilante' -%}
+                                {%- when 'nina_calabaza' -%}
+                                  {%- assign property_value = 'Niña Calabaza' -%}
+                                {%- when 'dead_tide' -%}
+                                  {%- assign property_value = 'Dead Tide' -%}
+                                {%- when 'steamboat' -%}
+                                  {%- assign property_value = 'Steamboat' -%}
+                                {%- when 'steamfloats' -%}
+                                  {%- assign property_value = 'Steamfloats' -%}
+                                {%- when 'sunset_octopus' -%}
+                                  {%- assign property_value = 'Sunset Octopus' -%}
+                                {%- when 'beach_break' -%}
+                                  {%- assign property_value = 'Beach Break' -%}
+                                {%- when 'ice_scream' -%}
+                                  {%- assign property_value = 'Ice-Scream' -%}
+                                {%- when 'honey_bones' -%}
+                                  {%- assign property_value = 'Honey Bones' -%}
+                                {%- when 'moon_surfers' -%}
+                                  {%- assign property_value = 'Moon Surfers' -%}
+                                {%- when 'skull_mermaid' -%}
+                                  {%- assign property_value = 'Skull Mermaid' -%}
+                                {%- when 'night_blooms' -%}
+                                  {%- assign property_value = 'Night Blooms' -%}
+                                {%- when 'steam_dragon' -%}
+                                  {%- assign property_value = 'Steam Dragon' -%}
+                                {%- when 'eolo' -%}
+                                  {%- assign property_value = 'Eolo' -%}
                               {%- endcase -%}
 
                               <div class="product-option">

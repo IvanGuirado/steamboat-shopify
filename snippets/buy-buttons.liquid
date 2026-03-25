@@ -105,6 +105,18 @@
                 <option value="Manzana Maldita" data-design-key="manzana_maldita">Manzana Maldita</option>
                 <option value="El vigilante" data-design-key="el_vigilante">El vigilante</option>
                 <option value="Niña Calabaza" data-design-key="nina_calabaza">Niña Calabaza</option>
+                <option value="Dead Tide" data-design-key="dead_tide">Dead Tide</option>
+                <option value="Steamboat" data-design-key="steamboat">Steamboat</option>
+                <option value="Sunset Octopus" data-design-key="sunset_octopus">Sunset Octopus</option>
+                <option value="Beach Break" data-design-key="beach_break">Beach Break</option>
+                <option value="Ice-Scream" data-design-key="ice_scream">Ice-Scream</option>
+                <option value="Honey Bones" data-design-key="honey_bones">Honey Bones</option>
+                <option value="Moon Surfers" data-design-key="moon_surfers">Moon Surfers</option>
+                <option value="Skull Mermaid" data-design-key="skull_mermaid">Skull Mermaid</option>
+                <option value="Night Blooms" data-design-key="night_blooms">Night Blooms</option>
+                <option value="Steam Dragon" data-design-key="steam_dragon">Steam Dragon</option>
+                <option value="Eolo" data-design-key="eolo">Eolo</option>
+                {% comment %} <option value="Això és mel" data-design-key="aixo_es_mel">Això és mel</option> {% endcomment %}
               </select>
             </div>
           </div>
@@ -130,6 +142,18 @@
                   'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Manzana_Maldita.png?v=1773930849',
                 el_vigilante: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/El_vigilante.png?v=1773930605',
                 nina_calabaza: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Ni_a_Calabaza.png?v=1773930825',
+                dead_tide: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Dead_Tide.png?v=1774285550',
+                steamboat: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Steamboat.png?v=1773930493',
+                sunset_octopus: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Octosurf.png?v=1773930969',
+                beach_break: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Melting-ice.png?v=1773931002',
+                ice_scream: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/ice-scream.png?v=1773930659',
+                honey_bones: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Spring_bees.png?v=1773930580',
+                moon_surfers: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Moon_surfers.png?v=1773930711',
+                skull_mermaid: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Skull_mermaid.png?v=1773931024',
+                night_blooms: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/night_bloom.png?v=1773930752',
+                steam_dragon: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/white-dragon.png?v=1773930778',
+                eolo: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/eolo.png?v=1773930926',
+                {% comment %} aixo_es_mel: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/aixo_es_mel.png?v=1774285600', {% endcomment %}
               };
 
               function normalizeText(text) {
@@ -455,7 +479,8 @@
     </div>
   {%- endif -%}
 
-  {%- if show_pickup_availability -%}
+  {% comment %} {%- if show_pickup_availability -%} {% endcomment %}
+    {%- if false-%}
     {{ 'component-pickup-availability.css' | asset_url | stylesheet_tag }}
 
     {%- assign pick_up_availabilities = product.selected_or_first_available_variant.store_availabilities

@@ -295,6 +295,7 @@
 
   <div class="featured-products">
     {% for product in collection.products %}
+      {% unless product.tags contains 'hidden-customizer' %}
       {% assign total_stock = 0 %}
       {% for variant in product.variants %}
         {% assign total_stock = total_stock | plus: variant.inventory_quantity %}
@@ -356,6 +357,7 @@
           </div>
         </div>
       </div>
+      {% endunless %}
     {% endfor %}
   </div>
 </section>
