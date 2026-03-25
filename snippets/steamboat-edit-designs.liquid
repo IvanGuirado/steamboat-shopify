@@ -1,0 +1,196 @@
+{%- comment -%}
+  STEAMBOAT EDIT DESIGNS
+
+  Uso:
+  - JSON para JS:
+    {% render 'steamboat-edit-designs', mode: 'json' %}
+
+  - options para el select:
+    {% render 'steamboat-edit-designs', mode: 'options' %}
+
+  - cards para la rejilla:
+    {% render 'steamboat-edit-designs', mode: 'cards', product_url: section.settings.product_url, default_placement: section.settings.default_placement, link_label: section.settings.link_label %}
+{%- endcomment -%}
+
+{%- capture steamboat_edit_designs_json -%}
+[
+  { "key": "pa_amb_sobrassada", "label": "Pa amb Sobrassada", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Pa_amb_sobrassada.png?v=1773930526" },
+  { "key": "yokai", "label": "Yokai", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Yokai.png?v=1773931299" },
+  { "key": "zoltar", "label": "Zoltar", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Zoltar.png?v=1773930797" },
+  { "key": "manzana_maldita", "label": "Manzana Maldita", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Manzana_Maldita.png?v=1773930849" },
+  { "key": "el_vigilante", "label": "El vigilante", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/El_vigilante.png?v=1773930605" },
+  { "key": "nina_calabaza", "label": "Niña Calabaza", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Ni_a_Calabaza.png?v=1773930825" },
+  { "key": "dead_tide", "label": "Dead Tide", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Dead_Tide.png?v=1774285550" },
+  { "key": "steamboat", "label": "Steamboat", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Steamboat.png?v=1773930493" },
+  { "key": "sunset_octopus", "label": "Sunset Octopus", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Octosurf.png?v=1773930969" },
+  { "key": "beach_break", "label": "Beach Break", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Melting-ice.png?v=1773931002" },
+  { "key": "ice_scream", "label": "Ice-Scream", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/ice-scream.png?v=1773930659" },
+  { "key": "honey_bones", "label": "Honey Bones", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Spring_bees.png?v=1773930580" },
+  { "key": "moon_surfers", "label": "Moon Surfers", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Moon_surfers.png?v=1773930711" },
+  { "key": "skull_mermaid", "label": "Skull Mermaid", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Skull_mermaid.png?v=1773931024" },
+  { "key": "night_blooms", "label": "Night Blooms", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/night_bloom.png?v=1773930752" },
+  { "key": "steam_dragon", "label": "Steam Dragon", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/white-dragon.png?v=1773930778" },
+  { "key": "eolo", "label": "Eolo", "image": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/eolo.png?v=1773930926" }
+]
+{%- endcapture -%}
+
+{%- if mode == 'raw' or mode == 'json' -%}
+  {{- steamboat_edit_designs_json -}}
+
+{%- elsif mode == 'options' -%}
+  <option value="">{{ 'configura_prenda.select_design' | t }}</option>
+  <option value="pa_amb_sobrassada" data-design-key="pa_amb_sobrassada">Pa amb Sobrassada</option>
+  <option value="yokai" data-design-key="yokai">Yokai</option>
+  <option value="zoltar" data-design-key="zoltar">Zoltar</option>
+  <option value="manzana_maldita" data-design-key="manzana_maldita">Manzana Maldita</option>
+  <option value="el_vigilante" data-design-key="el_vigilante">El vigilante</option>
+  <option value="nina_calabaza" data-design-key="nina_calabaza">Niña Calabaza</option>
+  <option value="dead_tide" data-design-key="dead_tide">Dead Tide</option>
+  <option value="steamboat" data-design-key="steamboat">Steamboat</option>
+  <option value="sunset_octopus" data-design-key="sunset_octopus">Sunset Octopus</option>
+  <option value="beach_break" data-design-key="beach_break">Beach Break</option>
+  <option value="ice_scream" data-design-key="ice_scream">Ice-Scream</option>
+  <option value="honey_bones" data-design-key="honey_bones">Honey Bones</option>
+  <option value="moon_surfers" data-design-key="moon_surfers">Moon Surfers</option>
+  <option value="skull_mermaid" data-design-key="skull_mermaid">Skull Mermaid</option>
+  <option value="night_blooms" data-design-key="night_blooms">Night Blooms</option>
+  <option value="steam_dragon" data-design-key="steam_dragon">Steam Dragon</option>
+  <option value="eolo" data-design-key="eolo">Eolo</option>
+
+{%- elsif mode == 'cards' -%}
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=pa_amb_sobrassada{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Pa_amb_sobrassada.png?v=1773930526" alt="Pa amb Sobrassada" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Pa amb Sobrassada</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=pa_amb_sobrassada{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=yokai{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Yokai.png?v=1773931299" alt="Yokai" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Yokai</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=yokai{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=zoltar{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Zoltar.png?v=1773930797" alt="Zoltar" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Zoltar</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=zoltar{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=manzana_maldita{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Manzana_Maldita.png?v=1773930849" alt="Manzana Maldita" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Manzana Maldita</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=manzana_maldita{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=el_vigilante{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/El_vigilante.png?v=1773930605" alt="El vigilante" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">El vigilante</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=el_vigilante{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=nina_calabaza{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Ni_a_Calabaza.png?v=1773930825" alt="Niña Calabaza" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Niña Calabaza</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=nina_calabaza{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=dead_tide{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Dead_Tide.png?v=1774285550" alt="Dead Tide" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Dead Tide</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=dead_tide{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=steamboat{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Steamboat.png?v=1773930493" alt="Steamboat" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Steamboat</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=steamboat{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=sunset_octopus{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Octosurf.png?v=1773930969" alt="Sunset Octopus" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Sunset Octopus</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=sunset_octopus{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=beach_break{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Melting-ice.png?v=1773931002" alt="Beach Break" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Beach Break</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=beach_break{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=ice_scream{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/ice-scream.png?v=1773930659" alt="Ice-Scream" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Ice-Scream</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=ice_scream{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=honey_bones{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Spring_bees.png?v=1773930580" alt="Honey Bones" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Honey Bones</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=honey_bones{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=moon_surfers{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Moon_surfers.png?v=1773930711" alt="Moon Surfers" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Moon Surfers</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=moon_surfers{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=skull_mermaid{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Skull_mermaid.png?v=1773931024" alt="Skull Mermaid" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Skull Mermaid</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=skull_mermaid{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=night_blooms{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/night_bloom.png?v=1773930752" alt="Night Blooms" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Night Blooms</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=night_blooms{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=steam_dragon{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/white-dragon.png?v=1773930778" alt="Steam Dragon" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Steam Dragon</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=steam_dragon{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+
+  <div class="steamboat-edit-designs-grid__item">
+    <a class="steamboat-edit-designs-grid__image-wrap" href="{{ product_url }}?diseno=eolo{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">
+      <img class="steamboat-edit-designs-grid__image" src="https://cdn.shopify.com/s/files/1/0891/7205/0264/files/eolo.png?v=1773930926" alt="Eolo" loading="lazy">
+    </a>
+    <h3 class="h4 steamboat-edit-designs-grid__name">Eolo</h3>
+    <a class="link animate-arrow steamboat-edit-designs-grid__link" href="{{ product_url }}?diseno=eolo{% if default_placement != blank %}&ubicacion={{ default_placement | url_encode }}{% endif %}">{{ link_label }}{{- 'icon-arrow.svg' | inline_asset_content -}}</a>
+  </div>
+{%- endif -%}

@@ -26,46 +26,46 @@
     {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
   {%- endif -%}
 
- {%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-
-  @media screen and (min-width: 750px) {
+  {%- style -%}
     .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
     }
-  }
 
-  #ProductInfo-{{ section.id }} .product-form__input--swatch {
-    display: none !important;
-  }
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
 
-  #ProductInfo-{{ section.id }} .product-form__input--pill,
-  #ProductInfo-{{ section.id }} .product-form__quantity,
-  #ProductInfo-{{ section.id }} .custom-product-options {
-    margin-bottom: 1.4rem;
-  }
+    #ProductInfo-{{ section.id }} .product-form__input--swatch {
+      display: none !important;
+    }
 
-  #ProductInfo-{{ section.id }} .custom-product-options {
-    max-width: 32rem;
-    margin-top: 0.2rem;
-  }
+    #ProductInfo-{{ section.id }} .product-form__input--pill,
+    #ProductInfo-{{ section.id }} .product-form__quantity,
+    #ProductInfo-{{ section.id }} .custom-product-options {
+      margin-bottom: 1.4rem;
+    }
 
-  #ProductInfo-{{ section.id }} .custom-product-field {
-    margin-bottom: 1.4rem;
-  }
+    #ProductInfo-{{ section.id }} .custom-product-options {
+      max-width: 32rem;
+      margin-top: 0.2rem;
+    }
 
-  #ProductInfo-{{ section.id }} .custom-location-radios {
-    margin-top: 1rem;
-  }
+    #ProductInfo-{{ section.id }} .custom-product-field {
+      margin-bottom: 1.4rem;
+    }
 
-  #ProductInfo-{{ section.id }} .product-form__buttons {
-    margin-top: 1.8rem;
-  }
-{%- endstyle -%}
+    #ProductInfo-{{ section.id }} .custom-location-radios {
+      margin-top: 1rem;
+    }
+
+    #ProductInfo-{{ section.id }} .product-form__buttons {
+      margin-top: 1.8rem;
+    }
+  {%- endstyle -%}
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
@@ -105,24 +105,55 @@
   <div class="page-width steamboat-edit-layout">
     <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col grid--2-col-tablet">
       <div class="grid_item product__media-wrapper">
-        {% if product.handle == 'steamboat-edit-blanca' 
+        {% if product.handle == 'steamboat-edit-blanca'
           or product.handle == 'steamboat-edit-negra'
           or product.handle == 'steamboat-edit-white'
-          or product.handle == 'steamboat-edit-black' %}
+          or product.handle == 'steamboat-edit-black'
+        %}
           {%- comment -%}
             PREVIEW PERSONALIZADO IZQUIERDO
-            -custom-left-mockup: mockup/base de la prenda
-            -custom-left-design: diseño seleccionado
+            - custom-left-mockup: mockup/base de la prenda
+            - custom-left-design: diseño seleccionado
           {%- endcomment -%}
           <div class="custom-left-gallery">
             <div id="custom-left-mockup-wrapper" class="custom-left-mockup-wrapper">
-              <img id="custom-left-mockup" class="custom-left-mockup" alt="Mockup de la prenda">
+              <img
+                id="custom-left-mockup"
+                class="custom-left-mockup"
+                alt="Mockup de la prenda"
+              >
             </div>
 
             <div id="custom-left-design-wrapper" class="custom-left-design-wrapper">
-              <img id="custom-left-design" class="custom-left-design" alt="Diseño seleccionado">
+              <img
+                id="custom-left-design"
+                class="custom-left-design"
+                alt="Diseño seleccionado"
+              >
             </div>
           </div>
+
+          {%- comment -%}
+            DATOS DEL PREVIEW DE STEAMBOAT EDIT
+            - designImages: mapa de diseño -> imagen PNG
+            - mockupMap: mapa color|ubicacion -> mockup base
+            Este bloque lo leerá steamboat-edit-preview.js
+          {%- endcomment -%}
+          <script type="application/json" id="SteamboatEditPreviewData">
+            {
+              "designs": {% render 'steamboat-edit-designs', mode: 'json' %},
+              "mockupMap": {
+                "Blanco|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.webp?v=1774024437",
+                "Blanco|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.webp?v=1774024437",
+                "Negro|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.webp?v=1774024437",
+                "Negro|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.webp?v=1774024437",
+                "White|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.webp?v=1774024437",
+                "White|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.webp?v=1774024437",
+                "Black|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.webp?v=1774024437",
+                "Black|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.webp?v=1774024437"
+              }
+            }
+            </script>
         {% else %}
           {% render 'product-media-gallery', variant_images: variant_images %}
         {% endif %}
