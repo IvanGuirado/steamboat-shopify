@@ -1,322 +1,265 @@
-/* Builder PC - camiseta personalizable */
-.custom-builder-layout {
-  margin-top: 2rem;
-}
+/* =========================================================
+   STEAMBOAT EDIT
+   CSS COMPLETO
+   Requiere contenedor:
+   <div class="page-width steamboat-edit-layout">
+   ========================================================= */
 
-.custom-builder-visual {
-  text-align: center;
-}
 
-.custom-builder-controls {
-  text-align: center;
-}
+/* =========================================================
+   CAMPOS Y CONTROLES
+   ========================================================= */
 
-.custom-product-label {
+.steamboat-edit-layout .custom-product-label {
   display: block;
   margin-bottom: 0.8rem;
   font-weight: 600;
   text-align: left;
 }
 
-.custom-location-option {
+.steamboat-edit-layout .custom-location-option {
   display: flex;
-  align-items: left;
+  align-items: flex-start;
   gap: 0.5rem;
   cursor: pointer;
 }
 
-.custom-location-option+.custom-location-option {
+.steamboat-edit-layout .custom-location-option + .custom-location-option {
   margin-top: 0.6rem;
 }
 
-.custom-location-option input[type='radio'] {
-  appearance: auto !important;
-  -webkit-appearance: radio !important;
-  opacity: 1 !important;
-  position: static !important;
-  pointer-events: auto !important;
-  width: 16px !important;
-  height: 16px !important;
-  margin: 0 !important;
-  clip: auto !important;
-  overflow: visible !important;
+.steamboat-edit-layout .custom-location-option input[type='radio'] {
+  appearance: auto;
+  -webkit-appearance: radio;
+  opacity: 1;
+  position: static;
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  clip: auto;
+  overflow: visible;
 }
 
-#custom-design {
+.steamboat-edit-layout #custom-design {
   display: block;
   width: 100%;
   max-width: 32rem;
-  margin: 0.8rem auto 0;
+  margin: 0.8rem 0 0;
   padding: 0.8rem;
   font: inherit;
   color: inherit;
 }
 
-#custom-design option {
+.steamboat-edit-layout #custom-design option {
   font-family: inherit;
 }
 
-.custom-personalizable-visual {
-  max-width: 52rem;
-  margin: 2rem auto 1.5rem;
-  text-align: left;
-}
-
-#mockup-preview-wrapper {
+.steamboat-edit-layout .custom-product-options {
   width: 100%;
-  max-width: 420px;
-  margin: 0 auto 1rem;
-  text-align: left;
-}
-
-#mockup-preview {
-  display: none;
-  width: 100%;
-  max-width: 420px;
-  height: auto;
-  margin: 0 auto;
-}
-
-#design-preview-wrapper {
-  margin-top: 0.8rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-#design-preview-image {
-  display: none;
-  width: 220px;
-  height: 220px;
-  margin: 0 auto;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-color: #fff;
-}
-
-.custom-product-options {
   max-width: 32rem;
   margin: 0 0 1.5rem;
   text-align: left;
 }
 
-.custom-product-field {
+.steamboat-edit-layout .custom-product-field {
   width: 100%;
-  margin: 0 auto 1.2rem;
+  margin: 0 0 1.2rem;
   text-align: left;
 }
 
-.custom-location-radios {
+.steamboat-edit-layout .custom-location-radios {
   display: inline-block;
   margin-top: 1rem;
   text-align: left;
 }
-.product {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  align-items: start;
-}
 
-.product__media-wrapper,
-.product__info-wrapper,
-.grid__item {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0;
-}
 
-.product__info-wrapper {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  margin-top: 0 !important;
-}
+/* =========================================================
+   PREVIEW IZQUIERDO
+   - mockup/base de la prenda
+   - diseño seleccionado
+   ========================================================= */
 
-.product__info-container {
-  max-width: 100% !important;
-}
-
-.product-form__buttons.personalizable {
-  max-width: 100%;
-  width: 44rem;
-  margin: 1.6rem 0 0;
-}
-
-.product-form__buttons.personalizable .product-form_submit.button--full-width {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
-  display: block ;
-}
-
-/* Columna izquierda personalizada */
-.custom-left-gallery {
+.steamboat-edit-layout .custom-left-gallery {
   width: 100%;
   max-width: 46rem;
   margin-right: auto;
 }
 
-#custom-left-mockup-wrapper {
+.steamboat-edit-layout .custom-left-mockup-wrapper,
+.steamboat-edit-layout .custom-left-design-wrapper,
+.steamboat-edit-layout #custom-left-mockup-wrapper,
+.steamboat-edit-layout #custom-left-design-wrapper {
   width: 100%;
+}
+
+.steamboat-edit-layout .custom-left-mockup-wrapper,
+.steamboat-edit-layout #custom-left-mockup-wrapper {
+  margin-bottom: 2rem;
   text-align: left;
-  margin-bottom: 2.5rem;
 }
 
-#custom-left-mockup {
-  width: 100%;
-  max-width: 500px;
-  height: auto;
-  margin: 0;
-}
-
-#custom-left-design-wrapper {
-  width: 100%;
+.steamboat-edit-layout .custom-left-design-wrapper,
+.steamboat-edit-layout #custom-left-design-wrapper {
+  margin-top: 0;
   text-align: left;
-  margin-top: 0.8rem;
-  padding-top: 0;
 }
 
-#custom-left-design {
-  width: 100%;
-  max-width: 46rem;
-  height: auto;
-  margin: 0;
-}
-
-#custom-left-mockup,
-#mockup-preview,
-#custom-left-design,
-#design-preview-image {
+.steamboat-edit-layout .custom-left-mockup,
+.steamboat-edit-layout #custom-left-mockup {
   display: none;
+  width: 100%;
+  max-width: 50rem;
+  height: auto;
+  margin: 0;
+}
+
+.steamboat-edit-layout .custom-left-design,
+.steamboat-edit-layout #custom-left-design {
+  display: none;
+  width: 100%;
+  max-width: 36rem;
+  height: auto;
+  margin: 0;
 }
 
 
-@media screen and (min-width: 990px) and (max-width: 1199px)  {
-  .custom-builder-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 32rem);
-    gap: 4rem;
-    align-items: start;
-  }
+/* =========================================================
+   LAYOUT GENERAL DESKTOP
+   ========================================================= */
 
-  .custom-builder-visual {
-    text-align: center;
-  }
+.steamboat-edit-layout .product {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  column-gap: 4rem;
+}
 
-  .custom-builder-controls {
-    text-align: center;
-  }
+.steamboat-edit-layout .product__media-wrapper,
+.steamboat-edit-layout .product__info-wrapper,
+.steamboat-edit-layout .grid__item {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
 
-  #mockup-preview-wrapper {
-    max-width: 500px;
-  }
+.steamboat-edit-layout .product__info-wrapper {
+  padding-left: 0;
+  padding-right: 0;
+  margin-top: 0;
+}
 
-  #mockup-preview {
-    max-width: 500px;
-  }
+.steamboat-edit-layout .product__info-container {
+  max-width: 100%;
+}
 
-  .product {
-    display: grid !important;
+.steamboat-edit-layout .product-form__buttons.personalizable {
+  width: 44rem;
+  max-width: 100%;
+  margin: 1.6rem 0 0;
+}
+
+.steamboat-edit-layout .product-form_buttons.personalizable .product-form_submit.button--full-width {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  display: block;
+}
+
+
+/* =========================================================
+   DESKTOP PEQUEÑO / TABLET GRANDE
+   990px a 1199px
+   ========================================================= */
+
+@media screen and (min-width: 990px) and (max-width: 1199px) {
+  .steamboat-edit-layout .product {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: start;
     column-gap: 5rem;
   }
 
-  .product__media-wrapper,
-  .product__info-wrapper,
-  .grid__item {
-    width: 100% !important;
-    max-width: 100% !important;
+  .steamboat-edit-layout .product__info-wrapper {
+    padding-left: 0;
+    margin-top: 0;
   }
 
-  .product__info-wrapper {
-    padding-left: 0 !important;
-    margin-top: 0 !important;
+  .steamboat-edit-layout .product__info-container {
+    max-width: 100%;
+    margin-top: 0;
+    padding-top: 0;
   }
 
-  .product__info-container {
-    max-width: 100% !important;
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-
-  .custom-left-gallery {
-    width: 100%;
+  .steamboat-edit-layout .custom-left-gallery {
     max-width: 38rem;
-    margin-right: auto;
   }
 
-  #custom-left-mockup-wrapper,
-  #custom-left-design-wrapper {
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
     width: 100%;
     max-width: 100%;
   }
 
-  #custom-left-mockup {
+  .steamboat-edit-layout .custom-left-mockup,
+  .steamboat-edit-layout #custom-left-mockup {
     width: 100%;
     max-width: 100%;
     height: auto;
   }
 
-  #custom-left-design {
+  .steamboat-edit-layout .custom-left-design,
+  .steamboat-edit-layout #custom-left-design {
     width: 100%;
     max-width: 100%;
     height: auto;
   }
 
-  #custom-left-design-wrapper {
-    width: 100%;
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
     max-width: 38rem;
-    margin: 1.2rem 0 0 0;
+    margin: 1.2rem 0 0;
     text-align: center;
     overflow: hidden;
   }
 
-  .product-form__buttons.personalizable {
-    max-width: 32rem;
+  .steamboat-edit-layout .product-form__buttons.personalizable {
     width: 32rem;
+    max-width: 32rem;
     margin: 1.6rem 0 0;
-  }
-
-  .product-form__buttons.personalizable .product-form_submit.button--full-width {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    display: block ;
   }
 }
 
+
+/* =========================================================
+   TABLET
+   750px a 989px
+   ========================================================= */
+
 @media screen and (min-width: 750px) and (max-width: 989px) {
-  .product {
-    display: grid !important;
+  .steamboat-edit-layout .product {
     grid-template-columns: minmax(0, 50%) minmax(0, 50%);
-    align-items: start;
     column-gap: 6rem;
   }
 
-  .product__media-wrapper,
-  .product__info-wrapper,
-  .grid__item {
-    width: 100% !important;
-    max-width: 100% !important;
+  .steamboat-edit-layout .product__media-wrapper {
+    padding-right: 1rem;
   }
 
-  .product__media-wrapper {
-    padding-right: 1rem !important;
+  .steamboat-edit-layout .product__info-wrapper {
+    padding-left: 2.4rem;
+    padding-right: 0;
+    margin-top: 1rem;
   }
 
-  .product__info-wrapper {
-    padding-left: 2.4rem !important;
-    margin-top: 1rem !important;
-  }
-
-  .product__info-container {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
+  .steamboat-edit-layout .product__info-container {
+    margin-top: 0;
+    padding-top: 0;
     max-width: 100%;
-    ;
   }
 
-  .custom-left-gallery {
+  .steamboat-edit-layout .custom-left-gallery {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -324,198 +267,259 @@
     max-width: 100%;
   }
 
-  #custom-left-mockup-wrapper {
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
     width: 100%;
     max-width: 100%;
-    margin: 0 0 2.4rem 0;
     text-align: left;
   }
 
-  #custom-left-mockup {
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper {
+    margin: 0 0 2.4rem;
+  }
+
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    margin: 0;
+  }
+
+  .steamboat-edit-layout .custom-left-mockup,
+  .steamboat-edit-layout #custom-left-mockup {
     width: 100%;
     max-width: 100%;
     height: auto;
     margin: 0;
   }
 
-  #custom-left-design-wrapper {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    text-align: left;
-  }
-
-  #custom-left-design {
+  .steamboat-edit-layout .custom-left-design,
+  .steamboat-edit-layout #custom-left-design {
     width: 100%;
     max-width: 100%;
     height: auto;
     margin: 0;
   }
 
-  .custom-product-options,
-  .product-form__buttons,
-  .product-form__quantity {
+  .steamboat-edit-layout .custom-product-options,
+  .steamboat-edit-layout .product-form__buttons,
+  .steamboat-edit-layout .product-form__quantity {
     max-width: 32rem;
   }
 
-  .product-form__submit,
-  #custom-design {
+  .steamboat-edit-layout #custom-design,
+  .steamboat-edit-layout .product-form__submit {
     width: 100%;
   }
+
+  .steamboat-edit-layout .product-form__buttons.personalizable {
+    width: 100%;
+    max-width: 32rem;
+    margin: 1.6rem 0 0;
+  }
 }
+
+
+/* =========================================================
+   MÓVIL GRANDE / TABLET PEQUEÑA
+   480px a 749px
+   ========================================================= */
 
 @media screen and (min-width: 480px) and (max-width: 749px) {
-  .product {
-    display: flex !important;
-    flex-direction: column !important;
+  .steamboat-edit-layout .product {
+    display: flex;
+    flex-direction: column;
   }
 
-  .product__media-wrapper,
-  .product__info-wrapper,
-  .grid__item {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .product__info-wrapper {
-    padding-left: 0 !important;
-    margin-top: 2rem !important;
-  }
-
-  .custom-left-gallery,
-  #custom-left-mockup-wrapper,
-  #custom-left-design-wrapper,
-  #mockup-preview-wrapper,
-  #design-preview-wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 auto 1.6rem auto !important;
-    text-align: center !important;
-  }
-
-  #custom-left-mockup,
-  #mockup-preview {
-    width: 100% !important;
-    max-width: clamp(28rem, 60vw, 35rem) !important;
-    height: auto !important;
-    margin: 0 auto !important;
-  }
-
-  #custom-left-design,
-  #design-preview-image {
-    width: 100% !important;
-    max-width: clamp(24rem, 60vw, 35rem) !important;
-    height: auto !important;
-    margin: 0 auto !important;
-  }
-
-  #design-preview-image {
-    display: block;
-  }
-
-  .custom-product-options {
-    max-width: 25rem;
-    margin: 0 0 1.5rem 0 !important;
-    text-align: left !important;
-  }
-
-  .custom-product-field {
+  .steamboat-edit-layout .product__media-wrapper,
+  .steamboat-edit-layout .product__info-wrapper,
+  .steamboat-edit-layout .grid__item,
+  .steamboat-edit-layout .product__info-container {
     width: 100%;
-    margin: 0 0 1.2rem 0 !important;
-    text-align: left !important;
+    max-width: 100%;
   }
 
-  .custom-product-label {
-    text-align: left !important;
+  .steamboat-edit-layout .product__info-wrapper {
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 2rem;
   }
 
-  .custom-location-radios {
-    display: block;
-    margin-top: 1rem;
-    text-align: left !important;
-  }
-
-  #custom-design {
-    display: block;
+  .steamboat-edit-layout .custom-left-gallery,
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
     width: 100%;
-    max-width: 25rem;
-    margin: 0.8rem 0 0 !important;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
   }
 
-  .product__info-container .product-form {
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper {
+    margin-bottom: 1.6rem;
+  }
+
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    margin-bottom: 1.6rem;
+  }
+
+  .steamboat-edit-layout .custom-left-mockup,
+  .steamboat-edit-layout #custom-left-mockup {
     width: 100%;
-    max-width: 25rem;
-    margin: 0 !important;
+    max-width: 42rem;
+    height: auto;
+    margin: 0 auto;
   }
 
-  .product__info-container .product-form{
-    width:100%;
-    max-width:100%;
-    margin: 0 !important;
-  }
-  .product-form__buttons.personalizable {
+  .steamboat-edit-layout .custom-left-design,
+  .steamboat-edit-layout #custom-left-design {
     width: 100%;
-    max-width: 25rem;
-    margin: 1.6rem auto 0 !important;
+    max-width: 28rem;
+    height: auto;
+    margin: 0 auto;
   }
 
-  .product-form_buttons.personalizable .product-form_submit.button--full-width {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
+  .steamboat-edit-layout .custom-product-options,
+  .steamboat-edit-layout .custom-product-field,
+  .steamboat-edit-layout .product__info-container .product-form,
+  .steamboat-edit-layout .product-form__buttons.personalizable,
+  .steamboat-edit-layout #custom-design {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .steamboat-edit-layout .custom-product-options {
+    margin: 0 0 1.5rem;
+    text-align: left;
+  }
+
+  .steamboat-edit-layout .custom-product-field {
+    margin: 0 0 1.2rem;
+    text-align: left;
+  }
+
+  .steamboat-edit-layout .custom-product-label,
+  .steamboat-edit-layout .custom-location-radios {
+    text-align: left;
+  }
+
+  .steamboat-edit-layout #custom-design {
+    margin: 0.8rem 0 0;
+  }
+
+  .steamboat-edit-layout .product__info-container .product-form {
+    margin: 0;
+  }
+
+  .steamboat-edit-layout .product-form__buttons.personalizable {
+    margin: 1.6rem 0 0;
   }
 }
+
+
+/* =========================================================
+   MÓVIL PEQUEÑO
+   hasta 479px
+   ========================================================= */
+
 @media screen and (max-width: 479px) {
-  .product {
-    display: flex !important;
-    flex-direction: column !important;
+  .steamboat-edit-layout .product {
+    display: flex;
+    flex-direction: column;
   }
 
-  .product__media-wrapper,
-  .product__info-wrapper,
-  .grid__item {
-    width: 100% !important;
-    max-width: 100% !important;
+  .steamboat-edit-layout .product__media-wrapper,
+  .steamboat-edit-layout .product__info-wrapper,
+  .steamboat-edit-layout .grid__item,
+  .steamboat-edit-layout .product__info-container {
+    width: 100%;
+    max-width: 100%;
   }
 
-  .product__info-wrapper {
-    padding-left: 0 !important;
-    margin-top: 2rem !important;
+  .steamboat-edit-layout .product__info-wrapper {
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 2rem;
   }
 
-  .custom-left-gallery,
-  #custom-left-mockup-wrapper,
-  #custom-left-design-wrapper,
-  #mockup-preview-wrapper,
-  #design-preview-wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 auto 1.6rem auto !important;
-    text-align: center !important;
+  .steamboat-edit-layout .custom-left-gallery,
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
   }
 
-  #custom-left-mockup,
-  #mockup-preview {
-    width: 100% !important;
-    max-width: clamp(28rem, 60vw, 35rem) !important;
-    height: auto !important;
-    margin: 0 auto !important;
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper {
+    margin-bottom: 1.6rem;
   }
 
-  #custom-left-design,
-  #design-preview-image {
-    width: 100% !important;
-    max-width: clamp(24rem, 60vw, 35rem) !important;
-    height: auto !important;
-    margin: 0 auto !important;
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    margin-bottom: 1.6rem;
   }
 
-  #design-preview-image {
-    display: block;
+  .steamboat-edit-layout .custom-left-mockup,
+  .steamboat-edit-layout #custom-left-mockup {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
   }
-  .product-form__buttons.personalizable {
+
+  .steamboat-edit-layout .custom-left-design,
+  .steamboat-edit-layout #custom-left-design {
+    width: 100%;
+    max-width: 26rem;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .steamboat-edit-layout .custom-product-options,
+  .steamboat-edit-layout .custom-product-field,
+  .steamboat-edit-layout .product__info-container .product-form,
+  .steamboat-edit-layout .product-form__buttons.personalizable,
+  .steamboat-edit-layout #custom-design {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .steamboat-edit-layout .custom-product-options {
+    margin: 0 0 1.5rem;
+    text-align: left;
+  }
+
+  .steamboat-edit-layout .custom-product-field {
+    margin: 0 0 1.2rem;
+    text-align: left;
+  }
+
+  .steamboat-edit-layout .custom-product-label,
+  .steamboat-edit-layout .custom-location-radios {
+    text-align: left;
+  }
+
+  .steamboat-edit-layout #custom-design {
+    margin: 0.8rem 0 0;
+  }
+
+  .steamboat-edit-layout .product__info-container .product-form {
+    margin: 0;
+  }
+
+  .steamboat-edit-layout .product-form__buttons.personalizable {
     max-width: 100%;
     width: 100%;
     margin: 1.6rem 0 0;
-}
+  }
 }

@@ -73,8 +73,8 @@
                 <label class="custom-location-option">
                   <input
                     type="radio"
-                    name="properties[{{ 'configura_prenda.placement' | t }}]"
-                    value="{{ 'configura_prenda.front' | t }}"
+                    name="properties[placement]"
+                    value="front"
                     data-placement-value="front"
                     required
                     checked
@@ -85,8 +85,8 @@
                 <label class="custom-location-option">
                   <input
                     type="radio"
-                    name="properties[{{ 'configura_prenda.placement' | t }}]"
-                    value="{{ 'configura_prenda.back' | t }}"
+                    name="properties[placement]"
+                    value="back"
                     data-placement-value="back"
                     required
                   >
@@ -97,333 +97,29 @@
 
             <div class="custom-product-field custom-design-field">
               <label for="custom-design" class="custom-product-label">{{ 'configura_prenda.design' | t }}</label>
-              <select id="custom-design" name="properties[{{ 'configura_prenda.design' | t }}]" required>
+              <select id="custom-design" name="properties[design]" required>
                 <option value="">{{ 'configura_prenda.select_design' | t }}</option>
-                <option value="Pa amb Sobrassada" data-design-key="pa_amb_sobrassada">Pa amb Sobrassada</option>
-                <option value="Yokai" data-design-key="yokai">Yokai</option>
-                <option value="Zoltar" data-design-key="zoltar">Zoltar</option>
-                <option value="Manzana Maldita" data-design-key="manzana_maldita">Manzana Maldita</option>
-                <option value="El vigilante" data-design-key="el_vigilante">El vigilante</option>
-                <option value="Niña Calabaza" data-design-key="nina_calabaza">Niña Calabaza</option>
-                <option value="Dead Tide" data-design-key="dead_tide">Dead Tide</option>
-                <option value="Steamboat" data-design-key="steamboat">Steamboat</option>
-                <option value="Sunset Octopus" data-design-key="sunset_octopus">Sunset Octopus</option>
-                <option value="Beach Break" data-design-key="beach_break">Beach Break</option>
-                <option value="Ice-Scream" data-design-key="ice_scream">Ice-Scream</option>
-                <option value="Honey Bones" data-design-key="honey_bones">Honey Bones</option>
-                <option value="Moon Surfers" data-design-key="moon_surfers">Moon Surfers</option>
-                <option value="Skull Mermaid" data-design-key="skull_mermaid">Skull Mermaid</option>
-                <option value="Night Blooms" data-design-key="night_blooms">Night Blooms</option>
-                <option value="Steam Dragon" data-design-key="steam_dragon">Steam Dragon</option>
-                <option value="Eolo" data-design-key="eolo">Eolo</option>
-                {% comment %} <option value="Això és mel" data-design-key="aixo_es_mel">Això és mel</option> {% endcomment %}
+                <option value="pa_amb_sobrassada" data-design-key="pa_amb_sobrassada">Pa amb Sobrassada</option>
+                <option value="yokai" data-design-key="yokai">Yokai</option>
+                <option value="zoltar" data-design-key="zoltar">Zoltar</option>
+                <option value="manzana_maldita" data-design-key="manzana_maldita">Manzana Maldita</option>
+                <option value="el_vigilante" data-design-key="el_vigilante">El vigilante</option>
+                <option value="nina_calabaza" data-design-key="nina_calabaza">Niña Calabaza</option>
+                <option value="dead_tide" data-design-key="dead_tide">Dead Tide</option>
+                <option value="steamboat" data-design-key="steamboat">Steamboat</option>
+                <option value="sunset_octopus" data-design-key="sunset_octopus">Sunset Octopus</option>
+                <option value="beach_break" data-design-key="beach_break">Beach Break</option>
+                <option value="ice_scream" data-design-key="ice_scream">Ice-Scream</option>
+                <option value="honey_bones" data-design-key="honey_bones">Honey Bones</option>
+                <option value="moon_surfers" data-design-key="moon_surfers">Moon Surfers</option>
+                <option value="skull_mermaid" data-design-key="skull_mermaid">Skull Mermaid</option>
+                <option value="night_blooms" data-design-key="night_blooms">Night Blooms</option>
+                <option value="steam_dragon" data-design-key="steam_dragon">Steam Dragon</option>
+                <option value="eolo" data-design-key="eolo">Eolo</option>
               </select>
             </div>
           </div>
 
-          <script>
-            document.addEventListener('DOMContentLoaded', function () {
-              const params = new URLSearchParams(window.location.search);
-
-              const tallaFromUrl = params.get('talla');
-              const ubicacionFromUrl = params.get('ubicacion');
-              const designFromUrl = params.get('diseno');
-
-              const designSelect = document.getElementById('custom-design');
-              const leftDesign = document.getElementById('custom-left-design');
-              const designPreviewImage = document.getElementById('design-preview-image');
-
-              const designImages = {
-                pa_amb_sobrassada:
-                  'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Pa_amb_sobrassada.png?v=1773930526',
-                yokai: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Yokai.png?v=1773931299',
-                zoltar: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Zoltar.png?v=1773930797',
-                manzana_maldita:
-                  'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Manzana_Maldita.png?v=1773930849',
-                el_vigilante: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/El_vigilante.png?v=1773930605',
-                nina_calabaza: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Ni_a_Calabaza.png?v=1773930825',
-                dead_tide: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Dead_Tide.png?v=1774285550',
-                steamboat: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Steamboat.png?v=1773930493',
-                sunset_octopus: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Octosurf.png?v=1773930969',
-                beach_break: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Melting-ice.png?v=1773931002',
-                ice_scream: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/ice-scream.png?v=1773930659',
-                honey_bones: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Spring_bees.png?v=1773930580',
-                moon_surfers: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Moon_surfers.png?v=1773930711',
-                skull_mermaid: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Skull_mermaid.png?v=1773931024',
-                night_blooms: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/night_bloom.png?v=1773930752',
-                steam_dragon: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/white-dragon.png?v=1773930778',
-                eolo: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/eolo.png?v=1773930926',
-                {% comment %} aixo_es_mel: 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/aixo_es_mel.png?v=1774285600', {% endcomment %}
-              };
-
-              function normalizeText(text) {
-                return (text || '')
-                  .normalize('NFD')
-                  .replace(/[\u0300-\u036f]/g, '')
-                  .trim()
-                  .toLowerCase();
-              }
-
-              function getSelectedTalla() {
-                const checkedPill = document.querySelector('.product-form__input--pill input[type="radio"]:checked');
-                return checkedPill ? checkedPill.value.trim() : '';
-              }
-
-              function getSelectedUbicacion() {
-                const checked = document.querySelector('input[data-placement-value]:checked');
-                return checked ? checked.getAttribute('data-placement-value').trim() : '';
-              }
-
-              function getSelectedDiseno() {
-                if (!designSelect) return '';
-                const selectedOption = designSelect.options[designSelect.selectedIndex];
-                return selectedOption ? (selectedOption.getAttribute('data-design-key') || '').trim() : '';
-              }
-
-              function updateColorLinks() {
-                const colorLinks = document.querySelectorAll('.js-color-link');
-                const talla = getSelectedTalla();
-                const ubicacion = getSelectedUbicacion();
-                const diseno = getSelectedDiseno();
-
-                colorLinks.forEach(function (link) {
-                  const baseUrl = link.getAttribute('data-base-url');
-                  if (!baseUrl) return;
-
-                  const url = new URL(baseUrl, window.location.origin);
-
-                  if (talla) url.searchParams.set('talla', talla);
-                  if (ubicacion) url.searchParams.set('ubicacion', ubicacion);
-                  if (diseno) url.searchParams.set('diseno', diseno);
-
-                  link.href = url.pathname + url.search;
-                });
-              }
-
-              function updatePreview(selectedDesign) {
-                if (!leftDesign) return;
-
-                const imageUrl = designImages[selectedDesign];
-
-                if (!imageUrl) {
-                  leftDesign.src = '';
-                  leftDesign.style.display = 'none';
-                  leftDesign.alt = '';
-                  updateColorLinks();
-                  return;
-                }
-
-                const tempImg = new Image();
-
-                tempImg.onload = function () {
-                  leftDesign.src = imageUrl;
-                  leftDesign.alt = selectedDesign;
-                  leftDesign.style.display = 'block';
-                };
-
-                tempImg.onerror = function () {
-                  console.log('No se pudo cargar el diseño:', imageUrl);
-                  leftDesign.src = '';
-                  leftDesign.alt = '';
-                  leftDesign.style.display = 'none';
-                };
-
-                tempImg.src = imageUrl;
-                updateColorLinks();
-              }
-
-              function applyTallaFromUrl() {
-                if (!tallaFromUrl) return;
-
-                const tallaInputs = document.querySelectorAll('.product-form__input--pill input[type="radio"]');
-
-                tallaInputs.forEach(function (input) {
-                  if (normalizeText(input.value) === normalizeText(tallaFromUrl)) {
-                    input.checked = true;
-                    input.dispatchEvent(new Event('change', { bubbles: true }));
-                  }
-                });
-              }
-
-              function applyUbicacionFromUrl() {
-                if (!ubicacionFromUrl) return;
-
-                const ubicacionInputs = document.querySelectorAll('input[data-placement-value]');
-
-                ubicacionInputs.forEach(function (input) {
-                  const technicalValue = input.getAttribute('data-placement-value') || '';
-                  if (normalizeText(technicalValue) === normalizeText(ubicacionFromUrl)) {
-                    input.checked = true;
-                    input.dispatchEvent(new Event('change', { bubbles: true }));
-                  }
-                });
-              }
-
-              function applyDesignFromUrl() {
-                if (!designFromUrl || !designSelect) return;
-
-                for (const option of designSelect.options) {
-                  const technicalValue = option.getAttribute('data-design-key') || '';
-                  if (normalizeText(technicalValue) === normalizeText(designFromUrl)) {
-                    designSelect.value = option.value;
-                    break;
-                  }
-                }
-              }
-
-              function syncUrlWithSelections() {
-                const cleanBaseUrl = window.location.origin + window.location.pathname;
-                const url = new URL(cleanBaseUrl);
-
-                const talla = getSelectedTalla();
-                const ubicacion = getSelectedUbicacion();
-                const diseno = getSelectedDiseno();
-
-                if (talla) url.searchParams.set('talla', talla);
-                if (ubicacion) url.searchParams.set('ubicacion', ubicacion);
-                if (diseno) url.searchParams.set('diseno', diseno);
-
-                window.history.replaceState({}, '', url.toString());
-                updateColorLinks();
-              }
-
-              applyTallaFromUrl();
-              applyUbicacionFromUrl();
-              applyDesignFromUrl();
-
-              if (designSelect) {
-                updatePreview(getSelectedDiseno());
-
-                designSelect.addEventListener('change', function () {
-                  updatePreview(getSelectedDiseno());
-                  syncUrlWithSelections();
-                });
-              }
-
-              document.addEventListener('change', function (event) {
-                const target = event.target;
-                if (!target) return;
-
-                if (
-                  target.matches('.product-form__input--pill input[type="radio"]') ||
-                  target.matches('input[data-placement-value]')
-                ) {
-                  syncUrlWithSelections();
-                }
-              });
-
-              updateColorLinks();
-            });
-          </script>
-
-          <script>
-            (function () {
-              const mockupMap = {
-                'Blanco|front':
-                  'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.webp?v=1774024437',
-                'Blanco|back':
-                  'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.webp?v=1774024437',
-                'Negro|front':
-                  'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.webp?v=1774024437',
-                'Negro|back':
-                  'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.webp?v=1774024437',
-                'White|front':
-                  'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.webp?v=1774024437',
-                'White|back':
-                  'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.webp?v=1774024437',
-                'Black|front':
-                  'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.webp?v=1774024437',
-                'Black|back':
-                  'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.webp?v=1774024437',
-              };
-
-              function getSelectedUbicacionMockup() {
-                const checked = document.querySelector('input[data-placement-value]:checked');
-                return checked ? checked.getAttribute('data-placement-value').trim() : 'front';
-              }
-
-              function getSelectedColorMockup() {
-                const checkedRadios = document.querySelectorAll('input[type="radio"]:checked');
-
-                for (const radio of checkedRadios) {
-                  const value = (radio.value || '').trim();
-                  if (value === 'Blanco' || value === 'Negro' || value === 'White' || value === 'Black') return value;
-                }
-
-                const selectedSpans = document.querySelectorAll('[data-selected-value]');
-                for (const span of selectedSpans) {
-                  const value = (span.textContent || '').trim();
-                  if (value === 'Blanco' || value === 'Negro' || value === 'White' || value === 'Black') return value;
-                }
-
-                const selects = document.querySelectorAll('select');
-                for (const select of selects) {
-                  const value = (select.value || '').trim();
-                  if (value === 'Blanco' || value === 'Negro' || value === 'White' || value === 'Black') return value;
-                }
-
-                return 'White';
-              }
-
-              const leftMockup = document.getElementById('custom-left-mockup');
-              const mockupPreview = document.getElementById('mockup-preview');
-
-              function setMockupImage(url) {
-                if (!url) return;
-
-                if (leftMockup) leftMockup.style.display = 'none';
-                if (mockupPreview) mockupPreview.style.display = 'none';
-
-                const tempImg = new Image();
-
-                tempImg.onload = function () {
-                  if (leftMockup) {
-                    leftMockup.src = url;
-                    leftMockup.style.display = 'block';
-                  }
-
-                  if (mockupPreview) {
-                    mockupPreview.src = url;
-                    mockupPreview.style.display = 'block';
-                  }
-                };
-
-                tempImg.onerror = function () {
-                  console.log('No se pudo cargar el mockup:', url);
-                };
-
-                tempImg.src = url;
-              }
-
-              function updateMockupOnly() {
-                try {
-                  const color = getSelectedColorMockup();
-                  const ubicacion = getSelectedUbicacionMockup();
-                  const key = color + '|' + ubicacion;
-                  const imageUrl = mockupMap[key];
-
-                  if (!imageUrl) return;
-
-                  setMockupImage(imageUrl);
-                } catch (error) {
-                  console.log('Mockup preview error:', error);
-                }
-              }
-
-              window.addEventListener('load', function () {
-                updateMockupOnly();
-
-                document.addEventListener('change', function (event) {
-                  const target = event.target;
-                  if (!target) return;
-
-                  if (target.matches('input[type="radio"]') || target.matches('select')) {
-                    setTimeout(updateMockupOnly, 50);
-                  }
-                });
-              });
-            })();
-          </script>
         {% endif %}
         <div class="product-form__buttons personalizable">
           {%- liquid
@@ -480,7 +176,7 @@
   {%- endif -%}
 
   {% comment %} {%- if show_pickup_availability -%} {% endcomment %}
-    {%- if false-%}
+  {%- if false -%}
     {{ 'component-pickup-availability.css' | asset_url | stylesheet_tag }}
 
     {%- assign pick_up_availabilities = product.selected_or_first_available_variant.store_availabilities

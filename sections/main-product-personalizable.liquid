@@ -69,6 +69,7 @@
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'steamboat-edit-preview.js' | asset_url }}" defer="defer"></script>
   {%- if product.quantity_price_breaks_configured? -%}
     <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
@@ -101,20 +102,25 @@
   {%- endif -%}
 
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
-  <div class="page-width">
+  <div class="page-width steamboat-edit-layout">
     <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col grid--2-col-tablet">
       <div class="grid_item product__media-wrapper">
         {% if product.handle == 'steamboat-edit-blanca' 
           or product.handle == 'steamboat-edit-negra'
           or product.handle == 'steamboat-edit-white'
           or product.handle == 'steamboat-edit-black' %}
+          {%- comment -%}
+            PREVIEW PERSONALIZADO IZQUIERDO
+            -custom-left-mockup: mockup/base de la prenda
+            -custom-left-design: diseño seleccionado
+          {%- endcomment -%}
           <div class="custom-left-gallery">
-            <div id="custom-left-mockup-wrapper">
-              <img id="custom-left-mockup"  alt="Mockup de la camiseta personalizada">
+            <div id="custom-left-mockup-wrapper" class="custom-left-mockup-wrapper">
+              <img id="custom-left-mockup" class="custom-left-mockup" alt="Mockup de la prenda">
             </div>
 
-            <div id="custom-left-design-wrapper">
-              <img id="custom-left-design"  alt="Diseño seleccionado">
+            <div id="custom-left-design-wrapper" class="custom-left-design-wrapper">
+              <img id="custom-left-design" class="custom-left-design" alt="Diseño seleccionado">
             </div>
           </div>
         {% else %}
