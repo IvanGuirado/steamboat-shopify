@@ -5,172 +5,172 @@
 {%- endcomment -%}
 
 {%- style -%}
-          .section-{{ section.id }}-padding {
-            padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-            padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-          }
-
-          @media screen and (min-width: 750px) {
             .section-{{ section.id }}-padding {
-              padding-top: {{ section.settings.padding_top }}px;
-              padding-bottom: {{ section.settings.padding_bottom }}px;
+              padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+              padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
             }
-          }
-      /* =========================================================
-         REJILLA GENERAL DE DISEÑOS
-         - 3 columnas en escritorio
-         - separaciones horizontales y verticales
-         ========================================================= */
-      .steamboat-edit-designs-grid__items {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 3rem 3rem;
-      }
 
-      /* =========================================================
-         TARJETA INDIVIDUAL
-         - apila imagen, título y enlace en columna
-         - centra el contenido
-         ========================================================= */
-      .steamboat-edit-designs-grid__item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-
-      /* =========================================================
-         CONTENEDOR DE LA IMAGEN
-         - reserva una altura mínima uniforme
-         - así las tarjetas arrancan más alineadas
-         - centra la imagen dentro del espacio
-         ========================================================= */
-      .steamboat-edit-designs-grid__image-wrap {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        min-height: 28rem;
-        margin-bottom: 0.8rem;
-        text-decoration: none;
-      }
-
-      /* =========================================================
-         IMAGEN DEL DISEÑO
-         - ancho flexible
-         - altura máxima uniforme
-         - object-fit contain para no recortar
-         ========================================================= */
-      .steamboat-edit-designs-grid__image {
-        display: block;
-        width: 100%;
-        max-width: 28rem;
-        max-height: 28rem;
-        height: auto;
-        object-fit: contain;
-        margin: 0 auto;
-      }
-
-      /* =========================================================
-         NOMBRE DEL DISEÑO
-         - altura mínima para alinear títulos
-         - centra vertical y horizontalmente
-         ========================================================= */
-      .steamboat-edit-designs-grid__name {
-        margin: 0 0 0.8rem;
-        min-height: 4.4rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      /* =========================================================
-         ENLACE "ELEGIR DISEÑO"
-         ========================================================= */
-      .steamboat-edit-designs-grid__link {
-        display: inline-block;
-        text-decoration: none;
-      }
-      .steamboat-edit-designs-grid__link .svg-wrapper,
-      .steamboat-edit-designs-grid__link svg{
-        margin-left: 0.6rem;
-      }
-
-      /* =========================================================
-       HOVER SUAVE EN LAS TARJETAS
-       - pequeño movimiento de imagen
-       - nombre y enlace responden
-       ========================================================= */
-
-    /* transición general */
-    .steamboat-edit-designs-grid__image,
-  .steamboat-edit-designs-grid__link .svg-wrapper,
-  .steamboat-edit-designs-grid__link svg {
-    transition: transform 0.25s ease;
-  }
-
-    /* al pasar por la tarjeta */
-    .steamboat-edit-designs-grid_item:hover .steamboat-edit-designs-grid_image {
-      transform: translateY(-4px);
-    }
-
-    /* mueve un poco la flecha */
-    .steamboat-edit-designs-grid_item:hover .steamboat-edit-designs-grid_link .svg-wrapper,
-    .steamboat-edit-designs-grid_item:hover .steamboat-edit-designs-grid_link svg {
-      transform: translateX(4px);
-    }
-
-      /* =========================================================
-         TABLET Y PANTALLAS MEDIAS
-         - pasa a 2 columnas
-         - reduce altura reservada para imágenes
-         ========================================================= */
-      @media screen and (max-width: 989px) {
+            @media screen and (min-width: 750px) {
+              .section-{{ section.id }}-padding {
+                padding-top: {{ section.settings.padding_top }}px;
+                padding-bottom: {{ section.settings.padding_bottom }}px;
+              }
+            }
+        /* =========================================================
+           REJILLA GENERAL DE DISEÑOS
+           - 3 columnas en escritorio
+           - separaciones horizontales y verticales
+           ========================================================= */
         .steamboat-edit-designs-grid__items {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 2.4rem 2rem;
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 3rem 3rem;
         }
 
+        /* =========================================================
+           TARJETA INDIVIDUAL
+           - apila imagen, título y enlace en columna
+           - centra el contenido
+           ========================================================= */
+        .steamboat-edit-designs-grid__item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+
+        /* =========================================================
+           CONTENEDOR DE LA IMAGEN
+           - reserva una altura mínima uniforme
+           - así las tarjetas arrancan más alineadas
+           - centra la imagen dentro del espacio
+           ========================================================= */
         .steamboat-edit-designs-grid__image-wrap {
-          min-height: 26rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          min-height: 28rem;
+          margin-bottom: 0.8rem;
+          text-decoration: none;
         }
 
+        /* =========================================================
+           IMAGEN DEL DISEÑO
+           - ancho flexible
+           - altura máxima uniforme
+           - object-fit contain para no recortar
+           ========================================================= */
         .steamboat-edit-designs-grid__image {
-          max-height: 26rem;
-        }
-      }
-
-      /* =========================================================
-         MÓVIL
-         - mantiene 2 columnas
-         - reduce más la altura de la caja de imagen
-         - baja la altura mínima del título
-         ========================================================= */
-      @media screen and (max-width: 749px) {
-        .steamboat-edit-designs-grid__items {
-          grid-template-columns: 1fr;
-          gap: 3rem;
-        }
-         .steamboat-edit-designs-grid__title {
-          margin-bottom: 1.6rem;
+          display: block;
+          width: 100%;
+          max-width: 28rem;
+          max-height: 28rem;
+          height: auto;
+          object-fit: contain;
+          margin: 0 auto;
         }
 
-        .steamboat-edit-designs-grid__image-wrap {
-          min-height: 20rem;
-        }
-
-        .steamboat-edit-designs-grid__image {
-          max-width: 100%;
-          max-height: 20rem;
-        }
-
+        /* =========================================================
+           NOMBRE DEL DISEÑO
+           - altura mínima para alinear títulos
+           - centra vertical y horizontalmente
+           ========================================================= */
         .steamboat-edit-designs-grid__name {
-          min-height: auto;
+          margin: 0 0 0.8rem;
+          min-height: 4.4rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
+
+        /* =========================================================
+           ENLACE "ELEGIR DISEÑO"
+           ========================================================= */
         .steamboat-edit-designs-grid__link {
-          margin-bottom: 0.4rem;
+          display: inline-block;
+          text-decoration: none;
         }
+        .steamboat-edit-designs-grid__link .svg-wrapper,
+        .steamboat-edit-designs-grid__link svg{
+          margin-left: 0.6rem;
+        }
+
+        /* =========================================================
+         HOVER SUAVE EN LAS TARJETAS
+         - pequeño movimiento de imagen
+         - nombre y enlace responden
+         ========================================================= */
+
+      /* transición general */
+      .steamboat-edit-designs-grid__image,
+    .steamboat-edit-designs-grid__link .svg-wrapper,
+    .steamboat-edit-designs-grid__link svg {
+      transition: transform 0.25s ease;
+    }
+
+      /* al pasar por la tarjeta */
+      .steamboat-edit-designs-grid_item:hover .steamboat-edit-designs-grid_image {
+        transform: translateY(-4px);
       }
+
+      /* mueve un poco la flecha */
+      .steamboat-edit-designs-grid_item:hover .steamboat-edit-designs-grid_link .svg-wrapper,
+      .steamboat-edit-designs-grid_item:hover .steamboat-edit-designs-grid_link svg {
+        transform: translateX(4px);
+      }
+
+        /* =========================================================
+           TABLET Y PANTALLAS MEDIAS
+           - pasa a 2 columnas
+           - reduce altura reservada para imágenes
+           ========================================================= */
+        @media screen and (max-width: 989px) {
+          .steamboat-edit-designs-grid__items {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 2.4rem 2rem;
+          }
+
+          .steamboat-edit-designs-grid__image-wrap {
+            min-height: 26rem;
+          }
+
+          .steamboat-edit-designs-grid__image {
+            max-height: 26rem;
+          }
+        }
+
+        /* =========================================================
+           MÓVIL
+           - mantiene 1 columna
+           - reduce más la altura de la caja de imagen
+           - baja la altura mínima del título
+           ========================================================= */
+
+  @media screen and (max-width: 749px) {
+    .steamboat-edit-designs-grid__items {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .steamboat-edit-designs-grid__image-wrap {
+      min-height: 28rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .steamboat-edit-designs-grid__image {
+      width: 100%;
+      max-width: 32rem;
+      max-height: 28rem;
+      height: auto;
+      margin: 0 auto;
+    }
+
+    .steamboat-edit-designs-grid__name {
+      min-height: auto;
+      margin: 0 0 0.4rem;
+    }
+  }
 {%- endstyle -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">

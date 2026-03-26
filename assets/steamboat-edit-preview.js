@@ -42,6 +42,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const leftDesign = document.getElementById('custom-left-design');
     const mockupPreview = document.getElementById('mockup-preview');
     const leftMockup = document.getElementById('custom-left-mockup');
+    const summaryColor = document.getElementById('custom-summary-color');
+    const summaryPlacement = document.getElementById('custom-summary-placement');
+    const summaryDesign = document.getElementById('custom-summary-design');
 
     /**
     * Datos del preview inyectados desde Liquid.
@@ -138,6 +141,56 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         return 'White';
+    }
+
+    function getSelectedColorLabel() {
+        const checkedRadios = document.querySelectorAll('input[type="radio"]:checked');
+
+        for (const radio of checkedRadios) {
+            const value = (radio.value || '').trim();
+            if (value === 'Blanco' || value === 'Negro' || value === 'White' || value === 'Black') {
+                return value;
+            }
+        }
+
+        const selectedSpans = document.querySelectorAll('[data-selected-value]');
+        for (const span of selectedSpans) {
+            const value = (span.textContent || '').trim();
+            if (value === 'Blanco' || value === 'Negro' || value === 'White' || value === 'Black') {
+                return value;
+            }
+        }
+
+        return '';
+    }
+
+    function getSelectedPlacementLabel() {
+        const checked = document.querySelector('input[data-placement-value]:checked');
+        if (!checked) return '';
+
+        const siblingText = checked.closest('label')?.querySelector('span');
+        return siblingText ? siblingText.textContent.trim() : checked.value.trim();
+    }
+
+    function getSelectedDesignLabel() {
+        if (!designSelect) return '';
+        const selectedOption = designSelect.options[designSelect.selectedIndex];
+        return selectedOption ? selectedOption.textContent.trim() : '';
+    }
+
+    function updateSelectionSummary() {
+        if (summaryColor) {
+            summaryColor.textContent = getSelectedColorLabel() || '—';
+        }
+
+        if (summaryPlacement) {
+            summaryPlacement.textContent = getSelectedPlacementLabel() || '—';
+        }
+
+        if (summaryDesign) {
+            const label = getSelectedDesignLabel();
+            summaryDesign.textContent = label && label !== 'Selecciona un diseño' ? label : '—';
+        }
     }
 
     /**
@@ -240,8 +293,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const key = color + '|' + ubicacion;
         const imageUrl = mockupMap[key];
 
+        const stage = document.getElementById('custom-left-mockup-wrapper');
+
+        if (stage) {
+            stage.classList.remove('is-front', 'is-back');
+            stage.classList.add(ubicacion === 'back' ? 'is-back' : 'is-front');
+        }
+
         if (!imageUrl) return;
+
         setMockupImage(imageUrl);
+        updateSelectionSummary();
     }
 
     /**
@@ -323,19 +385,16 @@ document.addEventListener('DOMContentLoaded', function () {
     if (designSelect) {
         updatePreview(getSelectedDiseno());
 
-        /**
-         * Cuando cambia el diseño:
-         * - actualiza preview del diseño
-         * - sincroniza la URL
-         */
         designSelect.addEventListener('change', function () {
             updatePreview(getSelectedDiseno());
             syncUrlWithSelections();
+            updateSelectionSummary();
         });
     }
 
     updateMockupOnly();
     updateColorLinks();
+    updateSelectionSummary();
 
     /**
      * Escucha cambios generales del formulario:
@@ -357,7 +416,10 @@ document.addEventListener('DOMContentLoaded', function () {
             target.matches('select')
         ) {
             syncUrlWithSelections();
-            setTimeout(updateMockupOnly, 50);
+            setTimeout(function () {
+                updateMockupOnly();
+                updateSelectionSummary();
+            }, 50);
         }
     });
 });
