@@ -1,0 +1,73 @@
+{% assign selected_design = '' %}
+
+{% for p in item.properties %}
+  {% assign property_name = p.first | downcase %}
+  {% if property_name contains 'diseño' or property_name contains 'design' %}
+    {% assign selected_design = p.last | strip %}
+  {% endif %}
+{% endfor %}
+
+{% assign selected_design = '' %}
+
+{% for p in item.properties %}
+  {% assign property_name = p.first | downcase %}
+  {% if property_name contains 'diseño' or property_name contains 'design' %}
+    {% assign selected_design = p.last | strip %}
+  {% endif %}
+{% endfor %}
+
+{% assign design_image = '' %}
+
+{% case selected_design %}
+  {% when 'Pa amb Sobrassada' %}
+    {% assign design_image = 'Pa_amb_sobrassada.png' | file_url %}
+  {% when 'Yokai' %}
+    {% assign design_image = 'Yokai.png' | file_url %}
+  {% when 'Zoltar' %}
+    {% assign design_image = 'Zoltar.png' | file_url %}
+  {% when 'Manzana Maldita' %}
+    {% assign design_image = 'Manzana_maldita.png' | file_url %}
+  {% when 'El vigilante' %}
+    {% assign design_image = 'El_vigilante.png' | file_url %}
+  {% when 'Niña Calabaza' %}
+    {% assign design_image = 'Nina_calabaza.png' | file_url %}
+  {% when 'Dead Tide' %}
+    {% assign design_image = 'Dead_tide.png' | file_url %}
+  {% when 'Steamboat' %}
+    {% assign design_image = 'Steamboat.png' | file_url %}
+  {% when 'Sunset Octopus' %}
+    {% assign design_image = 'Sunset_octopus.png' | file_url %}
+  {% when 'Beach Break' %}
+    {% assign design_image = 'Beach_break.png' | file_url %}
+  {% when 'Ice-Scream' %}
+    {% assign design_image = 'Ice_scream.png' | file_url %}
+  {% when 'Honey Bones' %}
+    {% assign design_image = 'Honey_bones.png' | file_url %}
+  {% when 'Moon Surfers' %}
+    {% assign design_image = 'Moon_surfers.png' | file_url %}
+  {% when 'Skull Mermaid' %}
+    {% assign design_image = 'Skull_mermaid.png' | file_url %}
+  {% when 'Night Blooms' %}
+    {% assign design_image = 'Night_blooms.png' | file_url %}
+  {% when 'Steam Dragon' %}
+    {% assign design_image = 'Steam_dragon.png' | file_url %}
+  {% when 'Eolo' %}
+    {% assign design_image = 'Eolo.png' | file_url %}
+{% endcase %}
+
+{% if design_image != blank %}
+  <img
+    src="{{ design_image }}"
+    alt="{{ selected_design | escape }}"
+    class="steamboat-edit-cart-thumbnail"
+    loading="lazy"
+    width="120"
+    height="120"
+  >
+{% elsif item.product.featured_image %}
+  {{
+    item.product.featured_image
+    | image_url: width: 120
+    | image_tag: loading: 'lazy', class: 'steamboat-edit-cart-thumbnail', alt: item.product.title
+  }}
+{% endif %}

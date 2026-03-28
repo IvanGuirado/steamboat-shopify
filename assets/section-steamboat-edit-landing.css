@@ -1,0 +1,189 @@
+/* =========================================================
+   STEAMBOAT EDIT LANDING
+   Landing bilingüe de la página de personalización
+   ========================================================= */
+
+.steamboat-edit-landing {
+  padding-top: 4rem;
+  padding-bottom: 5rem;
+}
+
+.steamboat-edit-landing__hero {
+  text-align: center;
+  max-width: 80rem;
+  margin: 0 auto 4rem;
+  padding-top: 2rem;
+}
+
+.steamboat-edit-landing__hero h1 {
+  margin: 0 0 1.2rem;
+}
+
+.steamboat-edit-landing__intro {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+.steamboat-edit-landing__intro p {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.steamboat-edit-landing__steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.steamboat-edit-landing__step {
+  text-align: center;
+}
+
+.steamboat-edit-landing__step h3 {
+  margin: 0 0 1rem;
+}
+
+.steamboat-edit-landing__step p {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.steamboat-edit-landing__cta {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5rem;
+}
+
+.steamboat-edit-landing__predefined {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 4rem;
+  align-items: center;
+  margin-bottom: 5rem;
+}
+
+.steamboat-edit-landing__predefined-image img {
+  display: block;
+  width: 100%;
+  max-width: 42rem;
+  height: auto;
+  margin: 0 auto;
+}
+
+.steamboat-edit-landing__predefined-content h2 {
+  margin: 0 0 1.2rem;
+}
+
+.steamboat-edit-landing__predefined-content .rte {
+  margin-bottom: 2rem;
+}
+
+.steamboat-edit-landing__predefined-content .rte p {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.steamboat-edit-landing__designs h2 {
+  margin: 0 0 2rem;
+  text-align: center;
+}
+
+.steamboat-edit-landing__design-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.steamboat-edit-landing__design-card {
+  text-align: center;
+}
+
+.steamboat-edit-landing__design-card a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.steamboat-edit-landing__designs {
+  margin-bottom: 4rem;
+}
+
+.steamboat-edit-landing__design-card img {
+  display: block;
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto 1rem;
+  height: auto;
+}
+
+.steamboat-edit-landing__design-card p {
+  margin: 0;
+}
+
+.steamboat-edit-landing__designs-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media screen and (max-width: 989px) {
+  .steamboat-edit-landing__steps {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .steamboat-edit-landing__predefined {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .steamboat-edit-landing__predefined-content {
+    text-align: center;
+  }
+
+  .steamboat-edit-landing__design-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   MÓVIL
+   ========================================================= */
+
+@media screen and (max-width: 749px) {
+  .steamboat-edit-landing {
+    padding-top: 3rem;
+    padding-bottom: 4rem;
+  }
+
+  .steamboat-edit-landing__hero {
+    margin-bottom: 3rem;
+  }
+
+  .steamboat-edit-landing__steps {
+    gap: 1.8rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .steamboat-edit-landing__cta {
+    margin-bottom: 4rem;
+  }
+
+  .steamboat-edit-landing__predefined {
+    margin-bottom: 4rem;
+  }
+
+  .steamboat-edit-landing__design-grid {
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+  }
+
+  .steamboat-edit-landing__design-card img {
+    max-width: 18rem;
+  }
+}

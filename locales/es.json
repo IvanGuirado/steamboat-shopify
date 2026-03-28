@@ -644,6 +644,7 @@
     "cta_view_options": "Ver opciones disponibles",
     "available_designs": "Diseños disponibles",
     "cta_view_more": "Ver más diseños",
+    "cta_view_less": "Ver menos diseños",
     "placement": "Ubicación del diseño",
     "front": "Diseño delante",
     "back": "Diseño detrás",
@@ -651,6 +652,13 @@
     "select_design": "Selecciona un diseño",
     "helper": "Elige una opción de diseño para personalizar tu prenda.",
     "color_white": "Blanco",
-    "color_black": "Negro"
+    "color_black": "Negro",
+    "product_subtitle": "Elige color, posición y uno de nuestros diseños.",
+    "preview_label": "Vista previa",
+    "mockup_alt": "Mockup de la prenda",
+    "selected_design_alt": "Diseño seleccionado",
+    "color_label": "Color",
+    "error_select_design": "Selecciona un diseño antes de añadir al carrito."
+
   }
 }
