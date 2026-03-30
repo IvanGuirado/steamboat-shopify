@@ -1,151 +1,101 @@
 {%- comment -%}
   SECCIÓN VISUAL DE TODOS LOS DISEÑOS
-  - Usa el snippet común
-  - Sin parse_json
 {%- endcomment -%}
 
 {%- style -%}
-            .section-{{ section.id }}-padding {
-              padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-              padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-            }
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
 
-            @media screen and (min-width: 750px) {
-              .section-{{ section.id }}-padding {
-                padding-top: {{ section.settings.padding_top }}px;
-                padding-bottom: {{ section.settings.padding_bottom }}px;
-              }
-            }
-        /* =========================================================
-           REJILLA GENERAL DE DISEÑOS
-           - 3 columnas en escritorio
-           - separaciones horizontales y verticales
-           ========================================================= */
-        .steamboat-edit-designs-grid__items {
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 3rem 3rem;
-        }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
 
-        /* =========================================================
-           TARJETA INDIVIDUAL
-           - apila imagen, título y enlace en columna
-           - centra el contenido
-           ========================================================= */
-        .steamboat-edit-designs-grid__item {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-        }
+  .steamboat-edit-designs-grid__title {
+    margin: 0 0 2.4rem;
+    text-align: center;
+  }
 
-        /* =========================================================
-           CONTENEDOR DE LA IMAGEN
-           - reserva una altura mínima uniforme
-           - así las tarjetas arrancan más alineadas
-           - centra la imagen dentro del espacio
-           ========================================================= */
-        .steamboat-edit-designs-grid__image-wrap {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-          min-height: 28rem;
-          margin-bottom: 0.8rem;
-          text-decoration: none;
-        }
+  .steamboat-edit-designs-grid__items {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3rem;
+  }
 
-        /* =========================================================
-           IMAGEN DEL DISEÑO
-           - ancho flexible
-           - altura máxima uniforme
-           - object-fit contain para no recortar
-           ========================================================= */
-        .steamboat-edit-designs-grid__image {
-          display: block;
-          width: 100%;
-          max-width: 28rem;
-          max-height: 28rem;
-          height: auto;
-          object-fit: contain;
-          margin: 0 auto;
-        }
+  .steamboat-edit-designs-grid__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 
-        /* =========================================================
-           NOMBRE DEL DISEÑO
-           - altura mínima para alinear títulos
-           - centra vertical y horizontalmente
-           ========================================================= */
-        .steamboat-edit-designs-grid__name {
-          margin: 0 0 0.8rem;
-          min-height: 4.4rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
+  .steamboat-edit-designs-grid__image-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 28rem;
+    margin-bottom: 0.8rem;
+    text-decoration: none;
+  }
 
-        /* =========================================================
-           ENLACE "ELEGIR DISEÑO"
-           ========================================================= */
-        .steamboat-edit-designs-grid__link {
-          display: inline-block;
-          text-decoration: none;
-        }
-        .steamboat-edit-designs-grid__link .svg-wrapper,
-        .steamboat-edit-designs-grid__link svg{
-          margin-left: 0.6rem;
-        }
+  .steamboat-edit-designs-grid__image {
+    display: block;
+    width: 100%;
+    max-width: 28rem;
+    max-height: 28rem;
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto;
+    transition: transform 0.25s ease;
+  }
 
-        /* =========================================================
-         HOVER SUAVE EN LAS TARJETAS
-         - pequeño movimiento de imagen
-         - nombre y enlace responden
-         ========================================================= */
+  .steamboat-edit-designs-grid__name {
+    margin: 0 0 0.8rem;
+    min-height: 4.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-      /* transición general */
-      .steamboat-edit-designs-grid__image,
-    .steamboat-edit-designs-grid__link .svg-wrapper,
-    .steamboat-edit-designs-grid__link svg {
-      transition: transform 0.25s ease;
+  .steamboat-edit-designs-grid__link {
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  .steamboat-edit-designs-grid__link .svg-wrapper,
+  .steamboat-edit-designs-grid__link svg {
+    margin-left: 0.6rem;
+    transition: transform 0.25s ease;
+  }
+
+  .steamboat-edit-designs-grid_item:hover .steamboat-edit-designs-grid_image {
+    transform: translateY(-4px);
+  }
+
+  .steamboat-edit-designs-grid_item:hover .steamboat-edit-designs-grid_link .svg-wrapper,
+  .steamboat-edit-designs-grid_item:hover .steamboat-edit-designs-grid_link svg {
+    transform: translateX(4px);
+  }
+
+  @media screen and (max-width: 989px) {
+    .steamboat-edit-designs-grid__items {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2.4rem 2rem;
     }
 
-      /* al pasar por la tarjeta */
-      .steamboat-edit-designs-grid_item:hover .steamboat-edit-designs-grid_image {
-        transform: translateY(-4px);
-      }
+    .steamboat-edit-designs-grid__image-wrap {
+      min-height: 26rem;
+    }
 
-      /* mueve un poco la flecha */
-      .steamboat-edit-designs-grid_item:hover .steamboat-edit-designs-grid_link .svg-wrapper,
-      .steamboat-edit-designs-grid_item:hover .steamboat-edit-designs-grid_link svg {
-        transform: translateX(4px);
-      }
-
-        /* =========================================================
-           TABLET Y PANTALLAS MEDIAS
-           - pasa a 2 columnas
-           - reduce altura reservada para imágenes
-           ========================================================= */
-        @media screen and (max-width: 989px) {
-          .steamboat-edit-designs-grid__items {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 2.4rem 2rem;
-          }
-
-          .steamboat-edit-designs-grid__image-wrap {
-            min-height: 26rem;
-          }
-
-          .steamboat-edit-designs-grid__image {
-            max-height: 26rem;
-          }
-        }
-
-        /* =========================================================
-           MÓVIL
-           - mantiene 1 columna
-           - reduce más la altura de la caja de imagen
-           - baja la altura mínima del título
-           ========================================================= */
+    .steamboat-edit-designs-grid__image {
+      max-height: 26rem;
+    }
+  }
 
   @media screen and (max-width: 749px) {
     .steamboat-edit-designs-grid__items {
@@ -159,11 +109,8 @@
     }
 
     .steamboat-edit-designs-grid__image {
-      width: 100%;
       max-width: 32rem;
       max-height: 28rem;
-      height: auto;
-      margin: 0 auto;
     }
 
     .steamboat-edit-designs-grid__name {
@@ -174,19 +121,18 @@
 {%- endstyle -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
-  <div class="page-width steamboat-edit-designs-grid">
-    {%- if section.settings.heading != blank -%}
-      <h2 class="title inline-richtext steamboat-edit-designs-grid__title">
-        {{ section.settings.heading }}
-      </h2>
-    {%- endif -%}
-
+  <div class="page-width steamboat-edit-designs-grid" id="disenos">
+    <h2 class="title inline-richtext steamboat-edit-designs-grid__title">
+      {{ 'steamboat_edit.designs.title' | t }}
+    </h2>
     <div class="steamboat-edit-designs-grid__items">
+      {%- assign choose_button_label = 'steamboat_edit.designs.choose_button' | t -%}
+
       {% render 'steamboat-edit-designs',
         mode: 'cards',
         product_url: section.settings.product_url,
         default_placement: section.settings.default_placement,
-        link_label: section.settings.link_label
+        link_label: choose_button_label
       %}
     </div>
   </div>
@@ -194,22 +140,10 @@
 
 {% schema %}
 {
-  "name": "Steamboat Edit Designs",
+  "name": "SB Designs",
   "tag": "section",
   "class": "section",
   "settings": [
-    {
-      "type": "inline_richtext",
-      "id": "heading",
-      "default": "Todos los diseños",
-      "label": "Título"
-    },
-    {
-      "type": "text",
-      "id": "link_label",
-      "default": "Elegir diseño",
-      "label": "Texto del enlace"
-    },
     {
       "type": "text",
       "id": "product_url",
@@ -256,7 +190,7 @@
   ],
   "presets": [
     {
-      "name": "Steamboat Edit Designs"
+      "name": "SB Designs"
     }
   ]
 }

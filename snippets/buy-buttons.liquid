@@ -73,8 +73,8 @@
                 <label class="custom-location-option">
                   <input
                     type="radio"
-                    name="properties[{{ 'configura_prenda.placement' | t }}]"
-                    value="{{ 'configura_prenda.front' | t }}"
+                    name="properties[placement]"
+                    value="front"
                     data-placement-value="front"
                     required
                     checked
@@ -85,8 +85,8 @@
                 <label class="custom-location-option">
                   <input
                     type="radio"
-                    name="properties[{{ 'configura_prenda.placement' | t }}]"
-                    value="{{ 'configura_prenda.back' | t }}"
+                    name="properties[placement]"
+                    value="back"
                     data-placement-value="back"
                     required
                   >
@@ -95,48 +95,14 @@
               </div>
             </div>
 
-            {%- comment -%}
-              V2 - SELECTOR VISUAL DE DISEÑOS
-              - Las tarjetas visuales se renderizan por JS
-              - El select real se mantiene para no romper el add to cart
-            {%- endcomment -%}
             <div class="custom-product-field custom-design-field">
-              <label for="custom-design" class="custom-product-label">
-                {{ 'configura_prenda.design' | t }}
-              </label>
-
-              <div class="steamboat-edit-design-picker" id="steamboat-edit-design-picker"></div>
-
-              <button
-                type="button"
-                class="steamboat-edit-design-toggle"
-                id="steamboat-edit-design-toggle"
-                data-label-more="{{ 'configura_prenda.cta_view_more' | t }}"
-                data-label-less="{{ 'configura_prenda.cta_view_less' | t }}"
-                hidden
-              >
-                {{ 'configura_prenda.cta_view_more' | t }}
-              </button>
-
-              <select
-                id="custom-design"
-                class="steamboat-edit-design-select-visually-hidden"
-                name="properties[{{ 'configura_prenda.design' | t }}]"
-                required
-              >
+              <label for="custom-design" class="custom-product-label">{{ 'configura_prenda.design' | t }}</label>
+              <select id="custom-design" name="properties[design]" required>
                 {% render 'steamboat-edit-designs', mode: 'options' %}
               </select>
-
-              <p
-                id="custom-design-error"
-                class="custom-design-error"
-                data-error-message="{{ 'configura_prenda.error_select_design' | t }}"
-                hidden
-              ></p>
             </div>
           </div>
         {% endif %}
-
         <div class="product-form__buttons personalizable">
           {%- liquid
             assign check_against_inventory = true

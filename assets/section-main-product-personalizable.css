@@ -1,18 +1,19 @@
 /* =========================================================
    STEAMBOAT EDIT
-   CSS principal del builder personalizado
-   Requiere el contenedor:
+   CSS COMPLETO
+   Requiere contenedor:
    <div class="page-width steamboat-edit-layout">
    ========================================================= */
 
 
 /* =========================================================
-   1. CAMPOS Y CONTROLES DEL CONFIGURADOR
+   CAMPOS Y CONTROLES
    ========================================================= */
 
 .steamboat-edit-layout .custom-product-label {
   display: block;
   margin-bottom: 0.8rem;
+  font-weight: 600;
   text-align: left;
 }
 
@@ -23,7 +24,7 @@
   cursor: pointer;
 }
 
-.steamboat-edit-layout .custom-location-option+.custom-location-option {
+.steamboat-edit-layout .custom-location-option + .custom-location-option {
   margin-top: 0.6rem;
 }
 
@@ -48,7 +49,6 @@
   padding: 0.8rem;
   font: inherit;
   color: inherit;
-  min-height: 4.6rem;
 }
 
 .steamboat-edit-layout #custom-design option {
@@ -57,14 +57,13 @@
 
 .steamboat-edit-layout .custom-product-options {
   width: 100%;
-  max-width: 100% !important;
+  max-width: 32rem;
   margin: 0 0 1.5rem;
   text-align: left;
 }
 
 .steamboat-edit-layout .custom-product-field {
   width: 100%;
-  max-width: 100%;
   margin: 0 0 1.2rem;
   text-align: left;
 }
@@ -77,10 +76,9 @@
 
 
 /* =========================================================
-   2. PREVIEW IZQUIERDO
-   - mockup base
-   - overlay del diseño
-   - resumen de selección
+   PREVIEW IZQUIERDO
+   - mockup/base de la prenda
+   - diseño seleccionado
    ========================================================= */
 
 .steamboat-edit-layout .custom-left-gallery {
@@ -89,311 +87,46 @@
   margin-right: auto;
 }
 
-.steamboat-edit-layout .custom-left-gallery--builder {
+.steamboat-edit-layout .custom-left-mockup-wrapper,
+.steamboat-edit-layout .custom-left-design-wrapper,
+.steamboat-edit-layout #custom-left-mockup-wrapper,
+.steamboat-edit-layout #custom-left-design-wrapper {
   width: 100%;
 }
 
-/* Contenedor principal del preview */
-.steamboat-edit-layout .custom-left-stage,
 .steamboat-edit-layout .custom-left-mockup-wrapper,
 .steamboat-edit-layout #custom-left-mockup-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 50rem;
-  margin: 0;
-  margin-bottom: 1.2rem;
+  margin-bottom: 2rem;
   text-align: left;
-  aspect-ratio: 4 / 5;
 }
 
-/* Etiqueta superior del preview */
-.steamboat-edit-layout .custom-left-preview-label {
-  display: inline-block;
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  opacity: 0.7;
+.steamboat-edit-layout .custom-left-design-wrapper,
+.steamboat-edit-layout #custom-left-design-wrapper {
+  margin-top: 0;
+  text-align: left;
 }
-
-
-/* =========================================================
-   2.1 MOCKUP STAGE / ANTI FLASH
-   ========================================================= */
-
-#custom-left-mockup-wrapper {
-  position: relative;
-  width: 100%;
-  opacity: 1;
-  transition: opacity 0.18s ease;
-}
-
-/* #custom-left-mockup-wrapper.is-loading {
-  opacity: 1;
-}
-
-html.steamboat-edit-restoring #custom-left-mockup-wrapper,
-html.steamboat-edit-restoring #custom-left-design {
-  opacity: 1;
-  visibility: visible;
-} */
 
 .steamboat-edit-layout .custom-left-mockup,
-.steamboat-edit-layout .steamboat-edit-mockup,
-#custom-left-mockup-wrapper img[id^="mockup-"] {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  margin: 0;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.18s ease, visibility 0s linear 0.18s;
-  z-index: 1;
-}
-
-.steamboat-edit-layout .custom-left-mockup.is-active,
-.steamboat-edit-layout .steamboat-edit-mockup.is-active,
-#custom-left-mockup-wrapper img[id^="mockup-"].is-active {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transition: opacity 0.18s ease, visibility 0s linear 0s;
-}
-
-
-/* =========================================================
-   3. OVERLAY DEL DISEÑO SOBRE EL MOCKUP
-   - valores base en desktop
-   - ajustes por breakpoint
-   ========================================================= */
-
-/* =========================================================
-   3.1 BASE DESKTOP
-   ========================================================= */
-
-.steamboat-edit-layout .custom-left-design--overlay,
-.steamboat-edit-layout .custom-left-design-overlay,
-.steamboat-edit-layout #custom-left-design.custom-left-design--overlay,
-.steamboat-edit-layout #custom-left-design.custom-left-design-overlay {
+.steamboat-edit-layout #custom-left-mockup {
   display: none;
-  position: absolute;
-  left: 23.5%;
-  top: 54%;
-  transform: translate(-50%, -50%);
-  width: 20%;
+  width: 100%;
+  max-width: 50rem;
   height: auto;
   margin: 0;
-  max-width: none;
-  pointer-events: none;
-  z-index: 2;
-  transition: opacity 0.18s ease;
 }
 
-/* Ajuste de overlay en vista espalda */
-.steamboat-edit-layout .custom-left-stage.is-back .custom-left-design--overlay,
-.steamboat-edit-layout .custom-left-stage.is-back .custom-left-design-overlay,
-.steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design--overlay,
-.steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design-overlay {
-  left: 76.3%;
-  top: 51%;
-  width: 20%;
+.steamboat-edit-layout .custom-left-design,
+.steamboat-edit-layout #custom-left-design {
+  display: none;
+  width: 100%;
+  max-width: 36rem;
+  height: auto;
+  margin: 0;
 }
 
 
 /* =========================================================
-   3.2 DESKTOP MEDIO
-   990px a 1199px
-   ========================================================= */
-
-@media screen and (min-width: 990px) and (max-width: 1199px) {
-
-  .steamboat-edit-layout .custom-left-design--overlay,
-  .steamboat-edit-layout .custom-left-design-overlay,
-  .steamboat-edit-layout #custom-left-design.custom-left-design--overlay,
-  .steamboat-edit-layout #custom-left-design.custom-left-design-overlay {
-    left: 23.5%;
-    top: 54%;
-    width: 20%;
-  }
-
-  .steamboat-edit-layout .custom-left-stage.is-back .custom-left-design--overlay,
-  .steamboat-edit-layout .custom-left-stage.is-back .custom-left-design-overlay,
-  .steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design--overlay,
-  .steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design-overlay {
-    left: 76%;
-    top: 50%;
-    width: 20%;
-  }
-}
-
-
-/* =========================================================
-   3.3 TABLET
-   750px a 989px
-   ========================================================= */
-
-@media screen and (min-width: 750px) and (max-width: 989px) {
-
-  .steamboat-edit-layout .custom-left-design--overlay,
-  .steamboat-edit-layout .custom-left-design-overlay,
-  .steamboat-edit-layout #custom-left-design.custom-left-design--overlay,
-  .steamboat-edit-layout #custom-left-design.custom-left-design-overlay {
-    left: 23.5%;
-    top: 55%;
-    width: 20%;
-  }
-
-  .steamboat-edit-layout .custom-left-stage.is-back .custom-left-design--overlay,
-  .steamboat-edit-layout .custom-left-stage.is-back .custom-left-design-overlay,
-  .steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design--overlay,
-  .steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design-overlay {
-    left: 76.5%;
-    top: 51%;
-    width: 20%;
-  }
-}
-
-
-/* =========================================================
-   3.4 MÓVIL GRANDE
-   650px a 749px
-   ========================================================= */
-
-@media screen and (min-width: 650px) and (max-width: 749px) {
-
-  .steamboat-edit-layout .custom-left-design--overlay,
-  .steamboat-edit-layout .custom-left-design-overlay,
-  .steamboat-edit-layout #custom-left-design.custom-left-design--overlay,
-  .steamboat-edit-layout #custom-left-design.custom-left-design-overlay {
-    left: 34.5%;
-    top: 54%;
-    width: 11.4%;
-  }
-
-  .steamboat-edit-layout .custom-left-stage.is-back .custom-left-design--overlay,
-  .steamboat-edit-layout .custom-left-stage.is-back .custom-left-design-overlay,
-  .steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design--overlay,
-  .steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design-overlay {
-    left: 65.4%;
-    top: 51%;
-    width: 11.4%;
-  }
-}
-
-
-/* =========================================================
-   3.5 MÓVIL MEDIO
-   550px a 649px
-   ========================================================= */
-
-@media screen and (min-width: 550px) and (max-width: 649px) {
-
-  .steamboat-edit-layout .custom-left-design--overlay,
-  .steamboat-edit-layout .custom-left-design-overlay,
-  .steamboat-edit-layout #custom-left-design.custom-left-design--overlay,
-  .steamboat-edit-layout #custom-left-design.custom-left-design-overlay {
-    left: 32.1%;
-    top: 54%;
-    width: 12%;
-  }
-
-  .steamboat-edit-layout .custom-left-stage.is-back .custom-left-design--overlay,
-  .steamboat-edit-layout .custom-left-stage.is-back .custom-left-design-overlay,
-  .steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design--overlay,
-  .steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design-overlay {
-    left: 67.9%;
-    top: 51%;
-    width: 13%;
-  }
-}
-
-
-/* =========================================================
-   3.6 MÓVIL PEQUEÑO
-   480px a 549px
-   ========================================================= */
-
-@media screen and (min-width: 480px) and (max-width: 549px) {
-
-  .steamboat-edit-layout .custom-left-design--overlay,
-  .steamboat-edit-layout .custom-left-design-overlay,
-  .steamboat-edit-layout #custom-left-design.custom-left-design--overlay,
-  .steamboat-edit-layout #custom-left-design.custom-left-design-overlay {
-    left: 28.5%;
-    top: 54%;
-    width: 16%;
-  }
-
-  .steamboat-edit-layout .custom-left-stage.is-back .custom-left-design--overlay,
-  .steamboat-edit-layout .custom-left-stage.is-back .custom-left-design-overlay,
-  .steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design--overlay,
-  .steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design-overlay {
-    left: 71.2%;
-    top: 51%;
-    width: 17%;
-  }
-}
-
-
-/* =========================================================
-   3.7 MÓVIL MUY PEQUEÑO
-   390px a 479px
-   ========================================================= */
-
-@media screen and (min-width: 390px) and (max-width: 479px) {
-
-  .steamboat-edit-layout .custom-left-design--overlay,
-  .steamboat-edit-layout .custom-left-design-overlay,
-  .steamboat-edit-layout #custom-left-design.custom-left-design--overlay,
-  .steamboat-edit-layout #custom-left-design.custom-left-design-overlay {
-    left: 23.2%;
-    top: 54.6%;
-    width: 17%;
-  }
-
-  .steamboat-edit-layout .custom-left-stage.is-back .custom-left-design--overlay,
-  .steamboat-edit-layout .custom-left-stage.is-back .custom-left-design-overlay,
-  .steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design--overlay,
-  .steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design-overlay {
-    left: 76%;
-    top: 52%;
-    width: 17%;
-  }
-}
-
-
-/* =========================================================
-   3.8 MÓVIL EXTRA PEQUEÑO
-   hasta 389px
-   ========================================================= */
-
-@media screen and (max-width: 389px) {
-
-  .steamboat-edit-layout .custom-left-design--overlay,
-  .steamboat-edit-layout .custom-left-design-overlay,
-  .steamboat-edit-layout #custom-left-design.custom-left-design--overlay,
-  .steamboat-edit-layout #custom-left-design.custom-left-design-overlay {
-    left: 23.5%;
-    top: 54.5%;
-    width: 15%;
-  }
-
-  .steamboat-edit-layout .custom-left-stage.is-back .custom-left-design--overlay,
-  .steamboat-edit-layout .custom-left-stage.is-back .custom-left-design-overlay,
-  .steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design--overlay,
-  .steamboat-edit-layout #custom-left-mockup-wrapper.custom-left-stage.is-back #custom-left-design.custom-left-design-overlay {
-    left: 76.3%;
-    top: 52%;
-    width: 15%;
-  }
-}
-
-
-/* =========================================================
-   4. LAYOUT GENERAL
+   LAYOUT GENERAL DESKTOP
    ========================================================= */
 
 .steamboat-edit-layout .product {
@@ -418,8 +151,7 @@ html.steamboat-edit-restoring #custom-left-design {
 }
 
 .steamboat-edit-layout .product__info-container {
-  width: 100%;
-  max-width: 44rem;
+  max-width: 100%;
 }
 
 .steamboat-edit-layout .product-form__buttons.personalizable {
@@ -435,18 +167,9 @@ html.steamboat-edit-restoring #custom-left-design {
   display: block;
 }
 
-.steamboat-edit-layout .product-form__buttons.personalizable .product-form_submit.button--full-width {
-  min-height: 4.8rem;
-  letter-spacing: 0.01em;
-}
-
-.steamboat-edit-layout .custom-left-summary {
-  display: none;
-}
-
 
 /* =========================================================
-   4.1 DESKTOP MEDIO / TABLET GRANDE
+   DESKTOP PEQUEÑO / TABLET GRANDE
    990px a 1199px
    ========================================================= */
 
@@ -471,28 +194,46 @@ html.steamboat-edit-restoring #custom-left-design {
     max-width: 38rem;
   }
 
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .steamboat-edit-layout .custom-left-mockup,
+  .steamboat-edit-layout #custom-left-mockup {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .steamboat-edit-layout .custom-left-design,
+  .steamboat-edit-layout #custom-left-design {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    max-width: 38rem;
+    margin: 1.2rem 0 0;
+    text-align: center;
+    overflow: hidden;
+  }
+
   .steamboat-edit-layout .product-form__buttons.personalizable {
     width: 32rem;
     max-width: 32rem;
     margin: 1.6rem 0 0;
   }
-
-  .steamboat-edit-layout .custom-left-stage,
-  .steamboat-edit-layout .custom-left-mockup-wrapper,
-  .steamboat-edit-layout #custom-left-mockup-wrapper {
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 1.2rem;
-  }
-
-  .steamboat-edit-layout .custom-left-summary {
-    font-size: 1.3rem;
-  }
 }
 
 
 /* =========================================================
-   4.2 TABLET
+   TABLET
    750px a 989px
    ========================================================= */
 
@@ -518,6 +259,49 @@ html.steamboat-edit-restoring #custom-left-design {
     max-width: 100%;
   }
 
+  .steamboat-edit-layout .custom-left-gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    width: 100%;
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper {
+    margin: 0 0 2.4rem;
+  }
+
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    margin: 0;
+  }
+
+  .steamboat-edit-layout .custom-left-mockup,
+  .steamboat-edit-layout #custom-left-mockup {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0;
+  }
+
+  .steamboat-edit-layout .custom-left-design,
+  .steamboat-edit-layout #custom-left-design {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0;
+  }
+
   .steamboat-edit-layout .custom-product-options,
   .steamboat-edit-layout .product-form__buttons,
   .steamboat-edit-layout .product-form__quantity {
@@ -534,33 +318,15 @@ html.steamboat-edit-restoring #custom-left-design {
     max-width: 32rem;
     margin: 1.6rem 0 0;
   }
-
-  .steamboat-edit-layout .custom-left-gallery {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .steamboat-edit-layout .custom-left-stage,
-  .steamboat-edit-layout .custom-left-mockup-wrapper,
-  .steamboat-edit-layout #custom-left-mockup-wrapper {
-    width: 100%;
-    max-width: 100%;
-    text-align: left;
-    margin: 0 0 1.6rem;
-  }
-
-  .steamboat-edit-layout .custom-left-summary {
-    font-size: 1.2rem;
-  }
 }
 
 
 /* =========================================================
-   4.3 MÓVIL Y TABLET PEQUEÑA
-   hasta 749px
+   MÓVIL GRANDE / TABLET PEQUEÑA
+   480px a 749px
    ========================================================= */
 
-@media screen and (max-width: 749px) {
+@media screen and (min-width: 480px) and (max-width: 749px) {
   .steamboat-edit-layout .product {
     display: flex;
     flex-direction: column;
@@ -569,36 +335,71 @@ html.steamboat-edit-restoring #custom-left-design {
   .steamboat-edit-layout .product__media-wrapper,
   .steamboat-edit-layout .product__info-wrapper,
   .steamboat-edit-layout .grid__item,
-  .steamboat-edit-layout .product__info-container,
-  .steamboat-edit-layout .product__info-container .product-form,
-  .steamboat-edit-layout .custom-product-options,
-  .steamboat-edit-layout .custom-product-field {
+  .steamboat-edit-layout .product__info-container {
     width: 100%;
-    max-width: 100% !important;
+    max-width: 100%;
   }
 
   .steamboat-edit-layout .product__info-wrapper {
     padding-left: 0;
     padding-right: 0;
-    margin-top: 2.4rem;
-    margin-left: 0;
-    margin-right: 0;
+    margin-top: 2rem;
   }
 
-  .steamboat-edit-layout .product__info-container {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: 0;
-    margin-right: 0;
+  .steamboat-edit-layout .custom-left-gallery,
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper {
+    margin-bottom: 1.6rem;
+  }
+
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    margin-bottom: 1.6rem;
+  }
+
+  .steamboat-edit-layout .custom-left-mockup,
+  .steamboat-edit-layout #custom-left-mockup {
+    width: 100%;
+    max-width: 42rem;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .steamboat-edit-layout .custom-left-design,
+  .steamboat-edit-layout #custom-left-design {
+    width: 100%;
+    max-width: 28rem;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .steamboat-edit-layout .custom-product-options,
+  .steamboat-edit-layout .custom-product-field,
+  .steamboat-edit-layout .product__info-container .product-form,
+  .steamboat-edit-layout .product-form__buttons.personalizable,
+  .steamboat-edit-layout #custom-design {
+    width: 100%;
+    max-width: 100%;
   }
 
   .steamboat-edit-layout .custom-product-options {
-    margin: 0 0 1.6rem;
+    margin: 0 0 1.5rem;
     text-align: left;
   }
 
   .steamboat-edit-layout .custom-product-field {
-    margin: 0 0 2rem;
+    margin: 0 0 1.2rem;
     text-align: left;
   }
 
@@ -611,17 +412,46 @@ html.steamboat-edit-restoring #custom-left-design {
     margin: 0.8rem 0 0;
   }
 
+  .steamboat-edit-layout .product__info-container .product-form {
+    margin: 0;
+  }
+
   .steamboat-edit-layout .product-form__buttons.personalizable {
+    margin: 1.6rem 0 0;
+  }
+}
+
+
+/* =========================================================
+   MÓVIL PEQUEÑO
+   hasta 479px
+   ========================================================= */
+
+@media screen and (max-width: 479px) {
+  .steamboat-edit-layout .product {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .steamboat-edit-layout .product__media-wrapper,
+  .steamboat-edit-layout .product__info-wrapper,
+  .steamboat-edit-layout .grid__item,
+  .steamboat-edit-layout .product__info-container {
     width: 100%;
     max-width: 100%;
-    margin-top: 1.2rem;
-    margin-bottom: 2.4rem;
+  }
+
+  .steamboat-edit-layout .product__info-wrapper {
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 2rem;
   }
 
   .steamboat-edit-layout .custom-left-gallery,
-  .steamboat-edit-layout .custom-left-stage,
   .steamboat-edit-layout .custom-left-mockup-wrapper,
-  .steamboat-edit-layout #custom-left-mockup-wrapper {
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
     width: 100%;
     max-width: 100%;
     margin-left: auto;
@@ -631,303 +461,65 @@ html.steamboat-edit-restoring #custom-left-design {
 
   .steamboat-edit-layout .custom-left-mockup-wrapper,
   .steamboat-edit-layout #custom-left-mockup-wrapper {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.6rem;
   }
 
-  .steamboat-edit-layout .custom-left-preview-label {
-    display: block;
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    margin-bottom: 1.6rem;
+  }
+
+  .steamboat-edit-layout .custom-left-mockup,
+  .steamboat-edit-layout #custom-left-mockup {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .steamboat-edit-layout .custom-left-design,
+  .steamboat-edit-layout #custom-left-design {
+    width: 100%;
+    max-width: 26rem;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .steamboat-edit-layout .custom-product-options,
+  .steamboat-edit-layout .custom-product-field,
+  .steamboat-edit-layout .product__info-container .product-form,
+  .steamboat-edit-layout .product-form__buttons.personalizable,
+  .steamboat-edit-layout #custom-design {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .steamboat-edit-layout .custom-product-options {
+    margin: 0 0 1.5rem;
     text-align: left;
-    margin-bottom: 0.8rem;
   }
 
-  .steamboat-edit-layout .custom-left-summary {
-    justify-content: flex-start;
-    font-size: 1.2rem;
+  .steamboat-edit-layout .custom-product-field {
+    margin: 0 0 1.2rem;
+    text-align: left;
   }
-}
 
-
-/* =========================================================
-   5. COLUMNA DERECHA
-   - jerarquía visual más builder
-   - más aire entre bloques
-   ========================================================= */
-
-.steamboat-edit-layout .steamboat-edit-header {
-  margin-bottom: 2.4rem;
-}
-
-.steamboat-edit-layout .steamboat-edit-header h1 {
-  margin: 0 0 0.8rem;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-}
-
-.steamboat-edit-layout .steamboat-edit-subtitle {
-  margin: 0;
-  max-width: 32rem;
-  font-size: 1.45rem;
-  line-height: 1.6;
-  opacity: 0.82;
-}
-
-.steamboat-edit-layout .price--large {
-  margin-bottom: 0.8rem;
-}
-
-.steamboat-edit-layout .product__tax {
-  margin-top: 0.6rem;
-  margin-bottom: 2.2rem;
-  max-width: 36rem;
-  line-height: 1.5;
-  opacity: 0.72;
-}
-
-.steamboat-edit-layout .product-form__input--pill,
-.steamboat-edit-layout .product-form__quantity,
-.steamboat-edit-layout .custom-product-options {
-  margin-bottom: 1.8rem;
-}
-
-.steamboat-edit-layout .custom-product-options {
-  margin-top: 0.6rem;
-}
-
-.steamboat-edit-layout .custom-product-field {
-  margin-bottom: 1.8rem;
-}
-
-.steamboat-edit-layout .custom-product-label,
-.steamboat-edit-layout .quantity__label,
-.steamboat-edit-layout .form__label {
-  margin-bottom: 0.8rem;
-  font-size: 1.35rem;
-  letter-spacing: 0.02em;
-}
-
-.steamboat-edit-layout .custom-location-radios {
-  margin-top: 0.8rem;
-}
-
-.steamboat-edit-layout .custom-location-option+.custom-location-option {
-  margin-top: 0.9rem;
-}
-
-@media screen and (min-width: 990px) {
-  .steamboat-edit-layout .product__info-wrapper {
-    padding-left: 2rem;
+  .steamboat-edit-layout .custom-product-label,
+  .steamboat-edit-layout .custom-location-radios {
+    text-align: left;
   }
-}
 
-@media screen and (max-width: 989px) {
-  .steamboat-edit-layout .product__info-container {
+  .steamboat-edit-layout #custom-design {
+    margin: 0.8rem 0 0;
+  }
+
+  .steamboat-edit-layout .product__info-container .product-form {
+    margin: 0;
+  }
+
+  .steamboat-edit-layout .product-form__buttons.personalizable {
     max-width: 100%;
-  }
-
-  .steamboat-edit-layout .steamboat-edit-header {
-    margin-bottom: 2rem;
-  }
-
-  .steamboat-edit-layout .steamboat-edit-header h1 {
-    margin-bottom: 0.6rem;
-  }
-
-  .steamboat-edit-layout .steamboat-edit-subtitle {
-    max-width: 100%;
-    font-size: 1.35rem;
-  }
-}
-
-
-/* =========================================================
-   6. SELECTOR VISUAL DE DISEÑOS (V2)
-   ========================================================= */
-
-.steamboat-edit-layout .steamboat-edit-design-select-visually-hidden {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-.steamboat-edit-layout .steamboat-edit-design-picker {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem 1.2rem;
-  width: 100%;
-  max-width: 100%;
-  margin-top: 1rem;
-}
-
-.steamboat-edit-layout .steamboat-edit-design-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.8rem;
-  padding: 0.8rem 0.6rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: transparent;
-  cursor: pointer;
-  text-align: center;
-  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
-}
-
-.steamboat-edit-layout .steamboat-edit-design-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(0, 0, 0, 0.28);
-}
-
-.steamboat-edit-layout .steamboat-edit-design-card.is-active {
-  border-color: rgba(0, 0, 0, 0.9);
-  background-color: rgba(0, 0, 0, 0.035);
-}
-
-.steamboat-edit-layout .steamboat-edit-design-card.is-hidden {
-  display: none;
-}
-
-.steamboat-edit-layout .steamboat-edit-design-card__image-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 8.2rem;
-}
-
-.steamboat-edit-layout .steamboat-edit-design-card__image {
-  display: block;
-  max-width: 100%;
-  max-height: 7.6rem;
-  width: auto;
-  height: auto;
-}
-
-.steamboat-edit-layout .steamboat-edit-design-card__label {
-  font-size: 1.15rem;
-  line-height: 1.25;
-}
-
-.steamboat-edit-layout .steamboat-edit-design-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-top: 1.2rem;
-  margin-bottom: 1.2rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  font: inherit;
-  font-size: 1.2rem;
-  font-weight: 600;
-  line-height: 1.3;
-  text-decoration: underline;
-  text-underline-offset: 0.2rem;
-}
-
-.steamboat-edit-layout .steamboat-edit-design-toggle:hover {
-  opacity: 0.75;
-}
-
-.steamboat-edit-layout .custom-design-field {
-  margin-bottom: 2rem;
-}
-
-.steamboat-edit-layout .custom-design-error {
-  display: none;
-  margin-top: 1rem;
-  font-size: 1.3rem;
-  line-height: 1.45;
-  color: #c42318;
-  font-weight: 500;
-}
-
-.steamboat-edit-layout .custom-design-field.has-error .steamboat-edit-design-picker {
-  outline: 1px solid #c42318;
-  outline-offset: 0.4rem;
-}
-
-
-/* =========================================================
-   6.1 SELECTOR VISUAL - TABLET
-   ========================================================= */
-
-@media screen and (min-width: 750px) and (max-width: 989px) {
-  .steamboat-edit-layout .steamboat-edit-design-picker {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
-  }
-
-  .steamboat-edit-layout .steamboat-edit-design-card__image-wrap {
-    min-height: 11rem;
-  }
-
-  .steamboat-edit-layout .steamboat-edit-design-card__image {
-    max-height: 10rem;
-  }
-}
-
-
-/* =========================================================
-   6.2 SELECTOR VISUAL - MÓVIL
-   ========================================================= */
-
-@media screen and (max-width: 749px) {
-  .steamboat-edit-layout .steamboat-edit-design-picker {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem 1rem;
     width: 100%;
-    max-width: 100%;
-  }
-
-  .steamboat-edit-layout .steamboat-edit-design-card {
-    padding: 0.9rem 0.6rem;
-  }
-
-  .steamboat-edit-layout .steamboat-edit-design-card__image-wrap {
-    min-height: 10rem;
-  }
-
-  .steamboat-edit-layout .steamboat-edit-design-card__image {
-    max-height: 9rem;
-  }
-
-  .steamboat-edit-layout .steamboat-edit-design-card__label {
-    font-size: 1.1rem;
-    line-height: 1.25;
-  }
-
-  .steamboat-edit-layout .steamboat-edit-design-toggle {
-    margin-top: 1.4rem;
-    margin-bottom: 1.8rem;
-  }
-}
-
-
-/* =========================================================
-   6.3 SELECTOR VISUAL - MÓVIL PEQUEÑO
-   ========================================================= */
-
-@media screen and (max-width: 479px) {
-  .steamboat-edit-layout .steamboat-edit-design-picker {
-    grid-template-columns: 1fr;
-    gap: 1rem 1rem;
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .steamboat-edit-layout .steamboat-edit-design-card__image-wrap {
-    min-height: 10rem;
-  }
-
-  .steamboat-edit-layout .steamboat-edit-design-card__image {
-    max-height: 9rem;
-  }
-
-  .steamboat-edit-layout .steamboat-edit-design-card__label {
-    font-size: 1.05rem;
+    margin: 1.6rem 0 0;
   }
 }

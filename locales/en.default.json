@@ -1094,5 +1094,37 @@
     "selected_design_alt": "Selected design",
     "color_label": "Color",
     "error_select_design": "Select a design before adding to cart."
+  },
+  "steamboat_edit": {
+    "intro": {
+      "title": "Steamboat Edit",
+      "subtitle": "Customize your garment with one of our designs.",
+      "step_1_title": "Choose your base",
+      "step_1_text": "Start the customization from one of our base garments.",
+      "step_2_title": "Select a design",
+      "step_2_text": "Explore our designs and choose the one that fits you best.",
+      "step_3_title": "Complete your setup",
+      "step_3_text": "Finish the customization by choosing size, color, and design placement.",
+      "primary_button": "Customize now",
+      "feature_title": "Featured designs",
+      "feature_text": "Explore our featured designs and choose the one that fits you best."
+    },
+    "featured": {
+      "title": "Featured designs",
+      "more_button": "View more designs",
+      "choose_button": "Choose design"
+    },
+    "bases": {
+      "title": "Choose your garment",
+      "subtitle": "Select the base you want to start customizing.",
+      "white_title": "White T-shirt",
+      "black_title": "Black T-shirt",
+      "base_text": "Start customizing this base.",
+      "button": "Customize"
+    },
+    "designs": {
+      "title": "All designs",
+      "choose_button": "Choose design"
+    }
   }
 }

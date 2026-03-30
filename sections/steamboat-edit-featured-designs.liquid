@@ -1,0 +1,355 @@
+{%- comment -%}
+  =========================================================
+  SB FEATURED
+  ---------------------------------------------------------
+  Sección para mostrar hasta 3 diseños destacados
+  y un botón inferior de "Ver más diseños".
+
+  Uso:
+  - Va debajo de la intro principal
+  - Cada bloque representa un diseño destacado
+  - El botón inferior lleva a la página completa
+    de todos los diseños
+  =========================================================
+{%- endcomment -%}
+
+{%- style -%}
+  /* =========================================================
+     ESPACIADO DE LA SECCIÓN
+     ========================================================= */
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* =========================================================
+     TÍTULO DE LA SECCIÓN
+     ========================================================= */
+  .steamboat-edit-featured-designs__title {
+    margin: 0 0 2.4rem;
+    text-align: center;
+  }
+
+  /* =========================================================
+     REJILLA DE DISEÑOS DESTACADOS
+     - 3 columnas en desktop
+     - 2 en tablet
+     - 1 en móvil
+     ========================================================= */
+  .steamboat-edit-featured-designs__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  /* =========================================================
+     TARJETA INDIVIDUAL
+     ========================================================= */
+  .steamboat-edit-featured-designs__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* =========================================================
+     CONTENEDOR DE IMAGEN
+     - reserva altura uniforme
+     - centra la imagen
+     ========================================================= */
+  .steamboat-edit-featured-designs__image-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 28rem;
+    margin-bottom: 0.8rem;
+    text-decoration: none;
+  }
+
+  /* =========================================================
+     IMAGEN DEL DISEÑO
+     ========================================================= */
+  .steamboat-edit-featured-designs__image {
+    display: block;
+    width: 100%;
+    max-width: 28rem;
+    max-height: 28rem;
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto;
+    transition: transform 0.25s ease;
+  }
+
+  /* =========================================================
+     NOMBRE DEL DISEÑO
+     ========================================================= */
+  .steamboat-edit-featured-designs__name {
+    margin: 0 0 0.8rem;
+    min-height: 4.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* =========================================================
+     ENLACE DE LA TARJETA
+     ========================================================= */
+  .steamboat-edit-featured-designs__link {
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  .steamboat-edit-featured-designs__link .svg-wrapper,
+  .steamboat-edit-featured-designs__link svg {
+    margin-left: 0.6rem;
+    transition: transform 0.25s ease;
+  }
+
+  /* =========================================================
+     HOVER SUAVE
+     ========================================================= */
+  .steamboat-edit-featured-designs_item:hover .steamboat-edit-featured-designs_image {
+    transform: translateY(-4px);
+  }
+
+  .steamboat-edit-featured-designs_item:hover .steamboat-edit-featured-designs_link .svg-wrapper,
+  .steamboat-edit-featured-designs_item:hover .steamboat-edit-featured-designs_link svg {
+    transform: translateX(4px);
+  }
+
+  /* =========================================================
+     BOTÓN INFERIOR
+     ========================================================= */
+  .steamboat-edit-featured-designs__actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* =========================================================
+     TABLET
+     ========================================================= */
+  @media screen and (max-width: 989px) {
+    .steamboat-edit-featured-designs__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2.4rem 2rem;
+    }
+
+    .steamboat-edit-featured-designs__image-wrap {
+      min-height: 26rem;
+    }
+
+    .steamboat-edit-featured-designs__image {
+      max-height: 26rem;
+    }
+  }
+
+  /* =========================================================
+     MÓVIL
+     ========================================================= */
+  @media screen and (max-width: 749px) {
+    .steamboat-edit-featured-designs__grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .steamboat-edit-featured-designs__image-wrap {
+      min-height: 28rem;
+    }
+
+    .steamboat-edit-featured-designs__image {
+      max-width: 32rem;
+      max-height: 28rem;
+    }
+
+    .steamboat-edit-featured-designs__name {
+      min-height: auto;
+      margin: 0 0 0.4rem;
+    }
+  }
+{%- endstyle -%}
+
+{%- comment -%}
+  =========================================================
+  MARCADO PRINCIPAL
+  =========================================================
+{%- endcomment -%}
+<div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width steamboat-edit-featured-designs">
+    {%- comment -%}
+      =========================================================
+      TÍTULO DE LA SECCIÓN
+      =========================================================
+    {%- endcomment -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="title inline-richtext steamboat-edit-featured-designs__title">
+        {{ 'steamboat_edit.featured.title' | t }}
+      </h2>
+    {%- endif -%}
+
+    {%- comment -%}
+      =========================================================
+      REJILLA DE DISEÑOS DESTACADOS
+      - hasta 3 bloques
+      =========================================================
+    {%- endcomment -%}
+    <div class="steamboat-edit-featured-designs__grid">
+      {%- for block in section.blocks -%}
+        <div class="steamboat-edit-featured-designs__item" {{ block.shopify_attributes }}>
+          {%- comment -%}
+            =========================================================
+            IMAGEN CON ENLACE
+            =========================================================
+          {%- endcomment -%}
+          {%- if block.settings.link != blank -%}
+            <a class="steamboat-edit-featured-designs__image-wrap" href="{{ block.settings.link }}">
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 700
+                  | image_tag: loading: 'lazy', class: 'steamboat-edit-featured-designs__image'
+                }}
+              {%- endif -%}
+            </a>
+          {%- else -%}
+            <div class="steamboat-edit-featured-designs__image-wrap">
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 700
+                  | image_tag: loading: 'lazy', class: 'steamboat-edit-featured-designs__image'
+                }}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          {%- comment -%}
+            =========================================================
+            NOMBRE DEL DISEÑO
+            =========================================================
+          {%- endcomment -%}
+          {%- if block.settings.title != blank -%}
+            <h3 class="h4 steamboat-edit-featured-designs__name">
+              {{ block.settings.title }}
+            </h3>
+          {%- endif -%}
+
+          {%- comment -%}
+            =========================================================
+            ENLACE DE LA TARJETA
+            =========================================================
+          {%- endcomment -%}
+          {%- if block.settings.link != blank and block.settings.link_label != blank -%}
+            <a class="link animate-arrow steamboat-edit-featured-designs__link" href="{{ block.settings.link }}">
+              {{ 'steamboat_edit.featured.choose_button' | t }}
+              {{- 'icon-arrow.svg' | inline_asset_content -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%}
+      =========================================================
+      BOTÓN INFERIOR "VER MÁS DISEÑOS"
+      =========================================================
+    {%- endcomment -%}
+    <div class="steamboat-edit-featured-designs__actions">
+      {%- if section.settings.more_designs_link != blank -%}
+        <a href="{{ section.settings.more_designs_link }}" class="button button--secondary">
+          {{ 'steamboat_edit.featured.more_button' | t }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SB Featured",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "url",
+      "id": "more_designs_link",
+      "label": "Enlace Ver más diseños"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Esquema de color",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Relleno superior",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Relleno inferior",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "design",
+      "name": "Diseño",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Nombre del diseño"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Enlace"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SB Featured",
+      "blocks": [
+        {
+          "type": "design"
+        },
+        {
+          "type": "design"
+        },
+        {
+          "type": "design"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

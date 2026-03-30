@@ -128,7 +128,84 @@
                     {%- endif -%}
 
                     <td class="cart-item__media">
-                      {% render 'steamboat-edit-cart-thumbnail', item: item %}
+                      {%- assign cart_image = item.image -%}
+                      {%- assign custom_design_image_url = '' -%}
+
+                      {%- for property in item.properties -%}
+                        {%- assign property_first_char = property.first | slice: 0 -%}
+                        {%- if property.last != blank and property_first_char != '_' -%}
+                          {%- if property.first == 'design' -%}
+                            {%- case property.last -%}
+                              {%- when 'pa_amb_sobrassada' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Pa_amb_sobrassada.png?v=1773930526' -%}
+                              {%- when 'yokai' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Yokai.png?v=1773931299' -%}
+                              {%- when 'zoltar' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Zoltar.png?v=1773930797' -%}
+                              {%- when 'manzana_maldita' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Manzana_Maldita.png?v=1773930849' -%}
+                              {%- when 'el_vigilante' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/El_vigilante.png?v=1773930605' -%}
+                              {%- when 'nina_calabaza' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Ni_a_Calabaza.png?v=1773930825' -%}
+                              {%- when 'dead_tide' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Dead_Tide.png?v=1774285550' -%}
+                              {%- when 'steamboat' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Steamboat.png?v=1773930493' -%}
+                              {%- when 'sunset_octopus' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Octosurf.png?v=1773930969' -%}
+                              {%- when 'beach_break' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Melting-ice.png?v=1773931002' -%}
+                              {%- when 'ice_scream' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/ice-scream.png?v=1773930659' -%}
+                              {%- when 'honey_bones' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Spring_bees.png?v=1773930580' -%}
+                              {%- when 'moon_surfers' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Moon_surfers.png?v=1773930711' -%}
+                              {%- when 'skull_mermaid' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Skull_mermaid.png?v=1773931024' -%}
+                              {%- when 'night_blooms' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/night_bloom.png?v=1773930752' -%}
+                              {%- when 'steam_dragon' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/white-dragon.png?v=1773930778' -%}
+                              {%- when 'eolo' -%}
+                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/eolo.png?v=1773930926' -%}
+                            {%- endcase -%}
+                          {%- endif -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                      {% if item.product.handle == 'steamboat-edit-blanca'
+                        or item.product.handle == 'steamboat-edit-negra'
+                        or item.product.handle == 'steamboat-edit-white'
+                        or item.product.handle == 'steamboat-edit-black'
+                      %}
+                        {% if custom_design_image_url != blank %}
+                          <a href="{{ cart_item_url }}" class="cart-item__link" aria-hidden="true" tabindex="-1"> </a>
+                          <div class="cart-item__image-container gradient global-media-settings">
+                            <img
+                              src="{{ custom_design_image_url }}"
+                              class="cart-item__image"
+                              alt="{{ item.product.title | escape }}"
+                              loading="lazy"
+                              width="150"
+                            >
+                          </div>
+                        {% endif %}
+                      {% else %}
+                        {% if cart_image %}
+                          <a href="{{ cart_item_url }}" class="cart-item__link" aria-hidden="true" tabindex="-1"> </a>
+                          <div class="cart-item__image-container gradient global-media-settings">
+                            <img
+                              src="{{ cart_image | image_url: width: 300 }}"
+                              class="cart-item__image"
+                              alt="{{ cart_image.alt | default: item.product.title | escape }}"
+                              loading="lazy"
+                              width="150"
+                              height="{{ 150 | divided_by: cart_image.aspect_ratio | ceil }}"
+                            >
+                          </div>
+                        {% endif %}
+                      {% endif %}
                     </td>
 
                     <td class="cart-item__details">

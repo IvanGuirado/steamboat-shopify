@@ -659,6 +659,37 @@
     "selected_design_alt": "Diseño seleccionado",
     "color_label": "Color",
     "error_select_design": "Selecciona un diseño antes de añadir al carrito."
-
+  },
+  "steamboat_edit": {
+    "intro": {
+      "title": "Steamboat Edit",
+      "subtitle": "Configura tu prenda con uno de nuestros diseños.",
+      "step_1_title": "Elige tu base",
+      "step_1_text": "Accede a la personalización desde una de nuestras prendas base.",
+      "step_2_title": "Selecciona un diseño",
+      "step_2_text": "Descubre nuestros diseños y elige el que mejor encaje contigo.",
+      "step_3_title": "Termina tu configuración",
+      "step_3_text": "Completa la personalización eligiendo talla, color y ubicación del diseño.",
+      "primary_button": "Personalizar ahora",
+      "feature_title": "Diseños destacados",
+      "feature_text": "Explore nuestros diseños destacados y elige el que mejor encaje contigo."
+    },
+    "featured": {
+      "title": "Diseños destacados",
+      "more_button": "Ver más diseños",
+      "choose_button": "Elegir diseño"
+    },
+    "bases": {
+      "title": "Elige tu prenda",
+      "subtitle": "Selecciona la base con la que quieres empezar la personalización.",
+      "white_title": "Camiseta blanca",
+      "black_title": "Camiseta negra",
+      "base_text": "Empieza a personalizar esta base.",
+      "button": "Personalizar"
+    },
+    "designs": {
+      "title": "Todos los diseños",
+      "choose_button": "Elegir diseño"
+    }
   }
 }

@@ -1,0 +1,202 @@
+{%- comment -%}
+  =========================================================
+  STEAMBOAT EDIT INTRO
+  ---------------------------------------------------------
+  Sección de introducción para la página de personalización.
+
+  Contiene:
+  1. Encabezado principal
+  2. Bloque destacado con imagen + texto
+  3. 3 pasos explicativos
+  4. Botón principal de acción
+
+  Pensada para ir encima de la galería de diseños.
+  =========================================================
+{%- endcomment -%}
+
+{%- style -%}
+  /* =========================================================
+     ESPACIADO DE LA SECCIÓN
+     - usa los valores del editor (padding top / bottom)
+     ========================================================= */
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+   
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width steamboat-edit-intro section-{{ section.id }}-padding">
+    {%- comment -%}
+      =========================================================
+      CABECERA
+      =========================================================
+    {%- endcomment -%}
+    <div class="steamboat-edit-intro__header">
+      <h1 class="title inline-richtext steamboat-edit-intro__title">
+        {{ 'steamboat_edit.intro.title' | t }}
+      </h1>
+
+      <p class="steamboat-edit-intro__subtitle">
+        {{ 'steamboat_edit.intro.subtitle' | t }}
+      </p>
+    </div>
+
+    {%- comment -%}
+      =========================================================
+      BLOQUE DESTACADO
+      - imagen + texto
+      - sin botón
+      - va antes de los 3 pasos
+      =========================================================
+    {%- endcomment -%}
+    {%- if section.settings.image != blank
+      or section.settings.feature_title != blank
+      or section.settings.feature_text != blank
+    -%}
+      <div class="steamboat-edit-intro__feature">
+        <div class="steamboat-edit-intro__feature-media">
+          {%- if section.settings.image != blank -%}
+            {{
+              section.settings.image
+              | image_url: width: 900
+              | image_tag: loading: 'lazy', class: 'steamboat-edit-intro__feature-image'
+            }}
+          {%- endif -%}
+        </div>
+
+        <div class="steamboat-edit-intro__feature-content">
+          {%- if section.settings.feature_title != blank -%}
+            <h2 class="h2 steamboat-edit-intro__feature-title">
+              {{ 'steamboat_edit.intro.feature_title' | t }}
+            </h2>
+          {%- endif -%}
+
+          {%- if section.settings.feature_text != blank -%}
+            <div class="steamboat-edit-intro__feature-text rte">
+              {{ 'steamboat_edit.intro.feature_text' | t }}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%}
+      =========================================================
+      PASOS EXPLICATIVOS
+      =========================================================
+    {%- endcomment -%}
+    <div class="steamboat-edit-intro__steps">
+      <div class="steamboat-edit-intro__step">
+        <h2 class="h3 steamboat-edit-intro__step-title">
+          {{ 'steamboat_edit.intro.step_1_title' | t }}
+        </h2>
+        <p class="steamboat-edit-intro__step-text">
+          {{ 'steamboat_edit.intro.step_1_text' | t }}
+        </p>
+      </div>
+
+      <div class="steamboat-edit-intro__step">
+        <h2 class="h3 steamboat-edit-intro__step-title">
+          {{ 'steamboat_edit.intro.step_2_title' | t }}
+        </h2>
+        <p class="steamboat-edit-intro__step-text">
+          {{ 'steamboat_edit.intro.step_2_text' | t }}
+        </p>
+      </div>
+
+      <div class="steamboat-edit-intro__step">
+        <h2 class="h3 steamboat-edit-intro__step-title">
+          {{ 'steamboat_edit.intro.step_3_title' | t }}
+        </h2>
+        <p class="steamboat-edit-intro__step-text">
+          {{ 'steamboat_edit.intro.step_3_text' | t }}
+        </p>
+      </div>
+    </div>
+
+    {%- comment -%}
+      =========================================================
+      BOTÓN PRINCIPAL
+      =========================================================
+    {%- endcomment -%}
+    <div class="steamboat-edit-intro__actions">
+      {%- if section.settings.primary_link != blank -%}
+        <a href="{{ section.settings.primary_link }}" class="button">
+          {{ 'steamboat_edit.intro.primary_button' | t }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SB Intro",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Esquema de color",
+      "default": "scheme-1"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Enlace botón principal"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Relleno superior",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Relleno inferior",
+      "default": 20
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen destacada"
+    },
+    {
+      "type": "text",
+      "id": "feature_title",
+      "label": "Título bloque destacado",
+      "default": "Personalización predefinida"
+    },
+    {
+      "type": "richtext",
+      "id": "feature_text",
+      "label": "Texto bloque destacado",
+      "default": "<p>Elige entre nuestras combinaciones disponibles de diseño y estampación para mantener un acabado cuidado y coherente en cada prenda.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SB Intro"
+    }
+  ]
+}
+{% endschema %}

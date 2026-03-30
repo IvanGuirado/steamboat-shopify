@@ -65,12 +65,6 @@
     #ProductInfo-{{ section.id }} .product-form__buttons {
       margin-top: 1.8rem;
     }
-
-
-    /* Más aire antes del footer en Steamboat Edit */
-    .steamboat-edit-layout .product__info-container {
-      padding-bottom: 4rem;
-    }
   {%- endstyle -%}
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
@@ -117,78 +111,25 @@
           or product.handle == 'steamboat-edit-black'
         %}
           {%- comment -%}
-            DATOS DEL PREVIEW DE STEAMBOAT EDIT
-            - designImages: mapa de diseño -> imagen PNG
-            - mockupMap: mapa color|ubicacion -> mockup base
-            Este bloque lo leerá steamboat-edit-preview.js
+            PREVIEW PERSONALIZADO IZQUIERDO
+            - custom-left-mockup: mockup/base de la prenda
+            - custom-left-design: diseño seleccionado
           {%- endcomment -%}
-          {% assign steamboat_is_black = false %}
-          {% if product.handle == 'steamboat-edit-negra' or product.handle == 'steamboat-edit-black' %}
-            {% assign steamboat_is_black = true %}
-          {% endif %}
-
-          <div class="custom-left-gallery custom-left-gallery--builder">
-            <div id="custom-left-mockup-wrapper" class="custom-left-mockup-wrapper custom-left-stage">
-              <span class="custom-left-preview-label">{{ 'configura_prenda.preview_label' | t }}</span>
-
+          <div class="custom-left-gallery">
+            <div id="custom-left-mockup-wrapper" class="custom-left-mockup-wrapper">
               <img
-                id="mockup-white-front"
-                class="custom-left-mockup steamboat-edit-mockup {% unless steamboat_is_black %} is-active{% endunless %}"
-                src="{{ 'camiseta_blanca-disenofront.webp' | file_url }}"
-                alt="{{ 'configura_prenda.mockup_alt' | t }}"
-                loading="eager"
-              >
-
-              <img
-                id="mockup-white-back"
-                class="custom-left-mockup steamboat-edit-mockup"
-                src="{{ 'camiseta_blanca-disenoback.webp' | file_url }}"
-                alt="{{ 'configura_prenda.mockup_alt' | t }}"
-                loading="eager"
-              >
-
-              <img
-                id="mockup-black-front"
-                class="custom-left-mockup steamboat-edit-mockup{% if steamboat_is_black %} is-active{% endif %}"
-                src="{{ 'camiseta_negra-disenofront.webp' | file_url }}"
-                alt="{{ 'configura_prenda.mockup_alt' | t }}"
-                loading="eager"
-              >
-
-              <img
-                id="mockup-black-back"
-                class="custom-left-mockup steamboat-edit-mockup"
-                src="{{ 'camiseta_negra-disenoback.webp' | file_url }}"
-                alt="{{ 'configura_prenda.mockup_alt' | t }}"
-                loading="eager"
-              >
-
-              <img
-                id="custom-left-design"
-                class="custom-left-design custom-left-design--overlay"
-                alt="{{ 'configura_prenda.selected_design_alt' | t }}"
+                id="custom-left-mockup"
+                class="custom-left-mockup"
+                alt="Mockup de la prenda"
               >
             </div>
 
-            <div class="custom-left-summary" id="custom-left-summary">
-              <span class="custom-left-summary__item">
-                <strong>{{ 'configura_prenda.color_label' | t }}:</strong>
-                <span id="custom-summary-color">—</span>
-              </span>
-
-              <span class="custom-left-summary__divider">·</span>
-
-              <span class="custom-left-summary__item">
-                <strong>{{ 'configura_prenda.placement' | t }}:</strong>
-                <span id="custom-summary-placement">—</span>
-              </span>
-
-              <span class="custom-left-summary__divider">·</span>
-
-              <span class="custom-left-summary__item">
-                <strong>{{ 'configura_prenda.design' | t }}:</strong>
-                <span id="custom-summary-design">—</span>
-              </span>
+            <div id="custom-left-design-wrapper" class="custom-left-design-wrapper">
+              <img
+                id="custom-left-design"
+                class="custom-left-design"
+                alt="Diseño seleccionado"
+              >
             </div>
           </div>
 
@@ -212,7 +153,7 @@
                 "Black|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.webp?v=1774024437"
               }
             }
-          </script>
+            </script>
         {% else %}
           {% render 'product-media-gallery', variant_images: variant_images %}
         {% endif %}
@@ -236,9 +177,13 @@
                   {{- block.settings.text -}}
                 </p>
               {%- when 'title' -%}
-                <div class="product__title steamboat-edit-header" {{ block.shopify_attributes }}>
+                <div class="product__title" {{ block.shopify_attributes }}>
                   <h1>{{ product.title | escape }}</h1>
-                  <p class="steamboat-edit-subtitle">{{ 'configura_prenda.product_subtitle' | t }}</p>
+                  <a href="{{ product.url }}" class="product__title">
+                    <h2 class="h1">
+                      {{ product.title | escape }}
+                    </h2>
+                  </a>
                 </div>
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
@@ -326,6 +271,12 @@
                     {%- endif -%}
                   {%- endif -%}
                 </p>
+              {%- when 'description' -%}
+                {%- if product.description != blank -%}
+                  <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
+                    {{ product.description }}
+                  </div>
+                {%- endif -%}
               {%- when 'sku' -%}
                 <p
                   class="product__sku{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.sku.size == 0 %} visibility-hidden{% endif %}"

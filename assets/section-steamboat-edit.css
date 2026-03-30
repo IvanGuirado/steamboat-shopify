@@ -1,0 +1,351 @@
+/* =========================================================
+   STEAMBOAT EDIT
+   CSS COMÚN
+   ---------------------------------------------------------
+   Este archivo agrupa estilos compartidos de:
+   - steamboat-edit-intro
+   - steamboat-edit-featured-designs
+   - steamboat-edit-designs-grid
+   - steamboat-edit-bases
+
+   Objetivo:
+   - mantener coherencia visual
+   - unificar espaciados
+   - evitar repetir CSS en cada sección
+   ========================================================= */
+
+
+/* =========================================================
+   CONTENEDORES PAGE-WIDTH DE STEAMBOAT EDIT
+   - padding lateral coherente con el tema
+   ========================================================= */
+.page-width.steamboat-edit-intro,
+.page-width.steamboat-edit-featured-designs,
+.page-width.steamboat-edit-designs-grid,
+.page-width.steamboat-edit-bases {
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+@media screen and (min-width: 750px) {
+  .page-width.steamboat-edit-intro,
+  .page-width.steamboat-edit-featured-designs,
+  .page-width.steamboat-edit-designs-grid,
+  .page-width.steamboat-edit-bases {
+    padding-left: 5rem !important;
+    padding-right: 5rem !important;
+  }
+}
+
+
+/* =========================================================
+   INTRO
+   ========================================================= */
+.steamboat-edit-intro {
+  text-align: center;
+}
+
+.steamboat-edit-intro__header {
+  max-width: 72rem;
+  margin: 0 auto 4.8rem;
+}
+
+.steamboat-edit-intro__title {
+  margin: 0 0 1.2rem;
+  text-align: center;
+}
+
+.steamboat-edit-intro__subtitle {
+  margin: 1.6rem 0 0;
+  font-size: 1.7rem;
+  line-height: 1.6;
+  opacity: 0.8;
+  text-align: center;
+}
+
+.steamboat-edit-intro__feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 4rem;
+  align-items: center;
+  text-align: left;
+  margin: 0 0 4.8rem;
+}
+
+.steamboat-edit-intro__feature-media {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.steamboat-edit-intro__feature-image {
+  width: 100%;
+  max-width: 42rem;
+  height: auto;
+  display: block;
+}
+
+.steamboat-edit-intro__feature-content {
+  text-align: left;
+}
+
+.steamboat-edit-intro__feature-title {
+  margin: 0 0 1rem;
+}
+
+.steamboat-edit-intro__feature-text {
+  margin: 0;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+.steamboat-edit-intro__steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2.4rem;
+  margin: 0 0 4rem;
+}
+
+.steamboat-edit-intro__step {
+  text-align: center;
+}
+
+.steamboat-edit-intro__step-title {
+  margin: 0 0 0.8rem;
+}
+
+.steamboat-edit-intro__step-text {
+  margin: 0;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+.steamboat-edit-intro__actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-bottom: 4rem;
+}
+
+
+/* =========================================================
+   FEATURED DESIGNS
+   ========================================================= */
+.steamboat-edit-featured-designs__title {
+  margin: 0 0 2.4rem;
+  text-align: center;
+}
+
+.steamboat-edit-featured-designs__grid {
+  gap: 3rem;
+}
+
+.steamboat-edit-featured-designs__item {
+  text-align: center;
+}
+
+.steamboat-edit-featured-designs__image-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-decoration: none;
+}
+
+.steamboat-edit-featured-designs__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+.steamboat-edit-featured-designs__actions {
+  display: flex;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   ALL DESIGNS GRID
+   ========================================================= */
+.steamboat-edit-designs-grid__title {
+  margin: 0 0 2.4rem;
+  text-align: center;
+}
+
+.steamboat-edit-designs-grid__items {
+  gap: 3rem;
+}
+
+.steamboat-edit-designs-grid__item {
+  text-align: center;
+}
+
+.steamboat-edit-designs-grid__image-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-decoration: none;
+}
+
+.steamboat-edit-designs-grid__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   BASES
+   ========================================================= */
+.steamboat-edit-bases__header {
+  max-width: 72rem;
+  margin: 0 auto 3.2rem;
+  text-align: center;
+}
+
+.steamboat-edit-bases__title {
+  margin: 0 0 1.2rem;
+  text-align: center;
+}
+
+.steamboat-edit-bases__subtitle {
+  margin: 0;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+.steamboat-edit-bases__grid {
+  gap: 3rem;
+}
+
+.steamboat-edit-bases__item {
+  text-align: center;
+}
+
+.steamboat-edit-bases__image-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-decoration: none;
+}
+
+.steamboat-edit-bases__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+.steamboat-edit-bases__name {
+  margin: 0 0 0.8rem;
+}
+
+.steamboat-edit-bases__text {
+  margin: 0 0 1.6rem;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+.steamboat-edit-bases__actions {
+  margin-top: auto;
+}
+
+
+/* =========================================================
+   HOVER SUAVE EN DISEÑOS
+   ========================================================= */
+.steamboat-edit-featured-designs__image,
+.steamboat-edit-designs-grid__image,
+.steamboat-edit-featured-designs__link .svg-wrapper,
+.steamboat-edit-featured-designs__link svg,
+.steamboat-edit-designs-grid__link .svg-wrapper,
+.steamboat-edit-designs-grid__link svg {
+  transition: transform 0.25s ease;
+}
+
+.steamboat-edit-featured-designs_item:hover .steamboat-edit-featured-designs_image,
+.steamboat-edit-designs-grid_item:hover .steamboat-edit-designs-grid_image {
+  transform: translateY(-4px);
+}
+
+.steamboat-edit-featured-designs_item:hover .steamboat-edit-featured-designs_link .svg-wrapper,
+.steamboat-edit-featured-designs_item:hover .steamboat-edit-featured-designs_link svg,
+.steamboat-edit-designs-grid_item:hover .steamboat-edit-designs-grid_link .svg-wrapper,
+.steamboat-edit-designs-grid_item:hover .steamboat-edit-designs-grid_link svg {
+  transform: translateX(4px);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media screen and (max-width: 989px) {
+  .steamboat-edit-intro__header {
+    margin: 3.2rem auto 4rem;
+  }
+
+  .steamboat-edit-intro__feature {
+    grid-template-columns: 1fr;
+    gap: 2.4rem;
+    margin: 0 0 4rem;
+    text-align: center;
+  }
+
+  .steamboat-edit-intro__feature-content {
+    text-align: center;
+  }
+
+  .steamboat-edit-intro__feature-image {
+    max-width: 30rem;
+    margin: 0 auto;
+  }
+
+  .steamboat-edit-intro__steps {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin: 0 0 3.2rem;
+  }
+
+  .steamboat-edit-featured-designs__grid,
+  .steamboat-edit-designs-grid__items,
+  .steamboat-edit-bases__grid {
+    gap: 2.4rem 2rem;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .steamboat-edit-intro__header {
+    margin: 2.8rem auto 3.2rem;
+  }
+
+  .steamboat-edit-intro__subtitle {
+    font-size: 1.6rem;
+  }
+
+  .steamboat-edit-intro__feature {
+    gap: 2rem;
+    margin: 0 0 3.2rem;
+  }
+
+  .steamboat-edit-intro__feature-image {
+    max-width: 26rem;
+  }
+
+  .steamboat-edit-intro__actions {
+    margin-bottom: 3.2rem;
+  }
+
+  .steamboat-edit-featured-designs__grid,
+  .steamboat-edit-designs-grid__items,
+  .steamboat-edit-bases__grid {
+    gap: 2rem;
+  }
+}

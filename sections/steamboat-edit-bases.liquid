@@ -1,0 +1,272 @@
+{%- comment -%}
+  =========================================================
+  SB BASES
+  ---------------------------------------------------------
+  Sección para elegir la prenda/base antes de entrar
+  al producto personalizable.
+
+  Uso:
+  - Página "Elige tu prenda"
+  - Hoy: camiseta blanca y camiseta negra
+  - Futuro: se pueden añadir más prendas
+  =========================================================
+{%- endcomment -%}
+
+{%- style -%}
+  /* =========================================================
+     ESPACIADO DE LA SECCIÓN
+     ========================================================= */
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  /* =========================================================
+     CABECERA
+     ========================================================= */
+  .steamboat-edit-bases__header {
+    max-width: 72rem;
+    margin: 0 auto 3.2rem;
+    text-align: center;
+  }
+
+  .steamboat-edit-bases__title {
+    margin: 0 0 1.2rem;
+  }
+
+  .steamboat-edit-bases__subtitle {
+    margin: 0;
+    line-height: 1.6;
+    opacity: 0.8;
+  }
+
+  /* =========================================================
+     REJILLA DE BASES
+     ========================================================= */
+  .steamboat-edit-bases__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem;
+  }
+
+  /* =========================================================
+     TARJETA INDIVIDUAL
+     ========================================================= */
+  .steamboat-edit-bases__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    height: 100%;
+  }
+
+  .steamboat-edit-bases__image-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 28rem;
+    margin-bottom: 1.2rem;
+    text-decoration: none;
+  }
+
+  .steamboat-edit-bases__image {
+    display: block;
+    width: 100%;
+    max-width: 28rem;
+    max-height: 28rem;
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+
+  .steamboat-edit-bases__name {
+    margin: 0 0 0.8rem;
+  }
+
+  .steamboat-edit-bases__text {
+    margin: 0 0 1.6rem;
+    line-height: 1.6;
+    opacity: 0.8;
+  }
+
+  .steamboat-edit-bases__actions {
+    margin-top: auto;
+  }
+
+  @media screen and (max-width: 749px) {
+    .steamboat-edit-bases__grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .steamboat-edit-bases__image-wrap {
+      min-height: 24rem;
+    }
+
+    .steamboat-edit-bases__image {
+      max-width: 24rem;
+      max-height: 24rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width steamboat-edit-bases">
+    {%- comment -%}
+      =========================================================
+      CABECERA
+      =========================================================
+    {%- endcomment -%}
+    <div class="steamboat-edit-bases__header">
+      <h1 class="title inline-richtext steamboat-edit-bases__title">
+        {{ 'steamboat_edit.bases.title' | t }}
+      </h1>
+
+      <p class="steamboat-edit-bases__subtitle">
+        {{ 'steamboat_edit.bases.subtitle' | t }}
+      </p>
+    </div>
+
+    {%- comment -%}
+      =========================================================
+      TARJETAS DE BASE
+      =========================================================
+    {%- endcomment -%}
+    <div class="steamboat-edit-bases__grid">
+      {%- for block in section.blocks -%}
+        <div class="steamboat-edit-bases__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.link != blank -%}
+            <a class="steamboat-edit-bases__image-wrap" href="{{ block.settings.link }}">
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 800
+                  | image_tag: loading: 'lazy', class: 'steamboat-edit-bases__image'
+                }}
+              {%- endif -%}
+            </a>
+          {%- else -%}
+            <div class="steamboat-edit-bases__image-wrap">
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 800
+                  | image_tag: loading: 'lazy', class: 'steamboat-edit-bases__image'
+                }}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          <h2 class="h3 steamboat-edit-bases__name">
+            {% assign garment_key = block.settings.garment_key %}
+
+            {% if garment_key == 'white' %}
+              {{ 'steamboat_edit.bases.white_title' | t }}
+            {% elsif garment_key == 'black' %}
+              {{ 'steamboat_edit.bases.black_title' | t }}
+            {% endif %}
+          </h2>
+
+          <p class="steamboat-edit-bases__text">
+            {{ 'steamboat_edit.bases.base_text' | t }}
+          </p>
+
+          <div class="steamboat-edit-bases__actions">
+            {%- if block.settings.link != blank -%}
+              <a href="{{ block.settings.link }}" class="button">
+                {{ 'steamboat_edit.bases.button' | t }}
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SB Bases",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Esquema de color",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Relleno superior",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Relleno inferior",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "base",
+      "name": "Prenda base",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen"
+        },
+        {
+          "type": "select",
+          "id": "garment_key",
+          "label": "Tipo de prenda",
+          "default": "white",
+          "options": [
+            { "value": "white", "label": "White" },
+            { "value": "black", "label": "Black" }
+          ]
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Enlace"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SB Bases",
+      "blocks": [
+        {
+          "type": "base"
+        },
+        {
+          "type": "base"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
