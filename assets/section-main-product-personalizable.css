@@ -565,3 +565,9 @@
   opacity: 1;
   pointer-events: auto;
 }
+
+.steamboat-edit-layout .product-form__submit.button,
+.steamboat-edit-layout .product-form__submit.button[aria-disabled='true'],
+.steamboat-edit-layout .product-form__submit.button:disabled {
+  opacity: 1 !important;
+}

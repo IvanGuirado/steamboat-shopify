@@ -119,6 +119,7 @@ if (!customElements.get('localization-form')) {
           );
 
           const designSelect = document.getElementById('custom-design');
+          const quantityInput = document.querySelector('.quantity__input[name="quantity"]');
 
           let domDiseno = '';
 
@@ -132,7 +133,8 @@ if (!customElements.get('localization-form')) {
           const state = {
             talla: urlTalla || (tallaInput ? (tallaInput.value || '').trim() : ''),
             ubicacion: urlUbicacion || (ubicacionInput ? (ubicacionInput.getAttribute('data-placement-value') || '').trim() : ''),
-            diseno: urlDiseno || domDiseno || ''
+            diseno: urlDiseno || domDiseno || '',
+            cantidad: quantityInput ? String(quantityInput.value || '').trim() : '',
           };
 
           sessionStorage.setItem('steamboat_edit_state', JSON.stringify(state));

@@ -16,7 +16,7 @@
  *    - mostrar imagen del diseño
  *    - dejar el nombre del diseño seleccionado en el select
  *
- * 3. En cambio de idioma:
+ * 3. En cambio de idioma y refresh:
  *    - recuperar estado desde sessionStorage cuando toca
  *
  * NOTAS:
@@ -65,10 +65,6 @@ document.addEventListener('DOMContentLoaded', function () {
    */
   function getProductInfoContainer() {
     return document.querySelector('[id^="ProductInfo-"]') || document;
-  }
-
-  function getVariantSelectsContainer() {
-    return document.querySelector('variant-selects') || getProductInfoContainer();
   }
 
   /**
@@ -202,6 +198,11 @@ document.addEventListener('DOMContentLoaded', function () {
     };
   }
 
+  function hasVariantInUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return !!params.get('variant');
+  }
+
   /**
    * Detecta si entramos desde la página de bases.
    */
@@ -286,9 +287,9 @@ document.addEventListener('DOMContentLoaded', function () {
    * ESTADO EFECTIVO
    * ---------------------------------------------------------
    * Prioridades:
-   * 1. Flujo bases => limpio
-   * 2. Cambio de idioma => sessionStorage primero
-   * 3. Flujo diseños => diseño de URL
+   * 1. Cambio de idioma => sessionStorage primero
+   * 2. Flujo bases => limpio
+   * 3. Flujo diseños => diseño de URL, sin arrastrar talla
    * 4. Flujo normal => URL o session
    * =========================================================
    */
@@ -299,8 +300,19 @@ document.addEventListener('DOMContentLoaded', function () {
       sessionStorage.getItem('steamboat_edit_pending_locale_switch') === '1';
 
     /**
-     * Flujo bases:
-     * limpio total
+     * 1. CAMBIO DE IDIOMA
+     * No borramos el flag aquí; se limpia al final de initFromState().
+     */
+    if (pendingLocaleSwitch) {
+      return {
+        talla: storedState.talla || urlState.talla || '',
+        ubicacion: storedState.ubicacion || urlState.ubicacion || '',
+        diseno: storedState.diseno || urlState.diseno || '',
+      };
+    }
+
+    /**
+     * 2. FLUJO BASES
      */
     if (shouldResetBuilder()) {
       clearSteamboatEditState();
@@ -313,21 +325,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /**
-     * Cambio de idioma:
-     * prioridad a sessionStorage
+     * 3. FLUJO DISEÑOS
+     * Si la URL trae diseño pero no talla ni ubicación,
+     * no arrastramos talla/ubicación viejas.
      */
-    if (pendingLocaleSwitch) {
-      sessionStorage.removeItem('steamboat_edit_pending_locale_switch');
-
+    if (urlState.diseno && !urlState.talla && !urlState.ubicacion) {
       return {
-        talla: storedState.talla || urlState.talla || '',
-        ubicacion: storedState.ubicacion || urlState.ubicacion || '',
-        diseno: storedState.diseno || urlState.diseno || ''
+        talla: '',
+        ubicacion: '',
+        diseno: urlState.diseno
       };
     }
 
     /**
-     * Flujo normal
+     * 4. FLUJO NORMAL
      */
     return {
       talla: urlState.talla || storedState.talla || '',
@@ -361,6 +372,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const selectedOption = designSelect.options[designSelect.selectedIndex];
     return selectedOption ? (selectedOption.getAttribute('data-design-key') || '').trim() : '';
   }
+
+
 
   /**
    * Detecta color actual para elegir el mockup base.
@@ -423,11 +436,6 @@ document.addEventListener('DOMContentLoaded', function () {
   /**
    * =========================================================
    * PREVIEW DEL DISEÑO
-   * ---------------------------------------------------------
-   * Si no hay diseño:
-   * - ocultamos la capa del diseño
-   * Si hay diseño:
-   * - cargamos la imagen del diseño
    * =========================================================
    */
   function updatePreview(selectedDesign) {
@@ -437,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /**
      * Sin diseño:
-     * - ocultamos completamente la ilustración
+     * ocultamos completamente la ilustración.
      */
     if (!imageUrl) {
       leftDesign.src = '';
@@ -452,7 +460,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /**
      * Igual que el mockup:
-     * - no enseñamos nada hasta que la imagen haya cargado
+     * no enseñamos nada hasta que la imagen haya cargado.
      */
     const tempImg = new Image();
 
@@ -516,16 +524,16 @@ document.addEventListener('DOMContentLoaded', function () {
    */
   function findMockupUrl(color, ubicacion) {
     const keys = [
-      `${color}|${ubicacion}`,
-      `${color}|front`,
-      `${normalizeText(color) === 'blanco' ? 'White' : color}|${ubicacion}`,
-      `${normalizeText(color) === 'negro' ? 'Black' : color}|${ubicacion}`,
-      `${normalizeText(color) === 'white' ? 'Blanco' : color}|${ubicacion}`,
-      `${normalizeText(color) === 'black' ? 'Negro' : color}|${ubicacion}`,
-      `White|${ubicacion}`,
-      `Black|${ubicacion}`,
-      `Blanco|${ubicacion}`,
-      `Negro|${ubicacion}`,
+      `${color} | ${ubicacion}`,
+      `${color} | front`,
+      `${normalizeText(color) === 'blanco' ? 'White' : color}| ${ubicacion}`,
+      `${normalizeText(color) === 'negro' ? 'Black' : color}| ${ubicacion}`,
+      `${normalizeText(color) === 'white' ? 'Blanco' : color}| ${ubicacion}`,
+      `${normalizeText(color) === 'black' ? 'Negro' : color}| ${ubicacion}`,
+      `White | ${ubicacion}`,
+      `Black | ${ubicacion}`,
+      `Blanco | ${ubicacion}`,
+      `Negro | ${ubicacion}`,
       'White|front',
       'Black|front',
       'Blanco|front',
@@ -597,6 +605,27 @@ document.addEventListener('DOMContentLoaded', function () {
    * URL + SESSION
    * =========================================================
    */
+
+  /**
+ * Devuelve el id de la variante actualmente seleccionada
+ * desde el JSON que deja Dawn en el DOM.
+ */
+  function getSelectedVariantId() {
+    const variantScript = getProductInfoContainer().querySelector(
+      'script[type="application/json"][data-selected-variant]'
+    );
+
+    if (!variantScript) return '';
+
+    try {
+      const variantData = JSON.parse(variantScript.textContent.trim());
+      return variantData && variantData.id ? String(variantData.id) : '';
+    } catch (error) {
+      console.warn('No se pudo leer data-selected-variant:', error);
+      return '';
+    }
+  }
+
   function syncUrlWithSelections() {
     const url = new URL(window.location.href);
     url.searchParams.delete('reset_builder');
@@ -604,6 +633,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const talla = getSelectedTalla();
     const ubicacion = getSelectedUbicacion();
     const diseno = getSelectedDiseno();
+    const variantId = getSelectedVariantId();
+
 
     if (talla) url.searchParams.set('talla', talla);
     else url.searchParams.delete('talla');
@@ -613,6 +644,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (diseno) url.searchParams.set('diseno', diseno);
     else url.searchParams.delete('diseno');
+
+    if (variantId) url.searchParams.set('variant', variantId);
+    else url.searchParams.delete('variant');
 
     window.history.replaceState({}, '', url.pathname + url.search);
 
@@ -631,6 +665,25 @@ document.addEventListener('DOMContentLoaded', function () {
    * =========================================================
    */
 
+  /**
+ * Marca visualmente la talla correcta sin disparar change.
+ * Sirve para evitar el flash inicial del borde gris.
+ */
+  function applyTallaVisual(state) {
+    if (!state.talla) return false;
+
+    let applied = false;
+
+    getTallaInputs().forEach(function (input) {
+      if (normalizeText(input.value) === normalizeText(state.talla)) {
+        input.checked = true;
+        applied = true;
+      }
+    });
+
+    return applied;
+  }
+
   function applyTalla(state) {
     if (!state.talla) return false;
 
@@ -646,6 +699,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     return applied;
   }
+
   function applyUbicacionVisual(state) {
     if (!state.ubicacion) return false;
 
@@ -661,6 +715,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     return applied;
   }
+
   function applyUbicacion(state) {
     if (!state.ubicacion) return false;
 
@@ -698,23 +753,23 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /**
- * =========================================================
- * INICIALIZACIÓN
- * =========================================================
- */
+   * =========================================================
+   * INICIALIZACIÓN
+   * =========================================================
+   */
   async function initFromState() {
+    const pendingLocaleSwitch =
+      sessionStorage.getItem('steamboat_edit_pending_locale_switch') === '1';
+
     const state = getEffectiveState();
 
     try {
       /**
-       * ---------------------------------------------------------
        * FLUJO BASES
-       * - mockup sí
-       * - diseño no
-       * - select vacío
-       * ---------------------------------------------------------
+       * Solo entramos limpios si venimos de bases y NO estamos
+       * en un cambio de idioma.
        */
-      if (shouldResetBuilder()) {
+      if (shouldResetBuilder() && !pendingLocaleSwitch) {
         clearSteamboatEditState();
         clearDesignSelection();
 
@@ -727,16 +782,10 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       /**
-       * ---------------------------------------------------------
        * FLUJO NORMAL / CAMBIO DE IDIOMA / ENTRADA DESDE DISEÑOS
-       * ---------------------------------------------------------
-       * Siempre intentamos recuperar:
-       * - talla
-       * - ubicación
-       * - diseño
        */
       applyUbicacionVisual(state);
-      applyTalla(state);
+      applyTallaVisual(state);
 
       await wait(220);
 
@@ -759,21 +808,32 @@ document.addEventListener('DOMContentLoaded', function () {
        */
       await wait(250);
 
-      applyTalla(state);
+      if (!hasVariantInUrl()) {
+        applyTalla(state);
+      }
+
       applyUbicacion(state);
 
       if (state.diseno) {
-  applyDiseno(state);
-  updatePreview(state.diseno);
-} else {
-  updatePreview('');
-}
+        applyDiseno(state);
+        updatePreview(state.diseno);
+      } else {
+        updatePreview('');
+      }
 
       await forceMockupLoad();
       syncUrlWithSelections();
 
       document.documentElement.classList.add('steamboat-edit-ready');
     } finally {
+      /**
+       * Aquí sí limpiamos el flag del cambio de idioma,
+       * una vez que ya hemos terminado de usarlo.
+       */
+      if (pendingLocaleSwitch) {
+        sessionStorage.removeItem('steamboat_edit_pending_locale_switch');
+      }
+
       document.documentElement.classList.remove('steamboat-location-loading');
     }
   }
@@ -814,6 +874,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (target.matches('#custom-design')) {
       updatePreview(getSelectedDiseno());
       syncUrlWithSelections();
+      return;
     }
   });
 
