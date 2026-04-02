@@ -137,6 +137,51 @@
                 {{ 'configura_prenda.helper' | t }}
               </p>
             </div>
+
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                const designSelect = document.getElementById('custom-design');
+                if (!designSelect) return;
+
+                const productForm = designSelect.closest('form');
+                if (!productForm) return;
+
+                const addButton = productForm.querySelector('button[type="submit"]');
+                if (!addButton) return;
+
+                function hasDesignSelected() {
+                  const selectedOption = designSelect.options[designSelect.selectedIndex];
+                  if (!selectedOption) return false;
+
+                  const designKey = (selectedOption.getAttribute('data-design-key') || '').trim();
+
+                  return !!designKey;
+                }
+
+                function syncAddButtonState() {
+                  const enabled = hasDesignSelected();
+
+                  addButton.disabled = !enabled;
+                  addButton.setAttribute('aria-disabled', enabled ? 'false' : 'true');
+                }
+
+                designSelect.addEventListener('change', syncAddButtonState);
+
+                productForm.addEventListener('submit', function (event) {
+                  if (!hasDesignSelected()) {
+                    event.preventDefault();
+                    designSelect.reportValidity();
+                    designSelect.focus();
+                  }
+                });
+
+                syncAddButtonState();
+
+                setTimeout(syncAddButtonState, 150);
+                setTimeout(syncAddButtonState, 350);
+                setTimeout(syncAddButtonState, 700);
+              });
+            </script>
           </div>
         {% endif %}
         <div class="product-form__buttons personalizable">
