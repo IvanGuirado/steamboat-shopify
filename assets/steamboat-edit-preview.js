@@ -210,7 +210,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const params = new URLSearchParams(window.location.search);
     return params.get('reset_builder') === '1';
   }
-
+  function isFromDesignsEntry() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('from_designs') === '1';
+  }
   /**
    * Limpia el estado guardado del builder.
    */
@@ -312,6 +315,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /**
+ * Entrada desde la página de diseños:
+ * respetamos diseño y ubicación,
+ * pero no arrastramos talla previa de bases.
+ */
+    if (isFromDesignsEntry()) {
+      return {
+        talla: '',
+        ubicacion: urlState.ubicacion || '',
+        diseno: urlState.diseno || ''
+      };
+    }
+
+    /**
      * 2. FLUJO BASES
      */
     if (shouldResetBuilder()) {
@@ -333,7 +349,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return {
         talla: '',
         ubicacion: '',
-        diseno: urlState.diseno
+        diseno: urlState.diseno || ''
       };
     }
 
@@ -629,6 +645,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function syncUrlWithSelections() {
     const url = new URL(window.location.href);
     url.searchParams.delete('reset_builder');
+    url.searchParams.delete('from_designs');
 
     const talla = getSelectedTalla();
     const ubicacion = getSelectedUbicacion();
