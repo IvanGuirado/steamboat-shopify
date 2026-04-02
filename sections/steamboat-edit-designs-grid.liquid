@@ -130,9 +130,10 @@
 
       {% render 'steamboat-edit-designs',
         mode: 'cards',
-        product_url: section.settings.product_url,
+        product_url_es: section.settings.product_url_es,
+        product_url_en: section.settings.product_url_en,
         default_placement: section.settings.default_placement,
-        link_label: choose_button_label
+        link_label: section.settings.link_label
       %}
     </div>
   </div>
@@ -146,9 +147,15 @@
   "settings": [
     {
       "type": "text",
-      "id": "product_url",
+      "id": "product_url_es",
       "default": "/products/steamboat-edit-blanca",
-      "label": "URL del producto base"
+      "label": "URL producto ES"
+    },
+    {
+      "type": "text",
+      "id": "product_url_en",
+      "default": "/en/products/steamboat-edit-white",
+      "label": "URL producto EN"
     },
     {
       "type": "select",

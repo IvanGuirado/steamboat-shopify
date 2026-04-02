@@ -92,18 +92,30 @@
                     {%- endfor -%}
 
                     {%- for property in item.properties -%}
+                      {% comment %}
+                        <div style="font-size:12px; color:red;">
+                          PROP NAME: {{ property.first }} | PROP VALUE: {{ property.last }}
+                        </div>
+                      {% endcomment %}
                       {%- assign property_first_char = property.first | slice: 0 -%}
+                      {%- assign property_name_normalized = property.first | strip | downcase -%}
+
                       {%- if property.last != blank and property_first_char != '_' -%}
-                        {%- if property.first == 'placement' -%}
-                          {%- case property.last -%}
-                            {%- when 'front' -%}
+                        {%- if property_name_normalized == 'placement'
+                          or property_name_normalized == 'design placement'
+                          or property_name_normalized == 'ubicación del diseño'
+                        -%}
+                          {%- assign property_value_normalized = property.last | strip | downcase -%}
+
+                          {%- case property_value_normalized -%}
+                            {%- when 'front', 'front design', 'diseño delante' -%}
                               {%- assign cart_item_ubicacion = 'front' -%}
-                            {%- when 'back' -%}
+                            {%- when 'back', 'back design', 'diseño detrás' -%}
                               {%- assign cart_item_ubicacion = 'back' -%}
                           {%- endcase -%}
                         {%- endif -%}
 
-                        {%- if property.first == 'design' -%}
+                        {%- if property_name_normalized == 'design' or property_name_normalized == 'diseño' -%}
                           {%- assign cart_item_diseno = property.last | strip -%}
                         {%- endif -%}
                       {%- endif -%}
@@ -133,47 +145,51 @@
 
                       {%- for property in item.properties -%}
                         {%- assign property_first_char = property.first | slice: 0 -%}
+                        {%- assign property_name_normalized = property.first | strip | downcase -%}
+
                         {%- if property.last != blank and property_first_char != '_' -%}
-                          {%- if property.first == 'design' -%}
-                            {%- case property.last -%}
-                              {%- when 'pa_amb_sobrassada' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Pa_amb_sobrassada.png?v=1773930526' -%}
-                              {%- when 'yokai' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Yokai.png?v=1773931299' -%}
-                              {%- when 'zoltar' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Zoltar.png?v=1773930797' -%}
-                              {%- when 'manzana_maldita' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Manzana_Maldita.png?v=1773930849' -%}
-                              {%- when 'el_vigilante' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/El_vigilante.png?v=1773930605' -%}
-                              {%- when 'nina_calabaza' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Ni_a_Calabaza.png?v=1773930825' -%}
-                              {%- when 'dead_tide' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Dead_Tide.png?v=1774285550' -%}
-                              {%- when 'steamboat' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Steamboat.png?v=1773930493' -%}
-                              {%- when 'sunset_octopus' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Octosurf.png?v=1773930969' -%}
-                              {%- when 'beach_break' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Melting-ice.png?v=1773931002' -%}
-                              {%- when 'ice_scream' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/ice-scream.png?v=1773930659' -%}
-                              {%- when 'honey_bones' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Spring_bees.png?v=1773930580' -%}
-                              {%- when 'moon_surfers' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Moon_surfers.png?v=1773930711' -%}
-                              {%- when 'skull_mermaid' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Skull_mermaid.png?v=1773931024' -%}
-                              {%- when 'night_blooms' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/night_bloom.png?v=1773930752' -%}
-                              {%- when 'steam_dragon' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/white-dragon.png?v=1773930778' -%}
-                              {%- when 'eolo' -%}
-                                {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/eolo.png?v=1773930926' -%}
-                            {%- endcase -%}
+                          {%- if property_name_normalized == 'design' or property_name_normalized == 'diseño' -%}
+                            {%- assign cart_item_diseno = property.last | strip -%}
                           {%- endif -%}
                         {%- endif -%}
                       {%- endfor -%}
+
+                      {%- case cart_item_diseno -%}
+                        {%- when 'pa_amb_sobrassada', 'Pa amb Sobrassada' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Pa_amb_sobrassada.png?v=1773930526' -%}
+                        {%- when 'yokai', 'Yokai' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Yokai.png?v=1773931299' -%}
+                        {%- when 'zoltar', 'Zoltar' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Zoltar.png?v=1773930797' -%}
+                        {%- when 'manzana_maldita', 'Manzana Maldita' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Manzana_Maldita.png?v=1773930849' -%}
+                        {%- when 'el_vigilante', 'El vigilante' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/El_vigilante.png?v=1773930605' -%}
+                        {%- when 'nina_calabaza', 'Niña Calabaza' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Ni_a_Calabaza.png?v=1773930825' -%}
+                        {%- when 'dead_tide', 'Dead Tide' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Dead_Tide.png?v=1774285550' -%}
+                        {%- when 'steamboat', 'Steamboat' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Steamboat.png?v=1773930493' -%}
+                        {%- when 'sunset_octopus', 'Sunset Octopus' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Octosurf.png?v=1773930969' -%}
+                        {%- when 'beach_break', 'Beach Break' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Melting-ice.png?v=1773931002' -%}
+                        {%- when 'ice_scream', 'Ice-Scream' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/ice-scream.png?v=1773930659' -%}
+                        {%- when 'honey_bones', 'Honey Bones' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Spring_bees.png?v=1773930580' -%}
+                        {%- when 'moon_surfers', 'Moon Surfers' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Moon_surfers.png?v=1773930711' -%}
+                        {%- when 'skull_mermaid', 'Skull Mermaid' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Skull_mermaid.png?v=1773931024' -%}
+                        {%- when 'night_blooms', 'Night Blooms' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/night_bloom.png?v=1773930752' -%}
+                        {%- when 'steam_dragon', 'Steam Dragon' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/white-dragon.png?v=1773930778' -%}
+                        {%- when 'eolo', 'Eolo' -%}
+                          {%- assign custom_design_image_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/eolo.png?v=1773930926' -%}
+                      {%- endcase -%}
                       {% if item.product.handle == 'steamboat-edit-blanca'
                         or item.product.handle == 'steamboat-edit-negra'
                         or item.product.handle == 'steamboat-edit-white'

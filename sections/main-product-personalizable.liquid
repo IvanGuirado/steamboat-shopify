@@ -117,18 +117,30 @@
           {%- endcomment -%}
           <div class="custom-left-gallery">
             <div id="custom-left-mockup-wrapper" class="custom-left-mockup-wrapper">
+              {%- comment -%}
+                =========================================================
+                PREVIEW DEL MOCKUP BASE
+                - alt traducido desde locales
+                =========================================================
+              {%- endcomment -%}
               <img
                 id="custom-left-mockup"
                 class="custom-left-mockup"
-                alt="Mockup de la prenda"
+                alt="{{ 'configura_prenda.mockup_alt' | t }}"
               >
             </div>
 
             <div id="custom-left-design-wrapper" class="custom-left-design-wrapper">
+              {%- comment -%}
+                =========================================================
+                PREVIEW DEL DISEÑO SELECCIONADO
+                - alt traducido desde locales
+                =========================================================
+              {%- endcomment -%}
               <img
                 id="custom-left-design"
                 class="custom-left-design"
-                alt="Diseño seleccionado"
+                alt="{{ 'configura_prenda.selected_design_alt' | t }}"
               >
             </div>
           </div>
@@ -143,17 +155,17 @@
             {
               "designs": {% render 'steamboat-edit-designs', mode: 'json' %},
               "mockupMap": {
-                "Blanco|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.webp?v=1774024437",
-                "Blanco|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.webp?v=1774024437",
-                "Negro|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.webp?v=1774024437",
-                "Negro|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.webp?v=1774024437",
-                "White|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.webp?v=1774024437",
-                "White|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.webp?v=1774024437",
-                "Black|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.webp?v=1774024437",
-                "Black|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.webp?v=1774024437"
+                "Blanco|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
+                "Blanco|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
+                "Negro|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
+                "Negro|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
+                "White|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
+                "White|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
+                "Black|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
+                "Black|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025"
               }
             }
-            </script>
+          </script>
         {% else %}
           {% render 'product-media-gallery', variant_images: variant_images %}
         {% endif %}

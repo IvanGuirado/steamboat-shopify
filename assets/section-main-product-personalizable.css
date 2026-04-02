@@ -24,7 +24,7 @@
   cursor: pointer;
 }
 
-.steamboat-edit-layout .custom-location-option + .custom-location-option {
+.steamboat-edit-layout .custom-location-option+.custom-location-option {
   margin-top: 0.6rem;
 }
 
@@ -522,4 +522,46 @@
     width: 100%;
     margin: 1.6rem 0 0;
   }
+}
+
+/* =========================================================
+   PREVIEW DEL DISEÑO
+   - evita que aparezca grande antes de colocarse
+   ========================================================= */
+.custom-left-design-wrapper,
+#custom-left-design-wrapper {
+  min-height: 28rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.custom-left-design,
+#custom-left-design {
+  display: none;
+  visibility: hidden;
+  width: 100%;
+  max-width: 36rem;
+  height: auto;
+  margin: 0 auto;
+}
+
+.custom-left-design-wrapper.is-loaded .custom-left-design,
+#custom-left-design-wrapper.is-loaded #custom-left-design {
+  visibility: visible;
+}
+
+/* =========================================================
+   STEAMBOAT EDIT
+   La galería base siempre visible
+   ========================================================= */
+
+.custom-left-gallery,
+.custom-left-design-wrapper,
+.product_info-wrapper .product-form_input--pill,
+.custom-location-field,
+.custom-design-field {
+  opacity: 1;
+  pointer-events: auto;
 }

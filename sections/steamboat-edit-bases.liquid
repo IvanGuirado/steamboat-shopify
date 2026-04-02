@@ -146,7 +146,7 @@
       {%- for block in section.blocks -%}
         <div class="steamboat-edit-bases__item" {{ block.shopify_attributes }}>
           {%- if block.settings.link != blank -%}
-            <a class="steamboat-edit-bases__image-wrap" href="{{ block.settings.link }}">
+            <a class="steamboat-edit-bases__image-wrap" href="{{ block.settings.link }}{%  if block.settings.link contains '?' %}&{% else %}?{% endif %}reset_builder=1">
               {%- if block.settings.image != blank -%}
                 {{
                   block.settings.image
@@ -183,7 +183,7 @@
 
           <div class="steamboat-edit-bases__actions">
             {%- if block.settings.link != blank -%}
-              <a href="{{ block.settings.link }}" class="button">
+              <a href="{{ block.settings.link }}{%  if block.settings.link contains '?' %}&{% else %}?{% endif %}reset_builder=1" class="button">
                 {{ 'steamboat_edit.bases.button' | t }}
               </a>
             {%- endif -%}

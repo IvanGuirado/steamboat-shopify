@@ -60,12 +60,33 @@
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
         {%- endif -%}
 
+        {%- comment -%}
+          =========================================================
+          CONFIGURADOR STEAMBOAT EDIT
+          ---------------------------------------------------------
+          Solo se muestra en los productos personalizables:
+          - steamboat-edit-blanca
+          - steamboat-edit-negra
+          - steamboat-edit-white
+          - steamboat-edit-black
+
+          Incluye:
+          - ubicación del diseño
+          - selector de diseño
+          - texto helper traducido
+          =========================================================
+        {%- endcomment -%}
         {% if product.handle == 'steamboat-edit-blanca'
           or product.handle == 'steamboat-edit-negra'
           or product.handle == 'steamboat-edit-white'
           or product.handle == 'steamboat-edit-black'
         %}
           <div class="custom-product-options">
+            {%- comment -%}
+              =========================================================
+              UBICACIÓN DEL DISEÑO
+              =========================================================
+            {%- endcomment -%}
             <div class="custom-product-field custom-location-field">
               <span class="custom-product-label">{{ 'configura_prenda.placement' | t }}</span>
 
@@ -73,8 +94,8 @@
                 <label class="custom-location-option">
                   <input
                     type="radio"
-                    name="properties[placement]"
-                    value="front"
+                    name="properties[{{ 'configura_prenda.placement' | t }}]"
+                    value="{{ 'configura_prenda.front' | t }}"
                     data-placement-value="front"
                     required
                     checked
@@ -85,8 +106,8 @@
                 <label class="custom-location-option">
                   <input
                     type="radio"
-                    name="properties[placement]"
-                    value="back"
+                    name="properties[{{ 'configura_prenda.placement' | t }}]"
+                    value="{{ 'configura_prenda.back' | t }}"
                     data-placement-value="back"
                     required
                   >
@@ -95,11 +116,26 @@
               </div>
             </div>
 
+            {%- comment -%}
+              =========================================================
+              SELECTOR DE DISEÑO
+              - los nombres propios de diseños NO se traducen
+              - sí se traducen la etiqueta y el helper
+              =========================================================
+            {%- endcomment -%}
             <div class="custom-product-field custom-design-field">
-              <label for="custom-design" class="custom-product-label">{{ 'configura_prenda.design' | t }}</label>
-              <select id="custom-design" name="properties[design]" required>
+              <label for="custom-design" class="custom-product-label">
+                {{ 'configura_prenda.design' | t }}
+              </label>
+
+              <select id="custom-design" name="properties[{{ 'configura_prenda.design' | t }}]" required>
+                <option value="" data-design-key=""></option>
                 {% render 'steamboat-edit-designs', mode: 'options' %}
               </select>
+
+              <p class="custom-product-helper">
+                {{ 'configura_prenda.helper' | t }}
+              </p>
             </div>
           </div>
         {% endif %}
