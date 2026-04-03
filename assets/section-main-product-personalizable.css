@@ -135,8 +135,8 @@
 .custom-left-design-wrapper--front {
   top: 39%;
   left: 15%;
-  width: 34%;
-  height: 42%;
+  width: 31%;
+  height: 39%;
 }
 
 
@@ -389,11 +389,11 @@
 }
 
 .custom-left-design.custom-left-design--front.design-scale--small {
-  width: 60%;
-  height: 60%;
-  max-width: 60%;
-  max-height: 60%;
-  transform: translate(-42%, -52%);
+  width: 56%;
+  height: 56%;
+  max-width: 56%;
+  max-height: 56%;
+  transform: translate(-42%, -50%);
 }
 
 
@@ -644,4 +644,14 @@
   .steamboat-edit-designs-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+
+.custom-left-design:not([src]),
+.custom-left-design[src=""] {
+  display: none;
+}
+
+.product-form__submit.is-disabled-by-design {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
