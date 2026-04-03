@@ -101,10 +101,12 @@
     >
   {%- endif -%}
 
+  {% comment %} Empieza aquiii {% endcomment %}
+
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
   <div class="page-width steamboat-edit-layout">
     <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col grid--2-col-tablet">
-      <div class="grid_item product__media-wrapper">
+      <div class="grid__item product__media-wrapper">
         {% if product.handle == 'steamboat-edit-blanca'
           or product.handle == 'steamboat-edit-negra'
           or product.handle == 'steamboat-edit-white'
@@ -116,32 +118,80 @@
             - custom-left-design: diseño seleccionado
           {%- endcomment -%}
           <div class="custom-left-gallery">
-            <div id="custom-left-mockup-wrapper" class="custom-left-mockup-wrapper">
+            {%- comment -%}
+              =========================================================
+              ESCENARIO DEL MOCKUP
+              ---------------------------------------------------------
+              Este contenedor será la base del preview.
+              Aquí vivirán:
+              - el mockup base
+              - la zona de impresión delantera
+              - la zona de impresión trasera
+
+              En este paso:
+              - seguimos usando el mismo id del mockup
+              - seguimos usando el mismo id del diseño
+              - NO tocamos aún el JSON ni preview.js
+              =========================================================
+            {%- endcomment -%}
+            <div class="custom-left-stage">
+              <div id="custom-left-mockup-wrapper" class="custom-left-mockup-wrapper">
+                {%- comment -%}
+                  =========================================================
+                  PREVIEW DEL MOCKUP BASE
+                  - alt traducido desde locales
+                  =========================================================
+                {%- endcomment -%}
+                <img
+                  id="custom-left-mockup"
+                  class="custom-left-mockup"
+                  alt="{{ 'configura_prenda.mockup_alt' | t }}"
+                >
+              </div>
+
               {%- comment -%}
                 =========================================================
-                PREVIEW DEL MOCKUP BASE
-                - alt traducido desde locales
+                ZONA DE IMPRESIÓN
+                ---------------------------------------------------------
+                De momento mantenemos:
+                - el mismo wrapper del diseño
+                - el mismo id del diseño
+
+                Más adelante este wrapper será la "print area"
+                donde el diseño quedará contenido dentro de la camiseta
+                sin depender de mil top/left por breakpoint.
                 =========================================================
               {%- endcomment -%}
-              <img
-                id="custom-left-mockup"
-                class="custom-left-mockup"
-                alt="{{ 'configura_prenda.mockup_alt' | t }}"
-              >
-            </div>
-
-            <div id="custom-left-design-wrapper" class="custom-left-design-wrapper">
               {%- comment -%}
                 =========================================================
                 PREVIEW DEL DISEÑO SELECCIONADO
-                - alt traducido desde locales
+                - wrapper frontal
+                - wrapper trasero
+                - el JS activará uno u otro según ubicación
                 =========================================================
               {%- endcomment -%}
-              <img
-                id="custom-left-design"
-                class="custom-left-design"
-                alt="{{ 'configura_prenda.selected_design_alt' | t }}"
+
+              <div
+                id="custom-left-design-wrapper-front"
+                class="custom-left-design-wrapper custom-left-design-wrapper--front"
               >
+                <img
+                  id="custom-left-design-front"
+                  class="custom-left-design custom-left-design--front"
+                  alt="{{ 'configura_prenda.selected_design_alt' | t }}"
+                >
+              </div>
+
+              <div
+                id="custom-left-design-wrapper-back"
+                class="custom-left-design-wrapper custom-left-design-wrapper--back"
+              >
+                <img
+                  id="custom-left-design-back"
+                  class="custom-left-design custom-left-design--back"
+                  alt="{{ 'configura_prenda.selected_design_alt' | t }}"
+                >
+              </div>
             </div>
           </div>
 
@@ -322,16 +372,16 @@
               {%- when 'quantity_selector' -%}
                 <div
                   id="Quantity-Form-{{ section.id }}"
-                  class="product-form__input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form__quantity-top{% endif %}"
+                  class="product-form_input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form_quantity-top{% endif %}"
                   {{ block.shopify_attributes }}
                 >
-                  {% comment %} TODO: enable theme-check once `item_count_for_variant` is accepted as valid filter {% endcomment %}
+                  {% comment %} TODO: enable theme-check once item_count_for_variant is accepted as valid filter {% endcomment %}
                   {% # theme-check-disable %}
                   {%- assign cart_qty = cart
                     | item_count_for_variant: product.selected_or_first_available_variant.id
                   -%}
                   {% # theme-check-enable %}
-                  <label class="quantity__label form__label" for="Quantity-{{ section.id }}">
+                  <label class="quantity__label form_label" for="Quantity-{{ section.id }}">
                     {{ 'products.product.quantity.label' | t }}
                     <span class="quantity__rules-cart{% if cart_qty == 0 %} hidden{% endif %}">
                       {%- render 'loading-spinner' -%}
@@ -651,7 +701,7 @@
                             {%- for i in (1..number_of_slides) -%}
                               <div
                                 id="Slide-{{ block.id }}-{{ forloop.index }}"
-                                class="complementary-slide complementary-slide--{{ settings.card_style }} grid__item slider__slide slideshow__slide"
+                                class="complementary-slide complementary-slide--{{ settings.card_style }} grid__item slider__slide slideshow_slide"
                                 tabindex="-1"
                                 role="group"
                                 {% if number_of_slides > 1 %}
@@ -710,7 +760,7 @@
                                   <div class="slideshow__control-wrapper">
                                     {%- for i in (1..number_of_slides) -%}
                                       <button
-                                        class="slider-counter__link slider-counter__link--{{ block.settings.pagination_style }} link"
+                                        class="slider-counter_link slider-counter_link--{{ block.settings.pagination_style }} link"
                                         aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
                                         aria-controls="Slider-{{ block.id }}"
                                       >
@@ -759,6 +809,313 @@
             {{- 'icon-arrow.svg' | inline_asset_content -}}
           </a>
         </section>
+      </div>
+      <div class="steamboat-edit-bottom grid__item">
+        {%- comment -%}
+          =========================================================
+          SELECTOR VISUAL DE DISEÑOS
+          ---------------------------------------------------------
+          Este bloque pinta una cuadrícula visual de diseños.
+          IMPORTANTE:
+          - no sustituye la lógica real
+          - el select #custom-design sigue siendo la fuente de verdad
+          - las tarjetas solo sirven como interfaz visual
+          =========================================================
+        {%- endcomment -%}
+        <div class="steamboat-edit-designs-visual">
+          <div class="steamboat-edit-designs-grid">
+            {% render 'steamboat-edit-designs', mode: 'selector_cards' %}
+          </div>
+        </div>
+        {%- comment -%}
+          =========================================================
+          SELECTOR DE DISEÑO
+          - los nombres propios de diseños NO se traducen
+          - sí se traducen la etiqueta y el helper
+          =========================================================
+        {%- endcomment -%}
+        <div class="custom-product-field custom-design-field">
+          <label for="custom-design" class="custom-product-label">
+            {{ 'configura_prenda.design' | t }}
+          </label>
+
+          <select id="custom-design" name="properties[{{ 'configura_prenda.design' | t }}]" required>
+            <option value="" data-design-key=""></option>
+            {% render 'steamboat-edit-designs', mode: 'options' %}
+          </select>
+
+          <p class="custom-product-helper">
+            {{ 'configura_prenda.helper' | t }}
+          </p>
+        </div>
+
+        <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            /**
+             * =========================================================
+             * SELECTOR VISUAL DE DISEÑOS
+             * ---------------------------------------------------------
+             * Este script sincroniza:
+             * - las tarjetas visuales
+             * - con el select real #custom-design
+             *
+             * IMPORTANTE:
+             * - NO sustituye la lógica existente
+             * - el select real sigue siendo la fuente de verdad
+             * - preview.js, URL, validación y restore siguen usando
+             *   el select real
+             * =========================================================
+             */
+
+            const designSelect = document.getElementById('custom-design');
+            const cards = Array.from(document.querySelectorAll('.steamboat-edit-design-card'));
+            const designImageFront = document.getElementById('custom-left-design-front');
+            const designImageBack = document.getElementById('custom-left-design-back');
+            const designWrapperFront = document.getElementById('custom-left-design-wrapper-front');
+            const designWrapperBack = document.getElementById('custom-left-design-wrapper-back');
+
+            console.log('designSelect', designSelect);
+            console.log('cards', cards.length);
+            console.log('designImageFront', designImageFront);
+            console.log('designImageBack', designImageBack);
+            console.log('designWrapperFront', designWrapperFront);
+            console.log('designWrapperBack', designWrapperBack);
+
+            /**
+             * Si no existe el select real o no hay tarjetas,
+             * no hacemos nada.
+             */
+            if (!designSelect || !cards.length) {
+              console.log('SCRIPT CORTADO: no encuentra select o cards');
+              return;
+            }
+
+            /**
+             * Devuelve la clave real del diseño seleccionado
+             * leyendo el option activo del select.
+             */
+            function getSelectedDesignKey() {
+              const selectedOption = designSelect.options[designSelect.selectedIndex];
+              if (!selectedOption) return '';
+
+              return (selectedOption.getAttribute('data-design-key') || '').trim();
+            }
+
+            /**
+             * =========================================================
+             * GRUPOS VISUALES DE DISEÑO
+             * ---------------------------------------------------------
+             * No ajustamos diseño por diseño con top/left.
+             * Solo asignamos un grupo de escala visual.
+             * =========================================================
+             */
+            function getDesignScaleGroup(designKey) {
+              const posterDesigns = ['manzana_maldita', 'el_vigilante', 'nina_calabaza'];
+              const smallDesigns = [
+                'steamboat',
+                'honey_bones',
+                'sunset_octopus',
+                'beach_break',
+                'ice_scream',
+                'dead_tide',
+                'skull_mermaid',
+                'Pa_amb_sobrassada',
+                'zoltar'
+              ];
+
+              if (posterDesigns.includes(designKey)) return 'poster';
+              if (smallDesigns.includes(designKey)) return 'small';
+
+              return 'standard';
+            }
+
+            /**
+             * Aplica al preview la clase de escala que toca
+             * según el diseño seleccionado.
+             */
+
+            function syncDesignScaleClass() {
+              const selectedKey = getSelectedDesignKey();
+
+              const checkedPlacement = document.querySelector(
+                '.custom-location-radios input[data-placement-value]:checked'
+              );
+
+              const selectedPlacement = checkedPlacement
+                ? (checkedPlacement.dataset.placementValue || '').trim().toLowerCase()
+                : '';
+
+              console.log('checkedPlacement:', checkedPlacement);
+              console.log('selectedPlacement:', selectedPlacement);
+
+              if (designImageFront) {
+                designImageFront.classList.remove(
+                  'design-scale--standard',
+                  'design-scale--poster',
+                  'design-scale--small'
+                );
+              }
+
+              if (designImageBack) {
+                designImageBack.classList.remove(
+                  'design-scale--standard',
+                  'design-scale--poster',
+                  'design-scale--small'
+                );
+              }
+
+              if (designWrapperFront) {
+                designWrapperFront.classList.remove('is-active');
+              }
+
+              if (designWrapperBack) {
+                designWrapperBack.classList.remove('is-active');
+              }
+
+              if (!selectedKey) return;
+
+              const scaleGroup = getDesignScaleGroup(selectedKey);
+
+              if (selectedPlacement === 'front') {
+                if (designWrapperFront) designWrapperFront.classList.add('is-active');
+                if (designImageFront) designImageFront.classList.add('design-scale--' + scaleGroup);
+              } else {
+                if (designWrapperBack) designWrapperBack.classList.add('is-active');
+                if (designImageBack) designImageBack.classList.add('design-scale--' + scaleGroup);
+              }
+            }
+
+            function syncDesignImageSource() {
+              const previewDataEl = document.getElementById('SteamboatEditPreviewData');
+              console.log('previewDataEl', previewDataEl);
+
+              if (!previewDataEl) return;
+
+              let previewData;
+              try {
+                previewData = JSON.parse(previewDataEl.textContent);
+              } catch (e) {
+                console.log('ERROR parsing preview data', e);
+                return;
+              }
+
+              const selectedKey = getSelectedDesignKey();
+              console.log('selectedKey', selectedKey);
+
+              if (!selectedKey) return;
+
+              const matchedDesign = (previewData.designs || []).find(function (item) {
+                return item.key === selectedKey;
+              });
+
+              console.log('matchedDesign', matchedDesign);
+
+              if (!matchedDesign || !matchedDesign.image) return;
+
+              if (designImageFront) {
+                designImageFront.src = matchedDesign.image;
+                console.log('front src', designImageFront.src);
+              }
+
+              if (designImageBack) {
+                designImageBack.src = matchedDesign.image;
+                console.log('back src', designImageBack.src);
+              }
+            }
+
+            /**
+             * Marca visualmente la tarjeta activa
+             * según el valor actual del select real.
+             */
+            function syncCardsFromSelect() {
+              const selectedKey = getSelectedDesignKey();
+
+              cards.forEach(function (card) {
+                const cardKey = (card.getAttribute('data-design-key') || '').trim();
+                const isActive = !!selectedKey && cardKey === selectedKey;
+
+                card.classList.toggle('is-active', isActive);
+                card.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+              });
+
+              syncDesignImageSource();
+              syncDesignScaleClass();
+            }
+
+            /**
+             * Selecciona en el <select> la opción que tenga
+             * el mismo data-design-key que la tarjeta pulsada.
+             *
+             * Luego dispara "change" para que siga funcionando:
+             * - preview.js
+             * - guardado/restore
+             * - validación del botón
+             * - cualquier lógica ya existente
+             */
+            function selectDesignByKey(designKey) {
+              let found = false;
+
+              Array.from(designSelect.options).forEach(function (option) {
+                const optionKey = (option.getAttribute('data-design-key') || '').trim();
+
+                if (optionKey === designKey) {
+                  designSelect.value = option.value;
+                  option.selected = true;
+                  found = true;
+                }
+              });
+
+              if (found) {
+                designSelect.dispatchEvent(new Event('change', { bubbles: true }));
+                syncCardsFromSelect();
+              }
+            }
+
+            /**
+             * Click sobre tarjeta visual:
+             * - leemos su data-design-key
+             * - lo pasamos al select real
+             */
+            cards.forEach(function (card) {
+              card.addEventListener('click', function () {
+                const designKey = (card.getAttribute('data-design-key') || '').trim();
+                if (!designKey) return;
+
+                selectDesignByKey(designKey);
+              });
+            });
+
+            /**
+             * Si el select cambia por otra vía
+             * (URL, restore, scripts, idioma, etc.),
+             * reflejamos el cambio en las tarjetas.
+             */
+            designSelect.addEventListener('change', syncCardsFromSelect);
+
+            const placementRadios = Array.from(
+              document.querySelectorAll('.custom-location-radios input[data-placement-value]')
+            );
+
+            placementRadios.forEach(function (radio) {
+              radio.addEventListener('change', function () {
+                syncCardsFromSelect();
+              });
+            });
+
+            /**
+             * Sincronización inicial.
+             */
+            syncCardsFromSelect();
+
+            /**
+             * Refuerzos por si el select tarda en restaurarse
+             * después de renderizados o cambios de idioma.
+             */
+            setTimeout(syncCardsFromSelect, 150);
+            setTimeout(syncCardsFromSelect, 350);
+            setTimeout(syncCardsFromSelect, 700);
+          });
+        </script>
       </div>
     </div>
 
