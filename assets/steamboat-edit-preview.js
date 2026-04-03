@@ -801,6 +801,17 @@ document.addEventListener('DOMContentLoaded', function () {
       /**
        * FLUJO NORMAL / CAMBIO DE IDIOMA / ENTRADA DESDE DISEÑOS
        */
+
+      /**
+ * ZONA FRÁGIL
+ * Secuencia de rehidratación para Dawn + estado custom.
+ * No tocar sin revisar:
+ * - entrada desde bases
+ * - entrada desde diseños
+ * - cambio de idioma
+ * - cambio de color
+ * - refresh
+ */
       applyUbicacionVisual(state);
       applyTallaVisual(state);
 
