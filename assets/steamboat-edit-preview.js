@@ -26,7 +26,7 @@
  * =========================================================
  */
 
-document.addEventListener('DOMContentLoaded', function () {
+(function () {
   /**
    * =========================================================
    * DETECCIÓN DE PRODUCTO STEAMBOAT EDIT
@@ -186,8 +186,16 @@ document.addEventListener('DOMContentLoaded', function () {
    */
 
   /**
-   * Lee parámetros técnicos de la URL.
-   */
+  * UTILIDAD DE ESTADO / URL
+  * ---------------------------------------------------------
+  * Lee los parámetros técnicos del builder desde la URL:
+  * - talla
+  * - ubicación
+  * - diseño
+  *
+  * No renderiza preview ni modifica el DOM visual.
+  */
+
   function getUrlState() {
     const params = new URLSearchParams(window.location.search);
 
@@ -214,9 +222,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const params = new URLSearchParams(window.location.search);
     return params.get('from_designs') === '1';
   }
+
   /**
-   * Limpia el estado guardado del builder.
-   */
+  * UTILIDAD DE ESTADO / SESSION
+  * ---------------------------------------------------------
+  * Elimina el estado guardado del builder en sessionStorage.
+  * No toca preview ni DOM visual.
+  */
+
   function clearSteamboatEditState() {
     try {
       sessionStorage.removeItem(STORAGE_KEY);
@@ -224,9 +237,11 @@ document.addEventListener('DOMContentLoaded', function () {
       console.warn('No se pudo limpiar steamboat_edit_state:', error);
     }
   }
-
-  /**
-   * Guarda el estado actual.
+    /**
+   * UTILIDAD DE ESTADO / SESSION
+   * ---------------------------------------------------------
+   * Guarda en sessionStorage el estado actual del builder.
+   * No renderiza ni modifica visualmente el preview.
    */
   function saveStateToSession(state) {
     try {
@@ -236,9 +251,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  /**
-   * Lee el estado guardado.
-   */
+    /**
+    * UTILIDAD DE ESTADO / SESSION
+    * ---------------------------------------------------------
+    * Lee el estado guardado del builder desde sessionStorage.
+    * No renderiza preview ni modifica el DOM visual.
+    */
   function getStateFromSession() {
     try {
       const raw = sessionStorage.getItem(STORAGE_KEY);
@@ -250,11 +268,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  /**
-   * Limpia el select del diseño.
-   * Requiere que exista una opción vacía:
-   * <option value="" data-design-key=""></option>
-   */
+    /**
+    * UTILIDAD DE ESTADO
+    * ---------------------------------------------------------
+    * Limpia la selección del diseño en el <select> real.
+    * No renderiza preview por sí misma.
+    *
+    * Se usa sobre todo en flujos como:
+    * - entrada desde bases
+    * - estados sin diseño
+    * - reseteos controlados del builder
+    */
   function clearDesignSelection() {
     const designSelect = getDesignSelect();
     if (!designSelect) return;
@@ -286,19 +310,26 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /**
-   * =========================================================
-   * ESTADO EFECTIVO
-   * ---------------------------------------------------------
-   * Prioridades:
-   * 1. Cambio de idioma => sessionStorage primero
-   * 2. Flujo bases => limpio
-   * 3. Flujo diseños => diseño de URL, sin arrastrar talla
-   * 4. Flujo normal => URL o session
-   * =========================================================
-   */
+  * ESTADO FUENTE DE VERDAD
+  * ---------------------------------------------------------
+  * Esta función sí sigue siendo parte estable del builder.
+  * Decide el estado efectivo a partir de:
+  * - URL
+  * - sessionStorage
+  * - cambio de idioma
+  * - entrada desde bases
+  * - entrada desde diseños
+  *
+  * Esta parte pertenece a la lógica de estado,
+  * no al render visual del preview.
+  */
   function getEffectiveState() {
     const urlState = getUrlState();
     const storedState = getStateFromSession() || {};
+    /**
+    * Flag temporal para saber si venimos
+    * de un cambio de idioma.
+    */
     const pendingLocaleSwitch =
       sessionStorage.getItem('steamboat_edit_pending_locale_switch') === '1';
 
@@ -315,10 +346,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /**
- * Entrada desde la página de diseños:
- * respetamos diseño y ubicación,
- * pero no arrastramos talla previa de bases.
- */
+    * Entrada desde la página de diseños:
+    * respetamos diseño y ubicación,
+    * pero no arrastramos talla previa de bases.
+    */
     if (isFromDesignsEntry()) {
       return {
         talla: '',
@@ -362,6 +393,39 @@ document.addEventListener('DOMContentLoaded', function () {
       diseno: urlState.diseno || storedState.diseno || ''
     };
   }
+
+  /**
+ * CLASIFICACIÓN DEL ARRANQUE
+ * ---------------------------------------------------------
+ * Define en qué tipo de entrada estamos para no mezclar:
+ *
+ * - base_reset:
+ *   venimos desde bases con reset_builder=1
+ *   -> arranque limpio, sin arrastrar estado previo
+ *
+ * - design_entry:
+ *   venimos desde diseños con from_designs=1
+ *   -> respetamos diseño y ubicación, pero no talla vieja
+ *
+ * - locale_restore:
+ *   cambio de idioma
+ *   -> restauramos desde session/URL lo que toque
+ *
+ * - hydrated:
+ *   hay estado útil en URL o session
+ *   -> la ficha debe rehidratarse
+ *
+ * - base_default:
+ *   no hay estado previo útil
+ *   -> mostramos la base por defecto
+ */
+function getInitMode(state, pendingLocaleSwitch) {
+  if (pendingLocaleSwitch) return 'locale_restore';
+  if (shouldResetBuilder()) return 'base_reset';
+  if (isFromDesignsEntry()) return 'design_entry';
+  if (state.talla || state.ubicacion || state.diseno) return 'hydrated';
+  return 'base_default';
+}
 
   /**
    * =========================================================
@@ -421,10 +485,17 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /**
-   * =========================================================
-   * ENLACES DE COLOR
-   * =========================================================
-   */
+ * ESTADO / ENLACES DE COLOR
+ * ---------------------------------------------------------
+ * Esta función pertenece a la lógica estable del builder.
+ * Mantiene los enlaces entre bases/colores conservando:
+ * - talla
+ * - ubicación
+ * - diseño
+ *
+ * No debería encargarse del render visual del preview.
+ */
+
   function updateColorLinks() {
     const talla = getSelectedTalla();
     const ubicacion = getSelectedUbicacion();
@@ -450,10 +521,22 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /**
-   * =========================================================
-   * PREVIEW DEL DISEÑO
-   * =========================================================
-   */
+  * LEGACY ACTIVA - PREVIEW ÚNICO
+  * ---------------------------------------------------------
+  * Esta función renderiza el diseño con el sistema antiguo:
+  * - un solo <img> de diseño
+  * - un solo wrapper de diseño
+  *
+  * Sigue activa porque todavía participa en flujos como:
+  * - entrada desde diseños
+  * - cambios del select de diseño
+  * - parte del restore inicial
+  *
+  * Objetivo futuro:
+  * mover el render visual al sistema nuevo front/back
+  * y dejar este archivo solo para estado (URL/session).
+  */
+
   function updatePreview(selectedDesign) {
     if (!leftDesign || !leftDesignWrapper) return;
 
@@ -565,9 +648,19 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /**
-   * Actualiza el mockup base según color y ubicación.
-   */
+ * MOCKUP BASE - ZONA ÚTIL PERO DELICADA
+ * ---------------------------------------------------------
+ * Esta función sigue siendo necesaria para actualizar
+ * la base de la camiseta según color y ubicación.
+ *
+ * Forma parte del render visual del mockup,
+ * pero depende de estado ya resuelto.
+ *
+ * No mezclar aquí lógica de selección del diseño.
+ */
   function updateMockupOnly() {
+    console.warn('updateMockupOnly color:', getSelectedColorMockup());
+    console.warn('updateMockupOnly ubicacion:', getSelectedUbicacion() || 'front');
     const color = getSelectedColorMockup();
     const ubicacion = getSelectedUbicacion() || 'front';
     const imageUrl = findMockupUrl(color, ubicacion);
@@ -589,27 +682,6 @@ document.addEventListener('DOMContentLoaded', function () {
         (mockupPreview && mockupPreview.getAttribute('src'));
 
       if (hasSrc) return true;
-      await wait(delay);
-    }
-
-    return false;
-  }
-
-  /**
-   * Reintenta aplicar el diseño varias veces por si el select
-   * todavía no está del todo listo.
-   */
-  async function forceDesignLoad(state, retries = 8, delay = 120) {
-    if (!state.diseno) return false;
-
-    for (let i = 0; i < retries; i += 1) {
-      const applied = applyDiseno(state);
-
-      if (applied) {
-        updatePreview(getSelectedDiseno());
-        return true;
-      }
-
       await wait(delay);
     }
 
@@ -641,6 +713,18 @@ document.addEventListener('DOMContentLoaded', function () {
       return '';
     }
   }
+
+  /**
+ * ESTADO / SINCRONIZACIÓN DE URL
+ * ---------------------------------------------------------
+ * Esta función forma parte de la lógica estable del builder.
+ * Se encarga de:
+ * - mantener talla, ubicación y diseño en la URL
+ * - guardar el estado en sessionStorage
+ * - actualizar los enlaces de color
+ *
+ * No debería pintar preview directamente.
+ */
 
   function syncUrlWithSelections() {
     const url = new URL(window.location.href);
@@ -677,15 +761,13 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /**
-   * =========================================================
-   * APLICAR ESTADO DESDE URL / SESSION
-   * =========================================================
-   */
-
-  /**
+ * ESTADO / PUENTE VISUAL DE TALLA
+ * ---------------------------------------------------------
  * Marca visualmente la talla correcta sin disparar change.
- * Sirve para evitar el flash inicial del borde gris.
+ * Se usa en la fase inicial para reducir flashes
+ * antes de aplicar la talla real.
  */
+
   function applyTallaVisual(state) {
     if (!state.talla) return false;
 
@@ -717,6 +799,15 @@ document.addEventListener('DOMContentLoaded', function () {
     return applied;
   }
 
+  /**
+ * ESTADO / PUENTE VISUAL DE UBICACIÓN
+ * ---------------------------------------------------------
+ * Marca visualmente la ubicación correcta (front/back)
+ * sin disparar change.
+ * Se usa en la fase inicial para reducir flashes
+ * antes de aplicar la ubicación real.
+ */
+
   function applyUbicacionVisual(state) {
     if (!state.ubicacion) return false;
 
@@ -732,8 +823,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     return applied;
   }
+  /**
+   * ESTADO / PUENTE DE UBICACIÓN
+   * ---------------------------------------------------------
+   * Esta función no decide el render final del preview.
+   * Solo deja marcada la ubicación correcta (front/back)
+   * en los inputs del builder.
+   *
+   * Después, otros bloques reaccionan a ese cambio para:
+   * - sincronizar URL
+   * - actualizar mockup
+   * - mantener coherente el estado visual
+   */
 
   function applyUbicacion(state) {
+
     if (!state.ubicacion) return false;
 
     let applied = false;
@@ -746,9 +850,19 @@ document.addEventListener('DOMContentLoaded', function () {
         applied = true;
       }
     });
-
     return applied;
   }
+
+  /**
+ * ESTADO / PUENTE DE DISEÑO
+ * ---------------------------------------------------------
+ * Esta función no pinta el preview.
+ * Solo deja seleccionado el diseño correcto en el <select>.
+ *
+ * Después, otros bloques reaccionan a ese cambio para:
+ * - sincronizar URL
+ * - renderizar el diseño visualmente
+ */
 
   function applyDiseno(state) {
     const designSelect = getDesignSelect();
@@ -768,96 +882,193 @@ document.addEventListener('DOMContentLoaded', function () {
 
     return applied;
   }
+  /**
+ * UTILIDAD PUENTE DE MIGRACIÓN
+ * ---------------------------------------------------------
+ * Fuerza el evento change del <select> de diseño para que
+ * otros scripts reaccionen y hagan el render visual.
+ *
+ * Se usa mientras conviven:
+ * - lógica de estado en este archivo
+ * - lógica visual en el otro script
+ */
+
+  function triggerDesignSelectChange() {
+    const designSelect = getDesignSelect();
+    if (!designSelect) return;
+
+    designSelect.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+
 
   /**
-   * =========================================================
-   * INICIALIZACIÓN
-   * =========================================================
+   * PRIMER PASE DE HIDRATACIÓN
+   * ---------------------------------------------------------
+   * Aplica el estado inicial y deja margen a Dawn/Shopify
+   * para terminar parte del render antes del refuerzo final.
+   */
+  async function runInitialHydrationPass(state) {
+
+    applyUbicacionVisual(state);
+    applyUbicacion(state);
+    applyTallaVisual(state);
+
+    await wait(220);
+
+    applyUbicacion(state);
+
+    await wait(60);
+
+    if (state.diseno) {
+      applyDiseno(state);
+    } else {
+      clearDesignSelection();
+    }
+
+    triggerDesignSelectChange();
+
+    await forceMockupLoad();
+    syncUrlWithSelections();
+  }
+
+  /**
+ * REFUERZO FINAL DE HIDRATACIÓN
+ * ---------------------------------------------------------
+ * Reaplica estado por si Dawn/Shopify ha re-renderizado
+ * tarde parte del producto después del primer pase.
+ */
+  async function runFinalHydrationPass(state) {
+    await wait(250);
+
+    if (!hasVariantInUrl()) {
+      applyTalla(state);
+    }
+
+    applyUbicacion(state);
+
+    if (state.diseno) {
+      applyDiseno(state);
+    } else {
+      clearDesignSelection();
+    }
+
+    triggerDesignSelectChange();
+
+    await forceMockupLoad();
+    syncUrlWithSelections();
+  }
+
+  /**
+ * FLUJO BASES / RESET CONTROLADO
+ * ---------------------------------------------------------
+ * Limpia el builder cuando entramos desde bases
+ * y no estamos en un cambio de idioma.
+ */
+  async function runBaseResetFlow() {
+    clearSteamboatEditState();
+    clearDesignSelection();
+    triggerDesignSelectChange();
+
+    await forceMockupLoad();
+    syncCleanBaseUrl();
+
+    document.documentElement.classList.add('steamboat-edit-ready');
+  }
+
+  /**
+  * FLUJO NORMAL DE HIDRATACIÓN
+  * ---------------------------------------------------------
+  * Orquesta la inicialización estándar del builder
+  * cuando no estamos en el flujo bases/reset.
+  *
+  * Ejecuta:
+  * - primer pase de hidratación
+  * - refuerzo final de hidratación
+  */
+  async function runHydrationFlow(state) {
+    await runInitialHydrationPass(state);
+    await runFinalHydrationPass(state);
+  }
+
+  /**
+   * INIT DEL BUILDER
+   * ---------------------------------------------------------
+   * Orquesta el arranque completo del builder:
+   * - detecta flags de idioma
+   * - calcula el estado efectivo
+   * - ejecuta flujo bases o flujo normal
+   * - marca el builder como listo
    */
   async function initFromState() {
     const pendingLocaleSwitch =
       sessionStorage.getItem('steamboat_edit_pending_locale_switch') === '1';
-
+    /**
+     * Estado efectivo final con el que arrancará el builder.
+     */
     const state = getEffectiveState();
+    /**
+    * Modo de arranque actual.
+    * Nos servirá para decidir qué debe mostrarse ya
+    * y qué conviene esperar a hidratar.
+    */
+    const initMode = getInitMode(state, pendingLocaleSwitch);
+    console.warn('INIT mode:', initMode);
 
-    try {
+    /**
+    * CLASES DE ARRANQUE EN <html>
+    * ---------------------------------------------------------
+    * Dejamos marcado el tipo de entrada actual para que el CSS
+    * pueda decidir qué enseñar inmediatamente y qué esperar
+    * a que termine la hidratación.
+    *
+    * Importante:
+    * - limpiamos primero cualquier clase previa
+    * - luego añadimos solo la clase del arranque actual
+    */
+    document.documentElement.classList.remove(
+      'steamboat-init-base-default',
+      'steamboat-init-base-reset',
+      'steamboat-init-design-entry',
+      'steamboat-init-locale-restore',
+      'steamboat-init-hydrated'
+    );
+
+    document.documentElement.classList.add('steamboat-init-' + initMode.replace(/_/g, '-'));
       /**
-       * FLUJO BASES
-       * Solo entramos limpios si venimos de bases y NO estamos
-       * en un cambio de idioma.
-       */
+      * Secuencia principal de inicialización.
+      */
+    try {
+
+      /**
+    * Flujo bases:
+    * si entramos desde bases y no estamos
+    * en cambio de idioma, hacemos reset limpio
+    * y salimos del init aquí.
+    */
       if (shouldResetBuilder() && !pendingLocaleSwitch) {
-        clearSteamboatEditState();
-        clearDesignSelection();
-
-        updatePreview('');
-        await forceMockupLoad();
-        syncCleanBaseUrl();
-
-        document.documentElement.classList.add('steamboat-edit-ready');
+        await runBaseResetFlow();
         return;
       }
 
       /**
-       * FLUJO NORMAL / CAMBIO DE IDIOMA / ENTRADA DESDE DISEÑOS
-       */
-
-      /**
- * ZONA FRÁGIL
- * Secuencia de rehidratación para Dawn + estado custom.
- * No tocar sin revisar:
- * - entrada desde bases
- * - entrada desde diseños
- * - cambio de idioma
- * - cambio de color
- * - refresh
+ * FLUJO NORMAL / CAMBIO DE IDIOMA / ENTRADA DESDE DISEÑOS
+ * ---------------------------------------------------------
+ * Ejecutamos los dos pases de hidratación
+ * en el flujo normal del builder.
  */
-      applyUbicacionVisual(state);
-      applyTallaVisual(state);
-
-      await wait(220);
-
-      applyUbicacion(state);
-
-      await wait(60);
-
-      if (state.diseno) {
-        applyDiseno(state);
-        updatePreview(state.diseno);
-      } else {
-        updatePreview('');
-      }
-
-      await forceMockupLoad();
-      syncUrlWithSelections();
+      await runHydrationFlow(state);
 
       /**
-       * Refuerzo final por si Dawn re-renderiza tarde
-       */
-      await wait(250);
-
-      if (!hasVariantInUrl()) {
-        applyTalla(state);
-      }
-
-      applyUbicacion(state);
-
-      if (state.diseno) {
-        applyDiseno(state);
-        updatePreview(state.diseno);
-      } else {
-        updatePreview('');
-      }
-
-      await forceMockupLoad();
-      syncUrlWithSelections();
-
+ * El builder ya puede mostrarse como listo
+ * una vez completados ambos pases de hidratación.
+ */
       document.documentElement.classList.add('steamboat-edit-ready');
-    } finally {
       /**
-       * Aquí sí limpiamos el flag del cambio de idioma,
-       * una vez que ya hemos terminado de usarlo.
-       */
+ * Limpieza final del arranque, ocurra lo que ocurra.
+ */
+    } finally {
+
       if (pendingLocaleSwitch) {
         sessionStorage.removeItem('steamboat_edit_pending_locale_switch');
       }
@@ -869,10 +1080,23 @@ document.addEventListener('DOMContentLoaded', function () {
   initFromState();
 
   /**
-   * =========================================================
-   * EVENTOS DELEGADOS
-   * =========================================================
-   */
+ * EVENTOS DELEGADOS
+ * ---------------------------------------------------------
+ * Aquí conviven dos tipos de lógica:
+ *
+ * 1. Estado estable:
+ *    - talla
+ *    - ubicación
+ *    - sincronización de URL/session
+ *
+ * 2. Preview legacy:
+ *    - cambio del select de diseño todavía llama a updatePreview()
+ *
+ * Objetivo futuro:
+ * dejar este bloque solo para sincronización de estado
+ * y mover todo el render visual del diseño al sistema nuevo.
+ */
+
   document.addEventListener('change', function (event) {
     const target = event.target;
     if (!target) return;
@@ -897,8 +1121,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /**
-     * Cambio de diseño
-     */
+ * LEGACY ACTIVA:
+ * El cambio del select de diseño sigue usando
+ * el render visual antiguo (updatePreview).
+ * No tocar hasta migrar completamente el preview.
+ */
     if (target.matches('#custom-design')) {
       updatePreview(getSelectedDiseno());
       syncUrlWithSelections();
@@ -907,10 +1134,14 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   /**
-   * =========================================================
-   * OBSERVADOR
-   * =========================================================
-   */
+ * OBSERVADOR DE ESTADO VISUAL
+ * ---------------------------------------------------------
+ * Se usa para volver a sincronizar enlaces de color
+ * cuando Dawn o Shopify re-renderizan partes del DOM.
+ *
+ * Esta parte pertenece al mantenimiento del estado visible,
+ * no al render directo del preview del diseño.
+ */
   const observer = new MutationObserver(function () {
     updateColorLinks();
   });
@@ -921,4 +1152,4 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   updateColorLinks();
-});
+})();

@@ -673,3 +673,14 @@
 .steamboat-edit-design-card.is-hidden-desktop {
   display: none;
 }
+
+.custom-left-mockup:not([src]),
+.custom-left-mockup[src=""] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.custom-left-mockup[src] {
+  opacity: 1;
+  visibility: visible;
+}

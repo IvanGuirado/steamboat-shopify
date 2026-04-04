@@ -113,42 +113,12 @@
           or product.handle == 'steamboat-edit-black'
         %}
           {%- liquid
-            assign initial_design_key = request.params.diseno | default: ''
-            assign initial_placement = request.params.ubicacion | default: 'front'
+            assign initial_design_key = ''
+            assign initial_placement = 'front'
           -%}
 
           {%- liquid
             assign initial_mockup_url = ''
-
-            case product.handle
-              when 'steamboat-edit-blanca'
-                if initial_placement == 'back'
-                  assign initial_mockup_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025'
-                else
-                  assign initial_mockup_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025'
-                endif
-
-              when 'steamboat-edit-negra'
-                if initial_placement == 'back'
-                  assign initial_mockup_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.png?v=1775040025'
-                else
-                  assign initial_mockup_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025'
-                endif
-
-              when 'steamboat-edit-white'
-                if initial_placement == 'back'
-                  assign initial_mockup_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025'
-                else
-                  assign initial_mockup_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025'
-                endif
-
-              when 'steamboat-edit-black'
-                if initial_placement == 'back'
-                  assign initial_mockup_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.png?v=1775040025'
-                else
-                  assign initial_mockup_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025'
-                endif
-            endcase
           -%}
 
           {%- liquid
@@ -245,7 +215,6 @@
                 <img
                   id="custom-left-mockup"
                   class="custom-left-mockup"
-                  src="{{ initial_mockup_url }}"
                   alt="{{ 'configura_prenda.mockup_alt' | t }}"
                 >
               </div>
@@ -306,8 +275,8 @@
             {
               "placement": {{ initial_placement | json }},
               "designKey": {{ initial_design_key | json }},
-              "mockupUrl": {{ initial_mockup_url | json }},
-              "designImage": {{ initial_design_image | json }},
+              {% comment %} "mockupUrl": {{ initial_mockup_url | json }},
+              "designImage": {{ initial_design_image | json }}, {% endcomment %}
               "hasDesign": {{ has_initial_design | json }}
             }
           </script>
@@ -325,11 +294,11 @@
                 "Blanco|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
                 "Blanco|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
                 "Negro|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
-                "Negro|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
+                "Negro|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.png?v=1775040025",
                 "White|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
                 "White|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
                 "Black|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
-                "Black|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025"
+                "Black|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.png?v=1775040025"
               }
             }
           </script>
@@ -1004,6 +973,40 @@
             let previewData = null;
             let initialState = {};
 
+            function getUrlInitialState() {
+              const params = new URLSearchParams(window.location.search);
+
+              return {
+                placement: (params.get('ubicacion') || '').trim().toLowerCase() || 'front',
+                designKey: (params.get('diseno') || '').trim(),
+                hasDesign: !!(params.get('diseno') || '').trim(),
+              };
+            }
+
+            function getInitialColorKey() {
+              const path = window.location.pathname.toLowerCase();
+
+              if (path.includes('negra') || path.includes('black')) return 'Black';
+              return 'White';
+            }
+
+            function getInitialMockupUrl(colorKey, placement) {
+              if (!previewData || !previewData.mockupMap) return '';
+
+              const candidates = [
+                `${colorKey}|${placement}`,
+                `${colorKey === 'White' ? 'Blanco' : 'Negro'}|${placement}`,
+                `${colorKey}|front`,
+                `${colorKey === 'White' ? 'Blanco' : 'Negro'}|front`,
+              ];
+
+              for (const key of candidates) {
+                if (previewData.mockupMap[key]) return previewData.mockupMap[key];
+              }
+
+              return '';
+            }
+
             try {
               previewData = JSON.parse(previewDataEl.textContent);
             } catch (e) {
@@ -1014,6 +1017,22 @@
               initialState = initialStateEl ? JSON.parse(initialStateEl.textContent) : {};
             } catch (e) {
               initialState = {};
+            }
+
+            const urlInitialState = getUrlInitialState();
+
+            initialState.placement = urlInitialState.placement || 'front';
+            initialState.designKey = urlInitialState.designKey || '';
+            initialState.hasDesign = urlInitialState.hasDesign;
+
+            const initialPlacementFromUrl = initialState.placement || 'front';
+            const initialColorKey = getInitialColorKey();
+            const initialMockupUrlFromUrl = getInitialMockupUrl(initialColorKey, initialPlacementFromUrl);
+
+            setPlacementInUI(initialPlacementFromUrl);
+
+            if (mockupImage && initialMockupUrlFromUrl) {
+              mockupImage.src = initialMockupUrlFromUrl;
             }
 
             function getDesignScaleGroup(designKey) {
@@ -1103,20 +1122,6 @@
               }
             }
 
-            function syncAddToCartState() {
-              if (!addCartButton) return;
-
-              const selectedDesignKey = getSelectedDesignKey();
-              const hasDesign = !!selectedDesignKey;
-
-              console.log('selectedDesignKey', selectedDesignKey);
-              console.log('button found', !!addCartButton);
-
-              addCartButton.disabled = !hasDesign;
-              addCartButton.classList.toggle('is-disabled-by-design', !hasDesign);
-              addCartButton.setAttribute('aria-disabled', hasDesign ? 'false' : 'true');
-            }
-
             function renderPreview(designKey, placement) {
               const matchedDesign = designKey ? findDesignByKey(designKey) : null;
               const imageUrl = matchedDesign && matchedDesign.image ? matchedDesign.image : '';
@@ -1164,19 +1169,10 @@
               return found;
             }
 
-            function applyState(designKey, placement) {
-              setPlacementInUI(placement || 'front');
-
-              if (designKey) {
-                setDesignInUI(designKey);
-              }
-
-              renderPreview(designKey || '', placement || 'front');
-            }
-
             function handleUserSync() {
               const currentDesignKey = getSelectedDesignKey();
               const currentPlacement = getSelectedPlacement();
+
               renderPreview(currentDesignKey, currentPlacement);
               syncAddToCartState();
             }
@@ -1186,9 +1182,6 @@
 
               const selectedDesignKey = getSelectedDesignKey();
               const hasDesign = !!selectedDesignKey;
-
-              console.log('selectedDesignKey', selectedDesignKey);
-              console.log('button found', !!addCartButton);
 
               addCartButton.disabled = !hasDesign;
               addCartButton.classList.toggle('is-disabled-by-design', !hasDesign);
@@ -1262,21 +1255,17 @@
             });
 
             const initialDesignKey = initialState && initialState.hasDesign ? initialState.designKey || '' : '';
-
             const initialPlacement = (initialState && initialState.placement) || 'front';
 
-            /**
-             * Sincronizamos la UI con lo que YA ha renderizado Liquid,
-             * pero sin volver a pintar el preview al cargar.
-             */
             setPlacementInUI(initialPlacement);
 
             if (initialDesignKey) {
               setDesignInUI(initialDesignKey);
+            } else {
+              designSelect.value = '';
             }
 
-            syncCardsActiveState(initialDesignKey);
-            syncScaleClasses(initialDesignKey, initialPlacement);
+            renderPreview(initialDesignKey, initialPlacement);
             syncAddToCartState();
             initDesktopShowMore();
           });
