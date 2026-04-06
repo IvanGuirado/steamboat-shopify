@@ -81,9 +81,6 @@
           or product.handle == 'steamboat-edit-white'
           or product.handle == 'steamboat-edit-black'
         %}
-          {%- liquid
-  assign initial_placement_buybuttons = 'front'
--%}
 
           <div class="custom-product-options">
             {%- comment -%}
@@ -102,9 +99,6 @@
                     value="{{ 'configura_prenda.front' | t }}"
                     data-placement-value="front"
                     required
-                    {% if initial_placement_buybuttons == 'front' %}
-                      checked
-                    {% endif %}
                     form="{{ product_form_id }}"
                   >
                   <span>{{ 'configura_prenda.front' | t }}</span>
@@ -117,9 +111,6 @@
                     value="{{ 'configura_prenda.back' | t }}"
                     data-placement-value="back"
                     required
-                    {% if initial_placement_buybuttons == 'back' %}
-                      checked
-                    {% endif %}
                     form="{{ product_form_id }}"
                   >
                   <span>{{ 'configura_prenda.back' | t }}</span>

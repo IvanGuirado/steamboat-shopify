@@ -288,19 +288,23 @@
             Este bloque lo leerá steamboat-edit-preview.js
           {%- endcomment -%}
           <script type="application/json" id="SteamboatEditPreviewData">
-            {
-              "designs": {% render 'steamboat-edit-designs', mode: 'json' %},
-              "mockupMap": {
-                "Blanco|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
-                "Blanco|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
-                "Negro|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
-                "Negro|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.png?v=1775040025",
-                "White|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
-                "White|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
-                "Black|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
-                "Black|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.png?v=1775040025"
-              }
-            }
+                        {
+                          "designs": {% render 'steamboat-edit-designs', mode: 'json' %},
+                          "mockupMap": {
+                            "Blanco|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
+                            "Blanco|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
+                            "Negro|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
+                            "Negro|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.png?v=1775040025",
+                            "White|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
+                            "White|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
+                            "Black|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
+                            "Black|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.png?v=1775040025",
+                            "White|neutral": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/blanca.webp?v=1775462028",
+                            "Black|neutral": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/negra.webp?v=1775462021",
+                            "Blanco|neutral": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/blanca.webp?v=1775462028",
+                            "Negro|neutral": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/negra.webp?v=1775462021"
+                          }
+                        }
           </script>
         {% else %}
           {% render 'product-media-gallery', variant_images: variant_images %}
@@ -950,62 +954,58 @@
 
         <script>
           document.addEventListener('DOMContentLoaded', function () {
+            /**
+             * =========================================================
+             * ELEMENTOS PRINCIPALES DE UI
+             * ---------------------------------------------------------
+             * Este script ya NO arranca el preview inicial.
+             * Solo se encarga de:
+             * - tarjetas visuales de diseño
+             * - cambio manual de diseño / ubicación
+             * - estado del botón de añadir al carrito
+             * - botón "show more"
+             * =========================================================
+             */
             const designSelect = document.getElementById('custom-design');
             const cards = Array.from(document.querySelectorAll('.steamboat-edit-design-card'));
             const addCartButton = document.querySelector('.product-form__submit');
             const showMoreButton = document.getElementById('steamboat-edit-show-more');
 
-            const mockupImage = document.getElementById('custom-left-mockup');
+            /**
+             * =========================================================
+             * ELEMENTOS VISUALES DEL PREVIEW
+             * ---------------------------------------------------------
+             * Se mantienen para actualizar el preview cuando el usuario
+             * interactúa, pero NO para pintar el arranque inicial.
+             * =========================================================
+             */
             const designImageFront = document.getElementById('custom-left-design-front');
             const designImageBack = document.getElementById('custom-left-design-back');
             const designWrapperFront = document.getElementById('custom-left-design-wrapper-front');
             const designWrapperBack = document.getElementById('custom-left-design-wrapper-back');
 
+            /**
+             * =========================================================
+             * CONTROLES DE UBICACIÓN
+             * =========================================================
+             */
             const placementRadios = Array.from(
               document.querySelectorAll('.custom-location-radios input[data-placement-value]')
             );
 
+            /**
+             * =========================================================
+             * DATOS DEL PREVIEW
+             * ---------------------------------------------------------
+             * Solo usamos el JSON de diseños para poder renderizar
+             * la imagen correcta cuando el usuario cambia diseño.
+             * =========================================================
+             */
             const previewDataEl = document.getElementById('SteamboatEditPreviewData');
-            const initialStateEl = document.getElementById('SteamboatEditInitialState');
 
             if (!designSelect || !cards.length || !previewDataEl) return;
 
             let previewData = null;
-            let initialState = {};
-
-            function getUrlInitialState() {
-              const params = new URLSearchParams(window.location.search);
-
-              return {
-                placement: (params.get('ubicacion') || '').trim().toLowerCase() || 'front',
-                designKey: (params.get('diseno') || '').trim(),
-                hasDesign: !!(params.get('diseno') || '').trim(),
-              };
-            }
-
-            function getInitialColorKey() {
-              const path = window.location.pathname.toLowerCase();
-
-              if (path.includes('negra') || path.includes('black')) return 'Black';
-              return 'White';
-            }
-
-            function getInitialMockupUrl(colorKey, placement) {
-              if (!previewData || !previewData.mockupMap) return '';
-
-              const candidates = [
-                `${colorKey}|${placement}`,
-                `${colorKey === 'White' ? 'Blanco' : 'Negro'}|${placement}`,
-                `${colorKey}|front`,
-                `${colorKey === 'White' ? 'Blanco' : 'Negro'}|front`,
-              ];
-
-              for (const key of candidates) {
-                if (previewData.mockupMap[key]) return previewData.mockupMap[key];
-              }
-
-              return '';
-            }
 
             try {
               previewData = JSON.parse(previewDataEl.textContent);
@@ -1013,28 +1013,13 @@
               return;
             }
 
-            try {
-              initialState = initialStateEl ? JSON.parse(initialStateEl.textContent) : {};
-            } catch (e) {
-              initialState = {};
-            }
-
-            const urlInitialState = getUrlInitialState();
-
-            initialState.placement = urlInitialState.placement || 'front';
-            initialState.designKey = urlInitialState.designKey || '';
-            initialState.hasDesign = urlInitialState.hasDesign;
-
-            const initialPlacementFromUrl = initialState.placement || 'front';
-            const initialColorKey = getInitialColorKey();
-            const initialMockupUrlFromUrl = getInitialMockupUrl(initialColorKey, initialPlacementFromUrl);
-
-            setPlacementInUI(initialPlacementFromUrl);
-
-            if (mockupImage && initialMockupUrlFromUrl) {
-              mockupImage.src = initialMockupUrlFromUrl;
-            }
-
+            /**
+             * =========================================================
+             * ESCALAS DE DISEÑO
+             * ---------------------------------------------------------
+             * Ajusta clases según el tipo de diseño.
+             * =========================================================
+             */
             function getDesignScaleGroup(designKey) {
               const posterDesigns = ['manzana_maldita', 'el_vigilante', 'nina_calabaza'];
               const smallDesigns = [
@@ -1056,6 +1041,13 @@
               return 'standard';
             }
 
+            /**
+             * =========================================================
+             * LECTURA DE UBICACIÓN ACTUAL
+             * ---------------------------------------------------------
+             * Lee front/back solo desde los radios ya visibles.
+             * =========================================================
+             */
             function getSelectedPlacement() {
               const checkedPlacement = document.querySelector(
                 '.custom-location-radios input[data-placement-value]:checked'
@@ -1066,6 +1058,13 @@
               return (checkedPlacement.dataset.placementValue || '').trim().toLowerCase() || 'front';
             }
 
+            /**
+             * =========================================================
+             * LECTURA DE DISEÑO ACTUAL
+             * ---------------------------------------------------------
+             * Lee el diseño seleccionado en el <select>.
+             * =========================================================
+             */
             function getSelectedDesignKey() {
               const selectedOption = designSelect.options[designSelect.selectedIndex];
               if (!selectedOption) return '';
@@ -1073,12 +1072,24 @@
               return (selectedOption.getAttribute('data-design-key') || '').trim();
             }
 
+            /**
+             * =========================================================
+             * BÚSQUEDA DE DISEÑO EN EL JSON
+             * =========================================================
+             */
             function findDesignByKey(designKey) {
               return (previewData.designs || []).find(function (item) {
                 return item.key === designKey;
               });
             }
 
+            /**
+             * =========================================================
+             * ESTADO VISUAL DE LAS TARJETAS
+             * ---------------------------------------------------------
+             * Marca la tarjeta activa según el diseño actual.
+             * =========================================================
+             */
             function syncCardsActiveState(designKey) {
               cards.forEach(function (card) {
                 const cardKey = (card.getAttribute('data-design-key') || '').trim();
@@ -1089,6 +1100,13 @@
               });
             }
 
+            /**
+             * =========================================================
+             * CLASES DE ESCALA Y WRAPPERS ACTIVOS
+             * ---------------------------------------------------------
+             * Activa front/back y la escala visual del diseño.
+             * =========================================================
+             */
             function syncScaleClasses(designKey, placement) {
               if (designImageFront) {
                 designImageFront.classList.remove(
@@ -1122,37 +1140,67 @@
               }
             }
 
+            /**
+             * =========================================================
+             * RENDER DEL PREVIEW SOLO POR INTERACCIÓN
+             * ---------------------------------------------------------
+             * Este script ya no pinta el preview al cargar.
+             * Solo actualiza la imagen cuando el usuario:
+             * - cambia diseño
+             * - cambia ubicación
+             * - pulsa una tarjeta visual
+             *
+             * Precargamos la imagen correcta para evitar enseñar
+             * durante un instante un diseño anterior.
+             * =========================================================
+             */
             function renderPreview(designKey, placement) {
               const matchedDesign = designKey ? findDesignByKey(designKey) : null;
               const imageUrl = matchedDesign && matchedDesign.image ? matchedDesign.image : '';
 
-              if (designImageFront) {
-                if (imageUrl) {
+              if (!imageUrl) {
+                if (designImageFront) designImageFront.removeAttribute('src');
+                if (designImageBack) designImageBack.removeAttribute('src');
+
+                syncScaleClasses('', placement);
+                syncCardsActiveState('');
+                return;
+              }
+
+              const preloader = new Image();
+
+              preloader.onload = function () {
+                if (designImageFront) {
                   designImageFront.src = imageUrl;
-                } else {
-                  designImageFront.removeAttribute('src');
                 }
-              }
 
-              if (designImageBack) {
-                if (imageUrl) {
+                if (designImageBack) {
                   designImageBack.src = imageUrl;
-                } else {
-                  designImageBack.removeAttribute('src');
                 }
-              }
 
-              syncScaleClasses(designKey, placement);
-              syncCardsActiveState(designKey);
+                syncScaleClasses(designKey, placement);
+                syncCardsActiveState(designKey);
+              };
+
+              preloader.onerror = function () {
+                if (designImageFront) designImageFront.removeAttribute('src');
+                if (designImageBack) designImageBack.removeAttribute('src');
+
+                syncScaleClasses('', placement);
+                syncCardsActiveState('');
+              };
+
+              preloader.src = imageUrl;
             }
 
-            function setPlacementInUI(placement) {
-              placementRadios.forEach(function (radio) {
-                const radioPlacement = (radio.dataset.placementValue || '').trim().toLowerCase();
-                radio.checked = radioPlacement === placement;
-              });
-            }
-
+            /**
+             * =========================================================
+             * SINCRONIZACIÓN DEL SELECT CON LAS TARJETAS
+             * ---------------------------------------------------------
+             * Cuando el usuario pulsa una tarjeta, marcamos también
+             * el <select> real para mantener una sola fuente de verdad.
+             * =========================================================
+             */
             function setDesignInUI(designKey) {
               let found = false;
 
@@ -1169,6 +1217,15 @@
               return found;
             }
 
+            /**
+             * =========================================================
+             * SINCRONIZACIÓN DE INTERACCIÓN DEL USUARIO
+             * ---------------------------------------------------------
+             * Al cambiar diseño o ubicación manualmente:
+             * - renderizamos preview
+             * - actualizamos estado del botón
+             * =========================================================
+             */
             function handleUserSync() {
               const currentDesignKey = getSelectedDesignKey();
               const currentPlacement = getSelectedPlacement();
@@ -1177,6 +1234,13 @@
               syncAddToCartState();
             }
 
+            /**
+             * =========================================================
+             * ESTADO DEL BOTÓN DE AÑADIR AL CARRITO
+             * ---------------------------------------------------------
+             * Solo se habilita si hay un diseño seleccionado.
+             * =========================================================
+             */
             function syncAddToCartState() {
               if (!addCartButton) return;
 
@@ -1188,6 +1252,14 @@
               addCartButton.setAttribute('aria-disabled', hasDesign ? 'false' : 'true');
             }
 
+            /**
+             * =========================================================
+             * CLIC EN TARJETAS DE DISEÑO
+             * ---------------------------------------------------------
+             * La tarjeta actualiza el select real y luego dispara
+             * la lógica normal de sincronización.
+             * =========================================================
+             */
             cards.forEach(function (card) {
               card.addEventListener('click', function () {
                 const designKey = (card.getAttribute('data-design-key') || '').trim();
@@ -1199,12 +1271,29 @@
               });
             });
 
+            /**
+             * =========================================================
+             * CAMBIO MANUAL DE DISEÑO
+             * =========================================================
+             */
             designSelect.addEventListener('change', handleUserSync);
 
+            /**
+             * =========================================================
+             * CAMBIO MANUAL DE UBICACIÓN
+             * =========================================================
+             */
             placementRadios.forEach(function (radio) {
               radio.addEventListener('change', handleUserSync);
             });
 
+            /**
+             * =========================================================
+             * BOTÓN "SHOW MORE"
+             * ---------------------------------------------------------
+             * Muestra más tarjetas en pasos según desktop/móvil.
+             * =========================================================
+             */
             if (showMoreButton) {
               showMoreButton.addEventListener('click', function () {
                 const isDesktop = window.matchMedia('(min-width: 990px)').matches;
@@ -1227,6 +1316,14 @@
               });
             }
 
+            /**
+             * =========================================================
+             * ESTADO INICIAL DEL "SHOW MORE"
+             * ---------------------------------------------------------
+             * Solo controla cuántas tarjetas se ven.
+             * Ya no arranca preview ni mockup.
+             * =========================================================
+             */
             function initDesktopShowMore() {
               if (!showMoreButton) return;
 
@@ -1250,22 +1347,25 @@
               }
             }
 
+            /**
+             * =========================================================
+             * RECÁLCULO EN RESIZE
+             * =========================================================
+             */
             window.addEventListener('resize', function () {
               initDesktopShowMore();
             });
 
-            const initialDesignKey = initialState && initialState.hasDesign ? initialState.designKey || '' : '';
-            const initialPlacement = (initialState && initialState.placement) || 'front';
-
-            setPlacementInUI(initialPlacement);
-
-            if (initialDesignKey) {
-              setDesignInUI(initialDesignKey);
-            } else {
-              designSelect.value = '';
-            }
-
-            renderPreview(initialDesignKey, initialPlacement);
+            /**
+             * =========================================================
+             * ARRANQUE DE ESTE SCRIPT
+             * ---------------------------------------------------------
+             * Aquí ya NO arrancamos preview inicial.
+             * Solo dejamos:
+             * - estado del botón
+             * - rejilla de tarjetas
+             * =========================================================
+             */
             syncAddToCartState();
             initDesktopShowMore();
           });

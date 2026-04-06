@@ -57,6 +57,13 @@
    * =========================================================
    */
   const STORAGE_KEY = 'steamboat_edit_state';
+  /**
+  * ÚLTIMO ESTADO SINCRONIZADO
+  * ---------------------------------------------------------
+  * Sirve para no reescribir URL/session si talla, ubicación,
+  * diseño y variant siguen exactamente igual.
+  */
+  let lastSyncedStateKey = '';
 
   /**
    * =========================================================
@@ -237,48 +244,56 @@
       console.warn('No se pudo limpiar steamboat_edit_state:', error);
     }
   }
-    /**
-   * UTILIDAD DE ESTADO / SESSION
-   * ---------------------------------------------------------
-   * Guarda en sessionStorage el estado actual del builder.
-   * No renderiza ni modifica visualmente el preview.
-   */
+  /**
+* UTILIDAD DE ESTADO / SESSION
+* ---------------------------------------------------------
+* Guarda en sessionStorage el estado actual del builder.
+* No renderiza ni modifica visualmente el preview.
+*
+* Importante:
+* evitamos usar console.warn aquí porque ahora mismo está
+* provocando un error y cortando el guardado del estado.
+*/
   function saveStateToSession(state) {
     try {
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch (error) {
-      console.warn('No se pudo guardar Steamboat Edit en sessionStorage:', error);
+      if (window.console && typeof window.console.log === 'function') {
+        window.console.log('No se pudo guardar Steamboat Edit en sessionStorage:', error);
+      }
     }
   }
 
-    /**
-    * UTILIDAD DE ESTADO / SESSION
-    * ---------------------------------------------------------
-    * Lee el estado guardado del builder desde sessionStorage.
-    * No renderiza preview ni modifica el DOM visual.
-    */
+  /**
+* UTILIDAD DE ESTADO / SESSION
+* ---------------------------------------------------------
+* Lee el estado guardado del builder desde sessionStorage.
+* No renderiza preview ni modifica el DOM visual.
+*/
   function getStateFromSession() {
     try {
       const raw = sessionStorage.getItem(STORAGE_KEY);
       if (!raw) return null;
       return JSON.parse(raw);
     } catch (error) {
-      console.warn('No se pudo leer Steamboat Edit de sessionStorage:', error);
+      if (window.console && typeof window.console.log === 'function') {
+        window.console.log('No se pudo leer Steamboat Edit de sessionStorage:', error);
+      }
       return null;
     }
   }
 
-    /**
-    * UTILIDAD DE ESTADO
-    * ---------------------------------------------------------
-    * Limpia la selección del diseño en el <select> real.
-    * No renderiza preview por sí misma.
-    *
-    * Se usa sobre todo en flujos como:
-    * - entrada desde bases
-    * - estados sin diseño
-    * - reseteos controlados del builder
-    */
+  /**
+  * UTILIDAD DE ESTADO
+  * ---------------------------------------------------------
+  * Limpia la selección del diseño en el <select> real.
+  * No renderiza preview por sí misma.
+  *
+  * Se usa sobre todo en flujos como:
+  * - entrada desde bases
+  * - estados sin diseño
+  * - reseteos controlados del builder
+  */
   function clearDesignSelection() {
     const designSelect = getDesignSelect();
     if (!designSelect) return;
@@ -419,13 +434,13 @@
  *   no hay estado previo útil
  *   -> mostramos la base por defecto
  */
-function getInitMode(state, pendingLocaleSwitch) {
-  if (pendingLocaleSwitch) return 'locale_restore';
-  if (shouldResetBuilder()) return 'base_reset';
-  if (isFromDesignsEntry()) return 'design_entry';
-  if (state.talla || state.ubicacion || state.diseno) return 'hydrated';
-  return 'base_default';
-}
+  function getInitMode(state, pendingLocaleSwitch) {
+    if (pendingLocaleSwitch) return 'locale_restore';
+    if (shouldResetBuilder()) return 'base_reset';
+    if (isFromDesignsEntry()) return 'design_entry';
+    if (state.talla || state.ubicacion || state.diseno) return 'hydrated';
+    return 'base_default';
+  }
 
   /**
    * =========================================================
@@ -620,11 +635,48 @@ function getInitMode(state, pendingLocaleSwitch) {
   /**
    * Busca una URL válida del mockup usando varias claves
    * posibles para soportar ES/EN.
+   *
+   * Regla:
+   * - si NO hay ubicación elegida, usamos mockup neutral
+   * - si hay ubicación, usamos front/back
    */
   function findMockupUrl(color, ubicacion) {
+    const normalizedUbicacion = normalizeText(ubicacion || '');
+
+    /**
+     * BASES / ESTADO SIN UBICACIÓN
+     * ---------------------------------------------------------
+     * Si todavía no se ha elegido front/back, cargamos
+     * el mockup neutro del color actual.
+     */
+    if (!normalizedUbicacion) {
+      const neutralKeys = [
+        `${color}|neutral`,
+        `${normalizeText(color) === 'blanco' ? 'White' : color}|neutral`,
+        `${normalizeText(color) === 'negro' ? 'Black' : color}|neutral`,
+        `${normalizeText(color) === 'white' ? 'Blanco' : color}|neutral`,
+        `${normalizeText(color) === 'black' ? 'Negro' : color}|neutral`,
+        'White|neutral',
+        'Black|neutral',
+        'Blanco|neutral',
+        'Negro|neutral'
+      ];
+
+      for (const key of neutralKeys) {
+        const normalized = normalizeMockupKey(key);
+        if (normalizedMockupMap[normalized]) return normalizedMockupMap[normalized];
+      }
+
+      return '';
+    }
+
+    /**
+     * ESTADO CON UBICACIÓN ELEGIDA
+     * ---------------------------------------------------------
+     * Si ya existe front/back, usamos el mockup correspondiente.
+     */
     const keys = [
       `${color} | ${ubicacion}`,
-      `${color} | front`,
       `${normalizeText(color) === 'blanco' ? 'White' : color}| ${ubicacion}`,
       `${normalizeText(color) === 'negro' ? 'Black' : color}| ${ubicacion}`,
       `${normalizeText(color) === 'white' ? 'Blanco' : color}| ${ubicacion}`,
@@ -632,11 +684,7 @@ function getInitMode(state, pendingLocaleSwitch) {
       `White | ${ubicacion}`,
       `Black | ${ubicacion}`,
       `Blanco | ${ubicacion}`,
-      `Negro | ${ubicacion}`,
-      'White|front',
-      'Black|front',
-      'Blanco|front',
-      'Negro|front'
+      `Negro | ${ubicacion}`
     ];
 
     for (const key of keys) {
@@ -648,21 +696,14 @@ function getInitMode(state, pendingLocaleSwitch) {
   }
 
   /**
- * MOCKUP BASE - ZONA ÚTIL PERO DELICADA
- * ---------------------------------------------------------
- * Esta función sigue siendo necesaria para actualizar
- * la base de la camiseta según color y ubicación.
- *
- * Forma parte del render visual del mockup,
- * pero depende de estado ya resuelto.
- *
- * No mezclar aquí lógica de selección del diseño.
- */
+   * MOCKUP BASE
+   * ---------------------------------------------------------
+   * - Si no hay ubicación elegida, usamos mockup neutral
+   * - Si hay ubicación, usamos front/back
+   */
   function updateMockupOnly() {
-    console.warn('updateMockupOnly color:', getSelectedColorMockup());
-    console.warn('updateMockupOnly ubicacion:', getSelectedUbicacion() || 'front');
     const color = getSelectedColorMockup();
-    const ubicacion = getSelectedUbicacion() || 'front';
+    const ubicacion = getSelectedUbicacion();
     const imageUrl = findMockupUrl(color, ubicacion);
 
     if (!imageUrl) return;
@@ -695,11 +736,35 @@ function getInitMode(state, pendingLocaleSwitch) {
    */
 
   /**
- * Devuelve el id de la variante actualmente seleccionada
- * desde el JSON que deja Dawn en el DOM.
- */
+  * VARIANTE SELECCIONADA REAL
+  * ---------------------------------------------------------
+  * Para sincronizar la URL del builder intentamos leer primero
+  * la variante real que usa el formulario de producto
+  * (input.product-variant-id), porque suele reflejar antes
+  * el estado actual que el script JSON de Dawn.
+  *
+  * Fallback:
+  * - script[data-selected-variant]
+  */
   function getSelectedVariantId() {
-    const variantScript = getProductInfoContainer().querySelector(
+    const productInfo = getProductInfoContainer();
+
+    /**
+    * Fuente principal:
+    * input hidden real del formulario de producto.
+    */
+    const variantInput = productInfo.querySelector('input.product-variant-id[name="id"]');
+    const inputValue = variantInput ? String(variantInput.value || '').trim() : '';
+
+    if (inputValue) {
+      return inputValue;
+    }
+
+    /**
+    * Fallback:
+    * JSON que deja Dawn en el DOM.
+    */
+    const variantScript = productInfo.querySelector(
       'script[type="application/json"][data-selected-variant]'
     );
 
@@ -736,6 +801,24 @@ function getInitMode(state, pendingLocaleSwitch) {
     const diseno = getSelectedDiseno();
     const variantId = getSelectedVariantId();
 
+    /**
+    * CLAVE DE ESTADO ACTUAL
+    * ---------------------------------------------------------
+    * Si no cambia, no volvemos a sincronizar para evitar
+    * repeticiones y repintados innecesarios.
+    */
+    const currentStateKey = JSON.stringify({
+      talla,
+      ubicacion,
+      diseno,
+      variantId
+    });
+
+    if (currentStateKey === lastSyncedStateKey) {
+      return;
+    }
+
+    lastSyncedStateKey = currentStateKey;
 
     if (talla) url.searchParams.set('talla', talla);
     else url.searchParams.delete('talla');
@@ -750,7 +833,6 @@ function getInitMode(state, pendingLocaleSwitch) {
     else url.searchParams.delete('variant');
 
     window.history.replaceState({}, '', url.pathname + url.search);
-
     saveStateToSession({
       talla: talla,
       ubicacion: ubicacion,
@@ -932,16 +1014,26 @@ function getInitMode(state, pendingLocaleSwitch) {
     syncUrlWithSelections();
   }
 
-  /**
- * REFUERZO FINAL DE HIDRATACIÓN
- * ---------------------------------------------------------
- * Reaplica estado por si Dawn/Shopify ha re-renderizado
- * tarde parte del producto después del primer pase.
- */
   async function runFinalHydrationPass(state) {
     await wait(250);
 
-    if (!hasVariantInUrl()) {
+    /**
+     * REAPLICACIÓN FINAL DE TALLA
+     * ---------------------------------------------------------
+     * En cambio de idioma, si la URL ya trae variant,
+     * dejamos que Dawn resuelva la talla y no la forzamos
+     * otra vez desde el builder para evitar:
+     * - salto visual
+     * - doble selección
+     * - halo gris en la pill
+     *
+     * En el resto de casos, solo aplicamos la talla si no
+     * hay variant en URL.
+     */
+    const pendingLocaleSwitch =
+      sessionStorage.getItem('steamboat_edit_pending_locale_switch') === '1';
+
+    if (!pendingLocaleSwitch && !hasVariantInUrl() && state.talla) {
       applyTalla(state);
     }
 
@@ -1003,17 +1095,19 @@ function getInitMode(state, pendingLocaleSwitch) {
   async function initFromState() {
     const pendingLocaleSwitch =
       sessionStorage.getItem('steamboat_edit_pending_locale_switch') === '1';
-    /**
-     * Estado efectivo final con el que arrancará el builder.
-     */
+
     const state = getEffectiveState();
+
     /**
-    * Modo de arranque actual.
-    * Nos servirá para decidir qué debe mostrarse ya
-    * y qué conviene esperar a hidratar.
-    */
+     * PUENTE VISUAL TEMPRANO DE TALLA
+     * ---------------------------------------------------------
+     * Si ya hay una talla guardada, la marcamos visualmente
+     * lo antes posible para reducir el salto inicial del picker
+     * antes de los pases normales de hidratación.
+     */
+    applyTallaVisual(state);
+
     const initMode = getInitMode(state, pendingLocaleSwitch);
-    console.warn('INIT mode:', initMode);
 
     /**
     * CLASES DE ARRANQUE EN <html>
@@ -1035,9 +1129,9 @@ function getInitMode(state, pendingLocaleSwitch) {
     );
 
     document.documentElement.classList.add('steamboat-init-' + initMode.replace(/_/g, '-'));
-      /**
-      * Secuencia principal de inicialización.
-      */
+    /**
+    * Secuencia principal de inicialización.
+    */
     try {
 
       /**
@@ -1101,13 +1195,23 @@ function getInitMode(state, pendingLocaleSwitch) {
     const target = event.target;
     if (!target) return;
 
-    /**
-     * Cambio de talla
-     */
     if (target.matches('.product-form__input--pill input[type="radio"][data-option-value-id]')) {
-      setTimeout(function () {
-        syncUrlWithSelections();
-      }, 150);
+      /**
+       * SINCRONIZACIÓN DIFERIDA DE TALLA
+       * ---------------------------------------------------------
+       * Dawn no siempre actualiza la variante real inmediatamente
+       * al cambiar la talla. Si sincronizamos demasiado pronto,
+       * la URL puede guardar:
+       * - talla nueva
+       * - pero variant viejo
+       *
+       * Por eso reintentamos varias veces hasta dar tiempo a que
+       * el input hidden de variante se actualice.
+       */
+      setTimeout(syncUrlWithSelections, 120);
+      setTimeout(syncUrlWithSelections, 260);
+      setTimeout(syncUrlWithSelections, 420);
+      setTimeout(syncUrlWithSelections, 650);
       return;
     }
 

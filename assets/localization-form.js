@@ -110,9 +110,12 @@ if (!customElements.get('localization-form')) {
           const urlUbicacion = currentUrl.searchParams.get('ubicacion') || '';
           const urlDiseno = currentUrl.searchParams.get('diseno') || '';
 
-          const tallaInput = document.querySelector(
-            'variant-selects .product-form__input--pill input[type="radio"][data-option-value-id]:checked'
-          );
+          const productInfo = document.querySelector('[id^="ProductInfo-"]') || document;
+
+          const tallaInput = productInfo.querySelector(
+            '.product-form__input--pill input[type="radio"][data-option-value-id]:checked'
+          );;
+
 
           const ubicacionInput = document.querySelector(
             '.custom-location-radios input[data-placement-value]:checked'
@@ -131,9 +134,9 @@ if (!customElements.get('localization-form')) {
           }
 
           const state = {
-            talla: urlTalla || (tallaInput ? (tallaInput.value || '').trim() : ''),
-            ubicacion: urlUbicacion || (ubicacionInput ? (ubicacionInput.getAttribute('data-placement-value') || '').trim() : ''),
-            diseno: urlDiseno || domDiseno || '',
+            talla: (tallaInput ? (tallaInput.value || '').trim() : '') || urlTalla,
+            ubicacion: (ubicacionInput ? (ubicacionInput.getAttribute('data-placement-value') || '').trim() : '') || urlUbicacion,
+            diseno: domDiseno || urlDiseno || '',
             cantidad: quantityInput ? String(quantityInput.value || '').trim() : '',
           };
 
