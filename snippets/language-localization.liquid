@@ -47,3 +47,11 @@
   </div>
 </div>
 <input type="hidden" name="locale_code" value="{{ localization.language.iso_code }}">
+
+{%- liquid
+  assign return_to_url = request.path
+  if request.query_string != blank
+    assign return_to_url = request.path | append: '?' | append: request.query_string
+  endif
+-%}
+<input type="hidden" name="return_to" value="{{ return_to_url }}">

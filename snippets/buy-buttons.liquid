@@ -81,7 +81,6 @@
           or product.handle == 'steamboat-edit-white'
           or product.handle == 'steamboat-edit-black'
         %}
-
           <div class="custom-product-options">
             {%- comment -%}
               =========================================================
@@ -91,6 +90,14 @@
             <div class="custom-product-field custom-location-field">
               <span class="custom-product-label">{{ 'configura_prenda.placement' | t }}</span>
 
+              {%- liquid
+                assign initial_placement = request.params.ubicacion | default: ''
+
+                if request.params.reset_builder == '1'
+                  assign initial_placement = ''
+                endif
+              -%}
+
               <div class="custom-location-radios">
                 <label class="custom-location-option">
                   <input
@@ -98,8 +105,10 @@
                     name="properties[{{ 'configura_prenda.placement' | t }}]"
                     value="{{ 'configura_prenda.front' | t }}"
                     data-placement-value="front"
+                    {% if initial_placement == 'front' %}
+                      checked
+                    {% endif %}
                     required
-                    form="{{ product_form_id }}"
                   >
                   <span>{{ 'configura_prenda.front' | t }}</span>
                 </label>
@@ -110,82 +119,82 @@
                     name="properties[{{ 'configura_prenda.placement' | t }}]"
                     value="{{ 'configura_prenda.back' | t }}"
                     data-placement-value="back"
+                    {% if initial_placement == 'back' %}
+                      checked
+                    {% endif %}
                     required
-                    form="{{ product_form_id }}"
                   >
                   <span>{{ 'configura_prenda.back' | t }}</span>
                 </label>
               </div>
             </div>
 
-            {% comment %}
-              {%- comment -%}
-                =========================================================
-                SELECTOR DE DISEÑO
-                - los nombres propios de diseños NO se traducen
-                - sí se traducen la etiqueta y el helper
-                =========================================================
-              {%- endcomment -%}
-              <div class="custom-product-field custom-design-field">
-                <label for="custom-design" class="custom-product-label">
-                  {{ 'configura_prenda.design' | t }}
-                </label>
+            {%- comment -%}
+              =========================================================
+              SELECTOR DE DISEÑO
+              - los nombres propios de diseños NO se traducen
+              - sí se traducen la etiqueta y el helper
+              =========================================================
+            {%- endcomment -%}
+            <div class="custom-product-field custom-design-field">
+              <label for="custom-design" class="custom-product-label">
+                {{ 'configura_prenda.design' | t }}
+              </label>
 
-                <select id="custom-design" name="properties[{{ 'configura_prenda.design' | t }}]" required>
-                  <option value="" data-design-key=""></option>
-                  {% render 'steamboat-edit-designs', mode: 'options' %}
-                </select>
+              <select id="custom-design" name="properties[{{ 'configura_prenda.design' | t }}]" required>
+                <option value="" data-design-key=""></option>
+                {% render 'steamboat-edit-designs', mode: 'options' %}
+              </select>
 
-                <p class="custom-product-helper">
-                  {{ 'configura_prenda.helper' | t }}
-                </p>
-              </div>
+              <p class="custom-product-helper">
+                {{ 'configura_prenda.helper' | t }}
+              </p>
+            </div>
 
-              <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                  const designSelect = document.getElementById('custom-design');
-                  if (!designSelect) return;
+            <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                const designSelect = document.getElementById('custom-design');
+                if (!designSelect) return;
 
-                  const productForm = designSelect.closest('form');
-                  if (!productForm) return;
+                const productForm = designSelect.closest('form');
+                if (!productForm) return;
 
-                  const addButton = productForm.querySelector('button[type="submit"]');
-                  if (!addButton) return;
+                const addButton = productForm.querySelector('button[type="submit"]');
+                if (!addButton) return;
 
-                  function hasDesignSelected() {
-                    const selectedOption = designSelect.options[designSelect.selectedIndex];
-                    if (!selectedOption) return false;
+                function hasDesignSelected() {
+                  const selectedOption = designSelect.options[designSelect.selectedIndex];
+                  if (!selectedOption) return false;
 
-                    const designKey = (selectedOption.getAttribute('data-design-key') || '').trim();
+                  const designKey = (selectedOption.getAttribute('data-design-key') || '').trim();
 
-                    return !!designKey;
+                  return !!designKey;
+                }
+
+                function syncAddButtonState() {
+                  const enabled = hasDesignSelected();
+
+                  addButton.disabled = !enabled;
+                  addButton.setAttribute('aria-disabled', enabled ? 'false' : 'true');
+                }
+
+                designSelect.addEventListener('change', syncAddButtonState);
+
+                productForm.addEventListener('submit', function (event) {
+                  if (!hasDesignSelected()) {
+                    event.preventDefault();
+                    designSelect.reportValidity();
+                    designSelect.focus();
                   }
-
-                  function syncAddButtonState() {
-                    const enabled = hasDesignSelected();
-
-                    addButton.disabled = !enabled;
-                    addButton.setAttribute('aria-disabled', enabled ? 'false' : 'true');
-                  }
-
-                  designSelect.addEventListener('change', syncAddButtonState);
-
-                  productForm.addEventListener('submit', function (event) {
-                    if (!hasDesignSelected()) {
-                      event.preventDefault();
-                      designSelect.reportValidity();
-                      designSelect.focus();
-                    }
-                  });
-
-                  syncAddButtonState();
-
-                  setTimeout(syncAddButtonState, 150);
-                  setTimeout(syncAddButtonState, 350);
-                  setTimeout(syncAddButtonState, 700);
                 });
-              </script>
-            {% endcomment %}
+
+                syncAddButtonState();
+
+                setTimeout(syncAddButtonState, 150);
+                setTimeout(syncAddButtonState, 350);
+                setTimeout(syncAddButtonState, 700);
+              });
+            </script>
           </div>
         {% endif %}
         <div class="product-form__buttons personalizable">

@@ -101,205 +101,49 @@
     >
   {%- endif -%}
 
-  {% comment %} Empieza aquiii {% endcomment %}
-
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
   <div class="page-width steamboat-edit-layout">
     <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col grid--2-col-tablet">
-      <div class="grid__item product__media-wrapper">
+      <div class="grid_item product__media-wrapper">
         {% if product.handle == 'steamboat-edit-blanca'
           or product.handle == 'steamboat-edit-negra'
           or product.handle == 'steamboat-edit-white'
           or product.handle == 'steamboat-edit-black'
         %}
-          {%- liquid
-            assign initial_design_key = request.params.diseno | default: ''
-            assign initial_placement = request.params.ubicacion | default: ''
-          -%}
-
-          {%- liquid
-            assign initial_mockup_url = ''
-
-            case product.handle
-              when 'steamboat-edit-blanca', 'steamboat-edit-white'
-                if initial_placement == 'back'
-                  assign initial_mockup_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025'
-                elsif initial_placement == 'front'
-                  assign initial_mockup_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025'
-                else
-                  assign initial_mockup_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/blanca.webp?v=1775462028'
-                endif
-
-              when 'steamboat-edit-negra', 'steamboat-edit-black'
-                if initial_placement == 'back'
-                  assign initial_mockup_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.png?v=1775040025'
-                elsif initial_placement == 'front'
-                  assign initial_mockup_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025'
-                else
-                  assign initial_mockup_url = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/negra.webp?v=1775462021'
-                endif
-            endcase
-          -%}
-
-          {%- liquid
-            assign has_initial_design = false
-            assign initial_design_image = ''
-
-            if initial_design_key != blank
-              case initial_design_key
-                when 'pa_amb_sobrassada'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Pa_amb_sobrassada.png?v=1773930526'
-                when 'yokai'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Yokai.png?v=1773931299'
-                when 'zoltar'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Zoltar.png?v=1773930797'
-                when 'manzana_maldita'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Manzana_Maldita.png?v=1773930849'
-                when 'el_vigilante'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/El_vigilante.png?v=1773930605'
-                when 'nina_calabaza'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Ni_a_Calabaza.png?v=1773930825'
-                when 'dead_tide'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Dead_Tide.png?v=1774285550'
-                when 'steamboat'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Steamboat.png?v=1773930493'
-                when 'sunset_octopus'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Octosurf.png?v=1773930969'
-                when 'beach_break'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Melting-ice.png?v=1773931002'
-                when 'ice_scream'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/ice-scream.png?v=1773930659'
-                when 'honey_bones'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Spring_bees.png?v=1773930580'
-                when 'moon_surfers'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Moon_surfers.png?v=1773930711'
-                when 'skull_mermaid'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/Skull_mermaid.png?v=1773931024'
-                when 'night_blooms'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/night_bloom.png?v=1773930752'
-                when 'steam_dragon'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/white-dragon.png?v=1773930778'
-                when 'eolo'
-                  assign has_initial_design = true
-                  assign initial_design_image = 'https://cdn.shopify.com/s/files/1/0891/7205/0264/files/eolo.png?v=1773930926'
-              endcase
-            endif
-          -%}
-
           {%- comment -%}
             PREVIEW PERSONALIZADO IZQUIERDO
             - custom-left-mockup: mockup/base de la prenda
             - custom-left-design: diseño seleccionado
           {%- endcomment -%}
           <div class="custom-left-gallery">
-            {%- comment -%}
-              =========================================================
-              ESCENARIO DEL MOCKUP
-              ---------------------------------------------------------
-              Este contenedor será la base del preview.
-              Aquí vivirán:
-              - el mockup base
-              - la zona de impresión delantera
-              - la zona de impresión trasera
-
-              En este paso:
-              - seguimos usando el mismo id del mockup
-              - seguimos usando el mismo id del diseño
-              - NO tocamos aún el JSON ni preview.js
-              =========================================================
-            {%- endcomment -%}
-            <div class="custom-left-stage">
-              <div id="custom-left-mockup-wrapper" class="custom-left-mockup-wrapper">
-                {%- comment -%}
-                  =========================================================
-                  PREVIEW DEL MOCKUP BASE
-                  - alt traducido desde locales
-                  =========================================================
-                {%- endcomment -%}
-                <img
-                  id="custom-left-mockup"
-                  class="custom-left-mockup"
-                  alt="{{ 'configura_prenda.mockup_alt' | t }}"
-                >
-              </div>
-
+            <div id="custom-left-mockup-wrapper" class="custom-left-mockup-wrapper">
               {%- comment -%}
                 =========================================================
-                ZONA DE IMPRESIÓN
-                ---------------------------------------------------------
-                De momento mantenemos:
-                - el mismo wrapper del diseño
-                - el mismo id del diseño
-
-                Más adelante este wrapper será la "print area"
-                donde el diseño quedará contenido dentro de la camiseta
-                sin depender de mil top/left por breakpoint.
+                PREVIEW DEL MOCKUP BASE
+                - alt traducido desde locales
                 =========================================================
               {%- endcomment -%}
+              <img
+                id="custom-left-mockup"
+                class="custom-left-mockup"
+                alt="{{ 'configura_prenda.mockup_alt' | t }}"
+              >
+            </div>
+
+            <div id="custom-left-design-wrapper" class="custom-left-design-wrapper">
               {%- comment -%}
                 =========================================================
                 PREVIEW DEL DISEÑO SELECCIONADO
-                - wrapper frontal
-                - wrapper trasero
-                - el JS activará uno u otro según ubicación
+                - alt traducido desde locales
                 =========================================================
               {%- endcomment -%}
-
-              <div
-                id="custom-left-design-wrapper-front"
-                class="custom-left-design-wrapper custom-left-design-wrapper--front{% if has_initial_design and initial_placement == 'front' %} is-active{% endif %}"
+              <img
+                id="custom-left-design"
+                class="custom-left-design"
+                alt="{{ 'configura_prenda.selected_design_alt' | t }}"
               >
-                <img
-                  id="custom-left-design-front"
-                  class="custom-left-design custom-left-design--front"
-                  {% if has_initial_design and initial_placement == 'front' %}
-                    src="{{ initial_design_image }}"
-                  {% endif %}
-                  alt="{{ 'configura_prenda.selected_design_alt' | t }}"
-                >
-              </div>
-
-              <div
-                id="custom-left-design-wrapper-back"
-                class="custom-left-design-wrapper custom-left-design-wrapper--back{% if has_initial_design and initial_placement == 'back' %} is-active{% endif %}"
-              >
-                <img
-                  id="custom-left-design-back"
-                  class="custom-left-design custom-left-design--back"
-                  {% if has_initial_design and initial_placement == 'back' %}
-                    src="{{ initial_design_image }}"
-                  {% endif %}
-                  alt="{{ 'configura_prenda.selected_design_alt' | t }}"
-                >
-              </div>
             </div>
           </div>
-
-          <script type="application/json" id="SteamboatEditInitialState">
-            {
-              "placement": {{ initial_placement | json }},
-              "designKey": {{ initial_design_key | json }},
-              {% comment %} "mockupUrl": {{ initial_mockup_url | json }},
-              "designImage": {{ initial_design_image | json }}, {% endcomment %}
-              "hasDesign": {{ has_initial_design | json }}
-            }
-          </script>
 
           {%- comment -%}
             DATOS DEL PREVIEW DE STEAMBOAT EDIT
@@ -308,24 +152,25 @@
             Este bloque lo leerá steamboat-edit-preview.js
           {%- endcomment -%}
           <script type="application/json" id="SteamboatEditPreviewData">
-                        {
-                          "designs": {% render 'steamboat-edit-designs', mode: 'json' %},
-                          "mockupMap": {
-                            "Blanco|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
-                            "Blanco|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
-                            "Negro|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
-                            "Negro|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.png?v=1775040025",
-                            "White|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
-                            "White|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
-                            "Black|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
-                            "Black|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.png?v=1775040025",
-                            "White|neutral": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/blanca.webp?v=1775462028",
-                            "Black|neutral": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/negra.webp?v=1775462021",
-                            "Blanco|neutral": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/blanca.webp?v=1775462028",
-                            "Negro|neutral": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/negra.webp?v=1775462021"
-                          }
-                        }
+            {
+              "designs": {% render 'steamboat-edit-designs', mode: 'json' %},
+              "mockupMap": {
+                "Blanco|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
+                "Blanco|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
+                "Negro|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
+                "Negro|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.png?v=1775040025",
+                "White|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
+                "White|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
+                "Black|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
+                "Black|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.png?v=1775040025"
+              }
+            }
           </script>
+          
+          <script type="application/json" id="SteamboatEditVariantsData">
+            {{ product.variants | json }}
+          </script>
+
         {% else %}
           {% render 'product-media-gallery', variant_images: variant_images %}
         {% endif %}
@@ -482,16 +327,16 @@
               {%- when 'quantity_selector' -%}
                 <div
                   id="Quantity-Form-{{ section.id }}"
-                  class="product-form_input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form_quantity-top{% endif %}"
+                  class="product-form__input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form__quantity-top{% endif %}"
                   {{ block.shopify_attributes }}
                 >
-                  {% comment %} TODO: enable theme-check once item_count_for_variant is accepted as valid filter {% endcomment %}
+                  {% comment %} TODO: enable theme-check once `item_count_for_variant` is accepted as valid filter {% endcomment %}
                   {% # theme-check-disable %}
                   {%- assign cart_qty = cart
                     | item_count_for_variant: product.selected_or_first_available_variant.id
                   -%}
                   {% # theme-check-enable %}
-                  <label class="quantity__label form_label" for="Quantity-{{ section.id }}">
+                  <label class="quantity__label form__label" for="Quantity-{{ section.id }}">
                     {{ 'products.product.quantity.label' | t }}
                     <span class="quantity__rules-cart{% if cart_qty == 0 %} hidden{% endif %}">
                       {%- render 'loading-spinner' -%}
@@ -811,7 +656,7 @@
                             {%- for i in (1..number_of_slides) -%}
                               <div
                                 id="Slide-{{ block.id }}-{{ forloop.index }}"
-                                class="complementary-slide complementary-slide--{{ settings.card_style }} grid__item slider__slide slideshow_slide"
+                                class="complementary-slide complementary-slide--{{ settings.card_style }} grid__item slider__slide slideshow__slide"
                                 tabindex="-1"
                                 role="group"
                                 {% if number_of_slides > 1 %}
@@ -870,7 +715,7 @@
                                   <div class="slideshow__control-wrapper">
                                     {%- for i in (1..number_of_slides) -%}
                                       <button
-                                        class="slider-counter_link slider-counter_link--{{ block.settings.pagination_style }} link"
+                                        class="slider-counter__link slider-counter__link--{{ block.settings.pagination_style }} link"
                                         aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
                                         aria-controls="Slider-{{ block.id }}"
                                       >
@@ -919,347 +764,6 @@
             {{- 'icon-arrow.svg' | inline_asset_content -}}
           </a>
         </section>
-      </div>
-      <div class="steamboat-edit-bottom grid__item">
-        {%- comment -%}
-          =========================================================
-          SELECTOR VISUAL DE DISEÑOS
-          ---------------------------------------------------------
-          Este bloque pinta una cuadrícula visual de diseños.
-          IMPORTANTE:
-          - no sustituye la lógica real
-          - el select #custom-design sigue siendo la fuente de verdad
-          - las tarjetas solo sirven como interfaz visual
-          =========================================================
-        {%- endcomment -%}
-        <div class="steamboat-edit-designs-visual">
-          <div class="steamboat-edit-designs-grid">
-            {% render 'steamboat-edit-designs', mode: 'selector_cards' %}
-          </div>
-          <button
-            type="button"
-            class="steamboat-edit-show-more"
-            id="steamboat-edit-show-more"
-          >
-            +
-          </button>
-        </div>
-
-        {%- comment -%}
-          =========================================================
-          SELECTOR DE DISEÑO
-          - los nombres propios de diseños NO se traducen
-          - sí se traducen la etiqueta y el helper
-          =========================================================
-        {%- endcomment -%}
-        <div class="custom-product-field custom-design-field">
-          <label for="custom-design" class="custom-product-label">
-            {{ 'configura_prenda.design' | t }}
-          </label>
-
-          <select
-            id="custom-design"
-            name="properties[{{ 'configura_prenda.design' | t }}]"
-            required
-            form="{{ product_form_id }}"
-          >
-            <option value="" data-design-key=""></option>
-            {% render 'steamboat-edit-designs', mode: 'options' %}
-          </select>
-
-          <p class="custom-product-helper">
-            {{ 'configura_prenda.helper' | t }}
-          </p>
-        </div>
-
-        <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                      const designSelect = document.getElementById('custom-design');
-                      const cards = Array.from(document.querySelectorAll('.steamboat-edit-design-card'));
-                      const addCartButton = document.querySelector('.product-form__submit');
-                      const showMoreButton = document.getElementById('steamboat-edit-show-more');
-
-                      {% comment %} const mockupImage = document.getElementById('custom-left-mockup'); {% endcomment %}
-                      const designImageFront = document.getElementById('custom-left-design-front');
-                      const designImageBack = document.getElementById('custom-left-design-back');
-                      const designWrapperFront = document.getElementById('custom-left-design-wrapper-front');
-                      const designWrapperBack = document.getElementById('custom-left-design-wrapper-back');
-
-                      const placementRadios = Array.from(
-                        document.querySelectorAll('.custom-location-radios input[data-placement-value]')
-                      );
-
-                      const previewDataEl = document.getElementById('SteamboatEditPreviewData');
-                      {% comment %} const initialStateEl = document.getElementById('SteamboatEditInitialState'); {% endcomment %}
-
-                      if (!designSelect || !cards.length || !previewDataEl) return;
-
-                      let previewData = null;
-                      {% comment %} let initialState = {}; {% endcomment %}
-
-                      try {
-                        previewData = JSON.parse(previewDataEl.textContent);
-                      } catch (e) {
-                        return;
-                      }
-          {% comment %}
-                      try {
-                        initialState = initialStateEl ? JSON.parse(initialStateEl.textContent) : {};
-                      } catch (e) {
-                        initialState = {};
-                      } {% endcomment %}
-
-                      function getDesignScaleGroup(designKey) {
-                        const posterDesigns = ['manzana_maldita', 'el_vigilante', 'nina_calabaza'];
-                        const smallDesigns = [
-                          'steamboat',
-                          'honey_bones',
-                          'sunset_octopus',
-                          'beach_break',
-                          'ice_scream',
-                          'dead_tide',
-                          'skull_mermaid',
-                          'pa_amb_sobrassada',
-                          'zoltar',
-                          'eolo',
-                        ];
-
-                        if (posterDesigns.includes(designKey)) return 'poster';
-                        if (smallDesigns.includes(designKey)) return 'small';
-
-                        return 'standard';
-                      }
-
-                      function getSelectedPlacement() {
-                        const checkedPlacement = document.querySelector(
-                          '.custom-location-radios input[data-placement-value]:checked'
-                        );
-
-                        if (!checkedPlacement) return 'front';
-
-                        return (checkedPlacement.dataset.placementValue || '').trim().toLowerCase() || 'front';
-                      }
-
-                      function getSelectedDesignKey() {
-                        const selectedOption = designSelect.options[designSelect.selectedIndex];
-                        if (!selectedOption) return '';
-
-                        return (selectedOption.getAttribute('data-design-key') || '').trim();
-                      }
-
-                      function findDesignByKey(designKey) {
-                        return (previewData.designs || []).find(function (item) {
-                          return item.key === designKey;
-                        });
-                      }
-
-                      function syncCardsActiveState(designKey) {
-                        cards.forEach(function (card) {
-                          const cardKey = (card.getAttribute('data-design-key') || '').trim();
-                          const isActive = !!designKey && cardKey === designKey;
-
-                          card.classList.toggle('is-active', isActive);
-                          card.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-                        });
-                      }
-
-                      function syncScaleClasses(designKey, placement) {
-                        if (designImageFront) {
-                          designImageFront.classList.remove(
-                            'design-scale--standard',
-                            'design-scale--poster',
-                            'design-scale--small'
-                          );
-                        }
-
-                        if (designImageBack) {
-                          designImageBack.classList.remove(
-                            'design-scale--standard',
-                            'design-scale--poster',
-                            'design-scale--small'
-                          );
-                        }
-
-                        if (designWrapperFront) designWrapperFront.classList.remove('is-active');
-                        if (designWrapperBack) designWrapperBack.classList.remove('is-active');
-
-                        if (!designKey) return;
-
-                        const scaleGroup = getDesignScaleGroup(designKey);
-
-                        if (placement === 'front') {
-                          if (designWrapperFront) designWrapperFront.classList.add('is-active');
-                          if (designImageFront) designImageFront.classList.add('design-scale--' + scaleGroup);
-                        } else {
-                          if (designWrapperBack) designWrapperBack.classList.add('is-active');
-                          if (designImageBack) designImageBack.classList.add('design-scale--' + scaleGroup);
-                        }
-                      }
-
-                      function syncAddToCartState() {
-                        if (!addCartButton) return;
-
-                        const selectedDesignKey = getSelectedDesignKey();
-                        const hasDesign = !!selectedDesignKey;
-
-                        console.log('selectedDesignKey', selectedDesignKey);
-                        console.log('button found', !!addCartButton);
-
-                        addCartButton.disabled = !hasDesign;
-                        addCartButton.classList.toggle('is-disabled-by-design', !hasDesign);
-                        addCartButton.setAttribute('aria-disabled', hasDesign ? 'false' : 'true');
-                      }
-
-                      function renderPreview(designKey, placement) {
-                        const matchedDesign = designKey ? findDesignByKey(designKey) : null;
-                        const imageUrl = matchedDesign && matchedDesign.image ? matchedDesign.image : '';
-
-                        if (designImageFront) {
-                          if (imageUrl) {
-                            designImageFront.src = imageUrl;
-                          } else {
-                            designImageFront.removeAttribute('src');
-                          }
-                        }
-
-                        if (designImageBack) {
-                          if (imageUrl) {
-                            designImageBack.src = imageUrl;
-                          } else {
-                            designImageBack.removeAttribute('src');
-                          }
-                        }
-
-                        syncScaleClasses(designKey, placement);
-                        syncCardsActiveState(designKey);
-                      }
-
-                      function setPlacementInUI(placement) {
-                        placementRadios.forEach(function (radio) {
-                          const radioPlacement = (radio.dataset.placementValue || '').trim().toLowerCase();
-                          radio.checked = radioPlacement === placement;
-                        });
-                      }
-
-                      function setDesignInUI(designKey) {
-                        let found = false;
-
-                        Array.from(designSelect.options).forEach(function (option) {
-                          const optionKey = (option.getAttribute('data-design-key') || '').trim();
-
-                          if (optionKey === designKey) {
-                            designSelect.value = option.value;
-                            option.selected = true;
-                            found = true;
-                          }
-                        });
-
-                        return found;
-                      }
-
-                      {% comment %} function applyState(designKey, placement) {
-                        setPlacementInUI(placement || 'front');
-
-                        if (designKey) {
-                          setDesignInUI(designKey);
-                        }
-
-                        renderPreview(designKey || '', placement || 'front');
-                      } {% endcomment %}
-
-                      function handleUserSync() {
-                        const currentDesignKey = getSelectedDesignKey();
-                        const currentPlacement = getSelectedPlacement();
-                        renderPreview(currentDesignKey, currentPlacement);
-                        syncAddToCartState();
-                      }
-
-                      cards.forEach(function (card) {
-                        card.addEventListener('click', function () {
-                          const designKey = (card.getAttribute('data-design-key') || '').trim();
-                          if (!designKey) return;
-
-                          setDesignInUI(designKey);
-                          handleUserSync();
-                          designSelect.dispatchEvent(new Event('change', { bubbles: true }));
-                        });
-                      });
-
-                      designSelect.addEventListener('change', handleUserSync);
-
-                      placementRadios.forEach(function (radio) {
-                        radio.addEventListener('change', handleUserSync);
-                      });
-
-                      if (showMoreButton) {
-                        showMoreButton.addEventListener('click', function () {
-                          const isDesktop = window.matchMedia('(min-width: 990px)').matches;
-                          const step = isDesktop ? 8 : 6;
-
-                          let visibleCount = parseInt(showMoreButton.getAttribute('data-visible-count') || String(step), 10);
-                          visibleCount += step;
-
-                          cards.forEach(function (card, index) {
-                            if (index < visibleCount) {
-                              card.classList.remove('is-hidden-desktop');
-                            }
-                          });
-
-                          if (visibleCount >= cards.length) {
-                            showMoreButton.style.display = 'none';
-                          } else {
-                            showMoreButton.setAttribute('data-visible-count', String(visibleCount));
-                          }
-                        });
-                      }
-
-                      function initDesktopShowMore() {
-                        if (!showMoreButton) return;
-
-                        const isDesktop = window.matchMedia('(min-width: 990px)').matches;
-                        const initialVisibleCount = isDesktop ? 8 : 6;
-
-                        cards.forEach(function (card, index) {
-                          card.classList.remove('is-hidden-desktop');
-
-                          if (index >= initialVisibleCount) {
-                            card.classList.add('is-hidden-desktop');
-                          }
-                        });
-
-                        if (cards.length > initialVisibleCount) {
-                          showMoreButton.style.display = 'block';
-                          showMoreButton.setAttribute('data-visible-count', String(initialVisibleCount));
-                        } else {
-                          showMoreButton.style.display = 'none';
-                          showMoreButton.setAttribute('data-visible-count', String(cards.length));
-                        }
-                      }
-
-                      window.addEventListener('resize', function () {
-                        initDesktopShowMore();
-                      });
-
-                      {% comment %} const initialDesignKey = initialState && initialState.hasDesign ? initialState.designKey || '' : '';
-
-                      const initialPlacement = (initialState && initialState.placement) || 'front';
-
-                      /**
-                       * Sincronizamos la UI con lo que YA ha renderizado Liquid,
-                       * pero sin volver a pintar el preview al cargar.
-                       */
-                      setPlacementInUI(initialPlacement);
-
-                      if (initialDesignKey) {
-                        setDesignInUI(initialDesignKey);
-                      }
-
-                      syncCardsActiveState(initialDesignKey);
-                      syncScaleClasses(initialDesignKey, initialPlacement);
-                      syncAddToCartState();
-                      initDesktopShowMore(); {% endcomment %}
-                    });
-        </script>
       </div>
     </div>
 

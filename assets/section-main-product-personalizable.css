@@ -1,6 +1,6 @@
 /* =========================================================
    STEAMBOAT EDIT
-   CSS COMPLETO LIMPIO
+   CSS COMPLETO
    Requiere contenedor:
    <div class="page-width steamboat-edit-layout">
    ========================================================= */
@@ -77,6 +77,8 @@
 
 /* =========================================================
    PREVIEW IZQUIERDO
+   - mockup/base de la prenda
+   - diseño seleccionado
    ========================================================= */
 
 .steamboat-edit-layout .custom-left-gallery {
@@ -85,88 +87,41 @@
   margin-right: auto;
 }
 
-.custom-left-gallery {
+.steamboat-edit-layout .custom-left-mockup-wrapper,
+.steamboat-edit-layout .custom-left-design-wrapper,
+.steamboat-edit-layout #custom-left-mockup-wrapper,
+.steamboat-edit-layout #custom-left-design-wrapper {
   width: 100%;
 }
 
-.custom-left-stage {
-  position: relative;
-  width: 100%;
-  max-width: 52rem;
-  margin: 0 auto;
+.steamboat-edit-layout .custom-left-mockup-wrapper,
+.steamboat-edit-layout #custom-left-mockup-wrapper {
+  margin-bottom: 2rem;
+  text-align: left;
 }
 
-.custom-left-mockup-wrapper {
-  position: relative;
-  width: 100%;
+.steamboat-edit-layout .custom-left-design-wrapper,
+.steamboat-edit-layout #custom-left-design-wrapper {
+  margin-top: 0;
+  text-align: left;
 }
 
 .steamboat-edit-layout .custom-left-mockup,
-.custom-left-mockup {
-  display: block;
+.steamboat-edit-layout #custom-left-mockup {
+  display: none;
   width: 100%;
+  max-width: 50rem;
   height: auto;
   margin: 0;
 }
-
-
-/* =========================================================
-   WRAPPERS DE IMPRESIÓN
-   ========================================================= */
-
-.custom-left-design-wrapper {
-  position: absolute;
-  overflow: hidden;
-  pointer-events: none;
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
-
-.custom-left-design-wrapper.is-active {
-  display: flex;
-}
-
-
-/* =========================================================
-   CAJA FRONTAL
-   ========================================================= */
-
-.custom-left-design-wrapper--front {
-  top: 40%;
-  left: 15%;
-  width: 31%;
-  height: 39%;
-}
-
-
-/* =========================================================
-   CAJA TRASERA
-   ========================================================= */
-
-.custom-left-design-wrapper--back {
-  top: 25%;
-  left: 59%;
-  width: 34%;
-  height: 42%;
-}
-
-
-/* =========================================================
-   IMAGEN DEL DISEÑO
-   ========================================================= */
 
 .steamboat-edit-layout .custom-left-design,
-.custom-left-design {
-  display: block;
-  visibility: visible;
-  width: auto;
+.steamboat-edit-layout #custom-left-design {
+  display: none;
+  width: 100%;
+  max-width: 36rem;
   height: auto;
-  max-width: 100%;
-  max-height: 100%;
   margin: 0;
-  object-fit: contain;
-  object-position: center;
 }
 
 
@@ -179,7 +134,6 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: start;
   column-gap: 4rem;
-  row-gap: 1.6rem;
 }
 
 .steamboat-edit-layout .product__media-wrapper,
@@ -215,189 +169,6 @@
 
 
 /* =========================================================
-   STEAMBOAT EDIT - DISTRIBUCIÓN BASE
-   ========================================================= */
-
-.steamboat-edit-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 3.2rem;
-}
-
-.steamboat-edit-top {
-  display: contents;
-}
-
-.steamboat-edit-preview-column,
-.steamboat-edit-config-column,
-.steamboat-edit-bottom {
-  min-width: 0;
-}
-
-.steamboat-edit-bottom {
-  grid-column: 1 / -1;
-  width: 100%;
-  margin-top: -3rem;
-  padding-top: 0;
-}
-
-@media screen and (min-width: 990px) {
-  .steamboat-edit-layout .product {
-    row-gap: 3.2rem;
-  }
-
-  .steamboat-edit-layout .steamboat-edit-bottom {
-    grid-column: 1 / -1;
-  }
-}
-
-@media screen and (max-width: 989px) {
-  .steamboat-edit-layout {
-    gap: 2.4rem;
-  }
-
-  .steamboat-edit-bottom {
-    margin-top: 0;
-  }
-}
-
-
-/* =========================================================
-   STEAMBOAT EDIT - BLOQUE INFERIOR DISEÑO
-   ========================================================= */
-
-.steamboat-edit-bottom .custom-design-field {
-  display: none;
-}
-
-.steamboat-edit-designs-visual {
-  width: 100%;
-  max-width: 110rem;
-  margin: 0 auto 1.8rem;
-}
-
-.steamboat-edit-designs-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1.4rem;
-}
-
-
-/* =========================================================
-   TARJETA INDIVIDUAL
-   ========================================================= */
-
-.steamboat-edit-design-card {
-  appearance: none;
-  border: 1px solid rgba(var(--color-foreground), 0.14);
-  background: rgb(var(--color-background));
-  padding: 1rem;
-  cursor: pointer;
-  text-align: left;
-  border-radius: 1.2rem;
-  transition:
-    border-color var(--duration-short) ease,
-    transform var(--duration-short) ease,
-    box-shadow var(--duration-short) ease;
-}
-
-.steamboat-edit-design-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(var(--color-foreground), 0.3);
-}
-
-.steamboat-edit-design-card.is-active {
-  border-color: rgb(var(--color-foreground));
-  box-shadow: 0 0 0 1px rgba(var(--color-foreground), 0.2);
-}
-
-.steamboat-edit-design-card__image {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
-  margin-bottom: 0.8rem;
-}
-
-.steamboat-edit-design-card__name {
-  display: block;
-  font-size: 1.3rem;
-  line-height: 1.35;
-}
-
-
-/* =========================================================
-   STEAMBOAT EDIT - ESTADOS GENERALES
-   ========================================================= */
-
-.custom-left-gallery,
-.custom-left-design-wrapper,
-.custom-location-field,
-.custom-design-field {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.steamboat-edit-layout .product-form__submit.button,
-.steamboat-edit-layout .product-form__submit.button[aria-disabled='true'],
-.steamboat-edit-layout .product-form__submit.button:disabled {
-  opacity: 1 !important;
-}
-
-
-/* =========================================================
-   STEAMBOAT EDIT - UBICACIÓN DEL DISEÑO
-   ========================================================= */
-
-/* BACK */
-.custom-left-design.custom-left-design--back.design-scale--standard {
-  width: 62%;
-  height: 62%;
-  max-width: 62%;
-  max-height: 62%;
-}
-
-.custom-left-design.custom-left-design--back.design-scale--poster {
-  width: 54%;
-  height: 66%;
-  max-width: 54%;
-  max-height: 66%;
-}
-
-.custom-left-design.custom-left-design--back.design-scale--small {
-  width: 60%;
-  height: 60%;
-  max-width: 60%;
-  max-height: 60%;
-}
-
-/* FRONT */
-.custom-left-design.custom-left-design--front.design-scale--standard {
-  width: 62%;
-  height: 62%;
-  max-width: 62%;
-  max-height: 62%;
-  transform: translate(-34%, -42%);
-}
-
-.custom-left-design.custom-left-design--front.design-scale--poster {
-  width: 54%;
-  height: 66%;
-  max-width: 54%;
-  max-height: 66%;
-  transform: translate(-42%, -48%);
-}
-
-.custom-left-design.custom-left-design--front.design-scale--small {
-  width: 56%;
-  height: 56%;
-  max-width: 56%;
-  max-height: 56%;
-  transform: translate(-42%, -50%);
-}
-
-
-/* =========================================================
    DESKTOP PEQUEÑO / TABLET GRANDE
    990px a 1199px
    ========================================================= */
@@ -421,6 +192,36 @@
 
   .steamboat-edit-layout .custom-left-gallery {
     max-width: 38rem;
+  }
+
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .steamboat-edit-layout .custom-left-mockup,
+  .steamboat-edit-layout #custom-left-mockup {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .steamboat-edit-layout .custom-left-design,
+  .steamboat-edit-layout #custom-left-design {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    max-width: 38rem;
+    margin: 1.2rem 0 0;
+    text-align: center;
+    overflow: hidden;
   }
 
   .steamboat-edit-layout .product-form__buttons.personalizable {
@@ -459,12 +260,46 @@
   }
 
   .steamboat-edit-layout .custom-left-gallery {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     width: 100%;
     max-width: 100%;
   }
 
-  .steamboat-edit-layout .custom-left-stage {
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    width: 100%;
     max-width: 100%;
+    text-align: left;
+  }
+
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper {
+    margin: 0 0 2.4rem;
+  }
+
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    margin: 0;
+  }
+
+  .steamboat-edit-layout .custom-left-mockup,
+  .steamboat-edit-layout #custom-left-mockup {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0;
+  }
+
+  .steamboat-edit-layout .custom-left-design,
+  .steamboat-edit-layout #custom-left-design {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0;
   }
 
   .steamboat-edit-layout .custom-product-options,
@@ -511,15 +346,42 @@
     margin-top: 2rem;
   }
 
-  .steamboat-edit-layout .custom-left-gallery {
+  .steamboat-edit-layout .custom-left-gallery,
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
     width: 100%;
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
   }
 
-  .steamboat-edit-layout .custom-left-stage {
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper {
+    margin-bottom: 1.6rem;
+  }
+
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    margin-bottom: 1.6rem;
+  }
+
+  .steamboat-edit-layout .custom-left-mockup,
+  .steamboat-edit-layout #custom-left-mockup {
+    width: 100%;
     max-width: 42rem;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .steamboat-edit-layout .custom-left-design,
+  .steamboat-edit-layout #custom-left-design {
+    width: 100%;
+    max-width: 28rem;
+    height: auto;
+    margin: 0 auto;
   }
 
   .steamboat-edit-layout .custom-product-options,
@@ -585,15 +447,42 @@
     margin-top: 2rem;
   }
 
-  .steamboat-edit-layout .custom-left-gallery {
+  .steamboat-edit-layout .custom-left-gallery,
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
     width: 100%;
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
   }
 
-  .steamboat-edit-layout .custom-left-stage {
+  .steamboat-edit-layout .custom-left-mockup-wrapper,
+  .steamboat-edit-layout #custom-left-mockup-wrapper {
+    margin-bottom: 1.6rem;
+  }
+
+  .steamboat-edit-layout .custom-left-design-wrapper,
+  .steamboat-edit-layout #custom-left-design-wrapper {
+    margin-bottom: 1.6rem;
+  }
+
+  .steamboat-edit-layout .custom-left-mockup,
+  .steamboat-edit-layout #custom-left-mockup {
+    width: 100%;
     max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .steamboat-edit-layout .custom-left-design,
+  .steamboat-edit-layout #custom-left-design {
+    width: 100%;
+    max-width: 26rem;
+    height: auto;
+    margin: 0 auto;
   }
 
   .steamboat-edit-layout .custom-product-options,
@@ -635,52 +524,50 @@
   }
 }
 
+/* =========================================================
+   PREVIEW DEL DISEÑO
+   - evita que aparezca grande antes de colocarse
+   ========================================================= */
+.custom-left-design-wrapper,
+#custom-left-design-wrapper {
+  min-height: 28rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.custom-left-design,
+#custom-left-design {
+  display: none;
+  visibility: hidden;
+  width: 100%;
+  max-width: 36rem;
+  height: auto;
+  margin: 0 auto;
+}
+
+.custom-left-design-wrapper.is-loaded .custom-left-design,
+#custom-left-design-wrapper.is-loaded #custom-left-design {
+  visibility: visible;
+}
 
 /* =========================================================
-   GRID DE TARJETAS - RESPONSIVE
+   STEAMBOAT EDIT
+   La galería base siempre visible
    ========================================================= */
 
-@media screen and (max-width: 989px) {
-  .steamboat-edit-designs-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-.custom-left-design:not([src]),
-.custom-left-design[src=""] {
-  display: none;
-}
-
-.product-form__submit.is-disabled-by-design {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.steamboat-edit-show-more {
-  display: block;
-  margin: 2rem auto 0;
-  width: 4.6rem;
-  height: 4.6rem;
-  border: 1px solid rgba(var(--color-foreground), 0.18);
-  border-radius: 999px;
-  background: #fff;
-  font-size: 2.4rem;
-  line-height: 1;
-  cursor: pointer;
-  text-align: center;
-}
-
-.steamboat-edit-design-card.is-hidden-desktop {
-  display: none;
-}
-
-.custom-left-mockup:not([src]),
-.custom-left-mockup[src=""] {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.custom-left-mockup[src] {
+.custom-left-gallery,
+.custom-left-design-wrapper,
+.product_info-wrapper .product-form_input--pill,
+.custom-location-field,
+.custom-design-field {
   opacity: 1;
-  visibility: visible;
+  pointer-events: auto;
+}
+
+.steamboat-edit-layout .product-form__submit.button,
+.steamboat-edit-layout .product-form__submit.button[aria-disabled='true'],
+.steamboat-edit-layout .product-form__submit.button:disabled {
+  opacity: 1 !important;
 }
