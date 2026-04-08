@@ -235,7 +235,6 @@
                 <img
                   id="custom-left-mockup"
                   class="custom-left-mockup"
-                  src="{{ initial_mockup_url }}"
                   alt="{{ 'configura_prenda.mockup_alt' | t }}"
                 >
               </div>
@@ -296,8 +295,8 @@
             {
               "placement": {{ initial_placement | json }},
               "designKey": {{ initial_design_key | json }},
-              "mockupUrl": {{ initial_mockup_url | json }},
-              "designImage": {{ initial_design_image | json }},
+              {% comment %} "mockupUrl": {{ initial_mockup_url | json }},
+              "designImage": {{ initial_design_image | json }}, {% endcomment %}
               "hasDesign": {{ has_initial_design | json }}
             }
           </script>
@@ -309,19 +308,23 @@
             Este bloque lo leerá steamboat-edit-preview.js
           {%- endcomment -%}
           <script type="application/json" id="SteamboatEditPreviewData">
-            {
-              "designs": {% render 'steamboat-edit-designs', mode: 'json' %},
-              "mockupMap": {
-                "Blanco|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
-                "Blanco|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
-                "Negro|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
-                "Negro|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
-                "White|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
-                "White|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
-                "Black|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
-                "Black|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025"
-              }
-            }
+                        {
+                          "designs": {% render 'steamboat-edit-designs', mode: 'json' %},
+                          "mockupMap": {
+                            "Blanco|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
+                            "Blanco|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
+                            "Negro|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
+                            "Negro|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.png?v=1775040025",
+                            "White|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenofront.png?v=1775040025",
+                            "White|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_blanca-disenoback.png?v=1775040025",
+                            "Black|front": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenofront.png?v=1775040025",
+                            "Black|back": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/camiseta_negra-disenoback.png?v=1775040025",
+                            "White|neutral": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/blanca.webp?v=1775462028",
+                            "Black|neutral": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/negra.webp?v=1775462021",
+                            "Blanco|neutral": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/blanca.webp?v=1775462028",
+                            "Negro|neutral": "https://cdn.shopify.com/s/files/1/0891/7205/0264/files/negra.webp?v=1775462021"
+                          }
+                        }
           </script>
         {% else %}
           {% render 'product-media-gallery', variant_images: variant_images %}

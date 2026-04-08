@@ -7,7 +7,6 @@
   - block: {Object} block object.
   - picker_type: {String} type of picker to dispay
 
-
   Usage:
   {% render 'product-variant-options',
     product: product,
@@ -16,8 +15,20 @@
     picker_type: picker_type
   %}
 {% endcomment %}
+
 {%- liquid
   assign product_form_id = 'product-form-' | append: section.id
+
+  assign is_steamboat_edit = false
+  if product.handle == 'steamboat-edit-blanca' or product.handle == 'steamboat-edit-negra' or product.handle == 'steamboat-edit-white' or product.handle == 'steamboat-edit-black'
+    assign is_steamboat_edit = true
+  endif
+
+  assign option_name_normalized = option.name | downcase
+  assign is_size_option = false
+  if option_name_normalized == 'talla' or option_name_normalized == 'size'
+    assign is_size_option = true
+  endif
 -%}
 
 {%- for value in option.values -%}
@@ -36,6 +47,22 @@
     assign option_disabled = true
     if value.available
       assign option_disabled = false
+    endif
+
+    /**
+     * =========================================================
+     * CHECKED INICIAL
+     * ---------------------------------------------------------
+     * Regla:
+     * - En Steamboat Edit + opción talla/size:
+     *   NO marcamos checked por defecto en HTML
+     * - En el resto de casos:
+     *   respetamos value.selected
+     * =========================================================
+     */
+    assign should_check_value = value.selected
+    if is_steamboat_edit and is_size_option
+      assign should_check_value = false
     endif
   -%}
 
@@ -70,7 +97,7 @@
       value: value | escape,
       swatch: value.swatch,
       product_form_id: product_form_id,
-      checked: value.selected,
+      checked: should_check_value,
       visually_disabled: option_disabled,
       shape: block.settings.swatch_shape,
       help_text: help_text,
@@ -83,7 +110,7 @@
       name="{{ input_name | escape }}"
       value="{{ value | escape }}"
       form="{{ product_form_id }}"
-      {% if value.selected %}
+      {% if should_check_value %}
         checked
       {% endif %}
       {% if option_disabled %}
@@ -99,7 +126,7 @@
     <option
       id="{{ input_id }}"
       value="{{ value | escape }}"
-      {% if value.selected %}
+      {% if should_check_value %}
         selected="selected"
       {% endif %}
       {% if swatch_value and picker_type == 'swatch_dropdown' %}
