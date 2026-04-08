@@ -569,7 +569,8 @@ document.addEventListener('DOMContentLoaded', function () {
    */
   function updateMockupOnly() {
     const color = getSelectedColorMockup();
-    const ubicacion = getSelectedUbicacion() || 'front';
+    const ubicacion = getSelectedUbicacion();
+    if(!ubicacion) return;
     const imageUrl = findMockupUrl(color, ubicacion);
 
     if (!imageUrl) return;
